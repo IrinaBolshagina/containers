@@ -72,6 +72,8 @@
 		"vector": "cpp",
 		"filesystem": "cpp",
 		"version": "cpp",
-		"memory_resource": "cpp"
+		"memory_resource": "cpp",
+		"__cxx_version": "cpp",
+		"*.ipp": "cpp"
 	}
 }

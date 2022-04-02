@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "vector_iterator.hpp"
+#include "reverse_iterator.hpp"
 #include "utility.hpp"
 
 namespace ft {
@@ -33,93 +34,78 @@ namespace ft {
 			size_type			_size, _capacity;		// размер и емкость
 			allocator_type		_alloc;					// аллокатор
 
-		private:
-		//	function for protected objects copying
-			value_type	*copy_objects( value_type *dst, value_type *src, size_type n ) {
-				if (dst == src)
-					return dst;
-				size_type i = 0;
-				try {
-					for (; i < n; ++i)
-						_alloc.construct(dst + i, src[i]);
-				}
-				catch ( std::exception &e ) {
-					for (size_type j = 0; j < i; ++j)
-						_alloc.destroy(dst + j);
-					_alloc.deallocate(dst, n);
-					throw;
-				}
-				return dst;
-			}
 
 		public:
 
 		//	Constructors:
 
-		// explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
-		// {
-		// 	_arr = _alloc.allocate(n);
-		// 	for(size_type i = 0; i < n; i++)
-		// 		_alloc.construct(_arr + i, val);
-		// }
+		//	Fill constructor
+		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
+		{
+			_arr = _alloc.allocate(n);
+			for(size_type i = 0; i < n; i++)
+				_alloc.construct(_arr + i, val);
+		}
 
-		// template <class InputIterator>
-        // 	 vector (InputIterator first, InputIterator last,
-        //          const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value>::type* = 0) : _alloc(alloc){
-		// 	if (first > last)
-		// 		throw std::length_error("vector");
-		// 	_size = last - first;
-		// 	_capacity = _size;
-		// 	_arr = _alloc.allocate(_capacity);
-		// 	for (difference_type i = 0; i < static_cast<difference_type>(_size); i++)
-		// 		_alloc.construct(_arr + i, *(first + i));
-		//  }
+		// range
+
+		template <class InputIterator>
+        	 vector (InputIterator first, InputIterator last,
+                 const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value>::type* = 0) : _alloc(alloc){
+			if (first > last)
+				throw std::length_error("vector");
+			_size = last - first;
+			_capacity = _size;
+			_arr = _alloc.allocate(_capacity);
+			for (difference_type i = 0; i < static_cast<difference_type>(_size); i++)
+				_alloc.construct(_arr + i, *(first + i));
+		 }
 
 
 		//	Default constructor. Constructs an empty container with a default allocator
-			explicit vector( const allocator_type& alloc = allocator_type() ) : _arr(NULL), _size(0), _capacity(0), _alloc(alloc) {}
+			explicit vector( const allocator_type& alloc = allocator_type() ) : _arr(0), _size(0), _capacity(0), _alloc(alloc) {}			 
 
-		//	Copy constructor
-			vector( const vector& other ) : _arr(0), _size(0), _capacity(0), _alloc(other._alloc) { *this = other; }								 
-
-		//	Fill constructor. Constructs a container with n elements. Each element is a copy of value
-			explicit vector( size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): 
-			_arr(NULL), _size(n), _capacity(n), _alloc(alloc)  { 
-				if (n > 0) {
-					_arr = _alloc.allocate(n);
-					size_type i = 0;
-					try {
-						for (; i < _size; ++i)
-							_alloc.construct(_arr + i, val);
-					}
-					catch ( std::exception &e ) {
-						for (size_type j = 0; j < i; ++j)
-							_alloc.destroy(_arr + j);
-						_alloc.deallocate(_arr, n);
-						throw;
-					}
-				}
-			}
+		// //	Fill constructor. Constructs a container with n elements. Each element is a copy of value
+		// 	explicit vector( size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): 
+		// 	_arr(NULL), _size(n), _capacity(n), _alloc(alloc)  { 
+		// 		if (n > 0) {
+		// 			_arr = _alloc.allocate(n);
+		// 			size_type i = 0;
+		// 			try {
+		// 				for (; i < _size; ++i)
+		// 					_alloc.construct(_arr + i, val);
+		// 			}
+		// 			catch ( std::exception &e ) {
+		// 				for (size_type j = 0; j < i; ++j)
+		// 					_alloc.destroy(_arr + j);
+		// 				_alloc.deallocate(_arr, n);
+		// 				throw;
+		// 			}
+		// 		}
+		// 	}
 
 		//	Range constructor. Constructs a container with elements in the range first - last
-			template< class InputIt > 
-			vector ( InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
-			typename enable_if<!is_integral<InputIt>::value>::type* = 0) : _alloc(alloc) {
-				_size = last - first;
-				_capacity = _size;
-				_arr = _alloc.allocate(_capacity);
-				size_type i = 0;
-				try {
-					for (; i < _size; ++i, ++first)
-						_alloc.construct(_arr + i, *first);
-				}
-				catch ( std::exception &e ) {
-					for (size_type j = 0; j < i; ++j)
-						_alloc.destroy(_arr + j);
-					_alloc.deallocate(_arr, _capacity);
-					throw;
-				}
-			} 
+			// template< class InputIt > 
+			// vector ( InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
+			// typename enable_if<!is_integral<InputIt>::value>::type* = 0) : _alloc(alloc) {
+			// 	_size = last - first;
+			// 	_capacity = _size;
+			// 	_arr = _alloc.allocate(_capacity);
+			// 	size_type i = 0;
+			// 	try {
+			// 		for (; i < _size; ++i, ++first)
+			// 			_alloc.construct(_arr + i, *first);
+			// 	}
+			// 	catch ( std::exception &e ) {
+			// 		for (size_type j = 0; j < i; ++j)
+			// 			_alloc.destroy(_arr + j);
+			// 		_alloc.deallocate(_arr, _capacity);
+			// 		throw;
+			// 	}
+			// } 
+
+		//	Copy constructor
+			vector( const vector& other ) : _arr(0), _size(0), _capacity(0), _alloc(other._alloc) { *this = other; }
 
 		//	Destructor. Destructs all object then free memory
 			~vector() {
@@ -387,13 +373,6 @@ namespace ft {
 				if (_size + n > _capacity)
 					new_cap = std::max(_size + n, _capacity * 2);
 				pointer new_arr = _alloc.allocate(new_cap);
-
-				// copy_objects(new_arr, _arr, start);
-
-				// for (size_type i = 0; i < n; ++i, ++first)
-					// _alloc.construct(new_arr + start + i, *first);
-
-				// copy_objects(new_arr + start + n, _arr + start, end);
 				size_type i = 0;
 				try {
 				// copy part before insert
@@ -436,7 +415,6 @@ namespace ft {
 				_alloc.destroy(_arr + _size - 1);
 				return iterator(_arr + start);
 			}
-
 
 			// iterator erase (iterator pos) {	
 			// 	pointer new_arr = _alloc.allocate(_capacity);
@@ -554,10 +532,10 @@ namespace ft {
 			iterator end() { return iterator(_arr + _size); }
 			const_iterator begin() const { return const_iterator(_arr); }
 			const_iterator end() const { return const_iterator(_arr + _size); }
-			reverse_iterator rbegin() { return reverse_iterator(_arr); }
-			reverse_iterator rend() { return reverse_iterator(_arr + _size); }
-			const_reverse_iterator rbegin() const { return const_reverse_iterator(_arr); }
-			const_reverse_iterator rend() const { return const_reverse_iterator(_arr + _size); }
+			reverse_iterator rbegin() { return reverse_iterator(end()); }
+			reverse_iterator rend() { return reverse_iterator(begin()); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 	};	// class vector
 

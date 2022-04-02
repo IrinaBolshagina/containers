@@ -228,4 +228,28 @@ int main()
 	std::vector<int> std_vector3(sit3, sit10);
 	print(std_vector, "std_vector ");
 
+	std::cout << std::endl << "  ----------------------   reverse iterator    -------------------------  " << std::endl << std::endl;
+	ft_vector[0] = 0;
+	print(ft_vector, "ft_vector  ");
+	ft::vector<int>::iterator beg = ft_vector.begin();
+	ft::vector<int>::iterator end = ft_vector.end();
+	std::cout << "begin: " << *beg << std::endl;
+	std::cout << "end: " << *end << std::endl;
+	ft::vector<int>::reverse_iterator r_beg = ft_vector.rbegin();
+	ft::vector<int>::reverse_iterator r_end = ft_vector.rend();
+	std::cout << "rbegin: " << *r_beg << std::endl;
+	std::cout << "--rend: " << *--r_end << std::endl;
+
+	std_vector[0] = 0;
+	print(std_vector, "std_vector ");
+	std::vector<int>::iterator s_beg = std_vector.begin();
+	std::vector<int>::iterator s_end = std_vector.end();
+	std::cout << "begin: " << *s_beg << std::endl;
+	std::cout << "end: " << *s_end << std::endl;
+	std::vector<int>::reverse_iterator s_r_beg = std_vector.rbegin();
+	std::vector<int>::reverse_iterator s_r_end = std_vector.rend();
+	std::cout << "rbegin: " << *s_r_beg << std::endl;
+	std::cout << "--rend: " << *--s_r_end << std::endl;
+
+
 }
