@@ -32,6 +32,7 @@ namespace ft {
 				return *this;
 			}
 
+
 		// Member functions
 			bool empty() const						{ return c.empty(); }
 			size_type size() const					{ return c.size(); }

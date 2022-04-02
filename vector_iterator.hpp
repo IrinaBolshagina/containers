@@ -22,21 +22,14 @@ namespace ft {
 		public:
 
 		//	constructors and staff
-			// RandomAccessIterator(pointer ptr = NULL) : _ptr(ptr) {}
-			// RandomAccessIterator(const RandomAccessIterator & other) : _ptr(other._ptr) {}
+			RandomAccessIterator(pointer ptr = 0) : _ptr(ptr) {}
+			RandomAccessIterator(const RandomAccessIterator &other) { *this = other; }
 			virtual ~RandomAccessIterator() {}
 			RandomAccessIterator &operator=( const RandomAccessIterator &other) {
 				if(this != &other)
 					this->_ptr = other._ptr;
 				return *this;
 			}
-
-		RandomAccessIterator() : _ptr() {}
-
-		RandomAccessIterator(pointer a) : _ptr(a) {}
-
-		RandomAccessIterator(const RandomAccessIterator<typename std::remove_const<value_type>::type > & src) : _ptr(&(*src)) {}
-
 
 		//	member functions
 			pointer		getPointer() const { return _ptr; }
@@ -67,6 +60,19 @@ namespace ft {
 			friend difference_type		operator-(const RandomAccessIterator& lhs, RandomAccessIterator& rhs) { return lhs._ptr - rhs._ptr; }
 
 	};	//	class RandomAccessIterator
+	
+
+	//	reverse iterator
+
+	template<class Iter> struct reverse_iterator
+	{
+		typedef Iter										iterator_type;
+		typedef typename iterator_type::value_type			value_type;
+		typedef typename iterator_type::pointer				pointer;
+		typedef typename iterator_type::reference			reference;
+		typedef typename iterator_type::difference_type		difference_type;
+		typedef typename iterator_type::iterator_category	iterator_category;
+	};
 
 
 }	//	namespace ft

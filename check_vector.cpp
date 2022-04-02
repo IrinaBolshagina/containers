@@ -2,8 +2,8 @@
 #include <vector>
 #include "vector.hpp"
 
-template <typename T>
-void print(ft::vector<T> v, std::string name) {
+template <class T>
+void print(T v, std::string name) {
 
 	std::cout << name << ":  ";	
 	for ( int i = 0; i < v.size(); ++i)
@@ -144,46 +144,88 @@ int main()
 
 	/*	----------------------   insert  -----------------------   */
 
+
+
 	// std::cout << std::endl << "  ----------------------      insert 1000 to position 2  ----------------------  " << std::endl << std::endl;
 	
-	// ft::vector<int>::iterator it2 = ft_vector.begin() + 2;
-	// ft::vector<int>::iterator it_insert =  ft_vector.insert (it2, 1000);
-	// print(ft_vector, "v1");
-	// std::cout << "return iterator at value: " << *(it_insert) << std::endl;
+	ft_vector.assign(10, 1);
+	std_vector.assign(10, 1);
+	print(ft_vector, "ft_vector ");
+	print(std_vector, "std_vector");
+	ft::vector<int>::iterator it2 = ft_vector.begin() + 2;
+	ft::vector<int>::iterator it_insert =  ft_vector.insert (it2, 1000);
+	print(ft_vector, "ft_vector");
+	std::cout << "return iterator at value: " << *(it_insert) << std::endl;
+	std::vector<int>::iterator sit2 = std_vector.begin() + 2;
+	std::vector<int>::iterator sit_insert =  std_vector.insert (sit2, 1000);
+	print(std_vector, "ft_vector");
+	std::cout << "return iterator at value: " << *(sit_insert) << std::endl;
 
-	// std::cout << std::endl << "  ----------------------   insert 10 times value 2 to position 5  ----------------------  " << std::endl << std::endl;
+	std::cout << std::endl << "  ----------------------   insert 10 times value 2 to position 5  ----------------------  " << std::endl << std::endl;
 
-	// it5 = ft_vector.begin() + 5;
-	// ft_vector.insert (it5, 10, 2);
-	// print(ft_vector, "v1");
+	it5 = ft_vector.begin() + 5;
+	ft_vector.insert (it5, 10, 2);
+	print(ft_vector, "ft_vector ");
+
+	std::vector<int>::iterator sit5 = std_vector.begin() + 5;
+	std_vector.insert (sit5, 10, 2);
+	print(std_vector, "std_vector");
 	
-	std::cout << std::endl << "  -------------------  insert from v2 range 4 - 10 to position 1 of v1 -----------------  " << std::endl << std::endl;
+	std::cout << std::endl << "  ----------  insert from {3,3,3,3,3,3,3,3,3,3} range 4 - 10 to position 1  ------------  " << std::endl << std::endl;
 
+	ft_vector2.assign(10, 3);
+	std_vector2.assign(10, 3);
 	ft::vector<int>::iterator it_start = ft_vector2.begin() + 4;
 	ft::vector<int>::iterator it_end = ft_vector2.begin() + 10;
 	ft::vector<int>::iterator it1 = ft_vector.begin() + 1;
 	ft_vector.insert(it1, it_start, it_end);
-	print(ft_vector, "v1");
+	print(ft_vector, "ft_vector ");
+
+	std::vector<int>::iterator sit_start = std_vector2.begin() + 4;
+	std::vector<int>::iterator sit_end = std_vector2.begin() + 10;
+	std::vector<int>::iterator sit1 = std_vector.begin() + 1;
+	std_vector.insert(sit1, sit_start, sit_end);
+	print(std_vector, "std_vector");
 
 
 	/*	----------------------   erase  -----------------------   */
 
-	std::cout << std::endl << "  ----------------------         erase 8d element         ----------------------  " << std::endl << std::endl;
+	std::cout << std::endl << "  ----------------------         erase 8d element         --------------------------  " << std::endl << std::endl;
 	ft::vector<int>::iterator it8 = ft_vector.begin() + 8;
 	ft::vector<int>::iterator it_erase = ft_vector.erase(it8);
-	print(ft_vector, "v1");
+	print(ft_vector, "ft_vector ");
+
 	std::cout << "return iterator at value: " << *(it_erase) << std::endl;
+	std::vector<int>::iterator sit8 = std_vector.begin() + 8;
+	std::vector<int>::iterator sit_erase = std_vector.erase(sit8);
+	print(std_vector, "std_vector ");
+	std::cout << "return iterator at value: " << *(sit_erase) << std::endl;
 
 
-	std::cout << std::endl << "  ----------------------    erase range 5 - 24 elements    ----------------------  " << std::endl << std::endl;
+	std::cout << std::endl << "  ----------------------    erase range 5 - 24 elements    -------------------------  " << std::endl << std::endl;
 	it5 = ft_vector.begin() + 5;
 	ft::vector<int>::iterator it24 = ft_vector.begin() + 24;
 	it_erase = ft_vector.erase(it5, it24);
-	print(ft_vector, "v1");
+	print(ft_vector, "ft_vector ");
 	std::cout << "return iterator at value: " << *(it_erase) << std::endl;
 
+	sit5 = std_vector.begin() + 5;
+	std::vector<int>::iterator sit24 = std_vector.begin() + 24;
+	sit_erase = std_vector.erase(sit5, sit24);
+	print(std_vector, "std_vector ");
+	std::cout << "return iterator at value: " << *(sit_erase) << std::endl;
+	
+	
+	std::cout << std::endl << "  ----------------------    range constructor    -------------------------  " << std::endl << std::endl;
+	
 	ft::vector<int>::iterator it3 = ft_vector.begin() + 3;
 	ft::vector<int>::iterator it10 = ft_vector.begin() + 10;
 	ft::vector<int> ft_vector3(it3, it10);
-	print(ft_vector3, "v3");
+	print(ft_vector, "ft_vector ");
+
+	std::vector<int>::iterator sit3 = std_vector.begin() + 3;
+	std::vector<int>::iterator sit10 = std_vector.begin() + 10;
+	std::vector<int> std_vector3(sit3, sit10);
+	print(std_vector, "std_vector ");
+
 }
