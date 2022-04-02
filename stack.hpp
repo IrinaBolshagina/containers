@@ -43,12 +43,12 @@ namespace ft {
 
 
 		// Operators overload
-			friend bool operator==( const stack& one, const stack& two)	{ return ( one._container == two._container ); }
-			friend bool operator!=( const stack& one, const stack& two)	{ return ( one._container != two._container ); }
-			friend bool operator<( const stack& one, const stack& two)	{ return ( one._container < two._container ); }
-			friend bool operator<=( const stack& one, const stack& two)	{ return ( one._container <= two._container ); }
-			friend bool operator>( const stack& one, const stack& two)	{ return ( one._container > two._container ); }
-			friend bool operator>=( const stack& one, const stack& two)	{ return ( one._container >= two._container ); }
+			friend bool operator==( const stack& lhs, const stack& rhs)	{ return ( lhs.c == rhs.c ); }
+			friend bool operator!=( const stack& lhs, const stack& rhs)	{ return ( lhs.c != rhs.c ); }
+			friend bool operator<( const stack& lhs, const stack& rhs)	{ return ( lhs.c < rhs.c ); }
+			friend bool operator<=( const stack& lhs, const stack& rhs)	{ return ( lhs.c <= rhs.c ); }
+			friend bool operator>( const stack& lhs, const stack& rhs)	{ return ( lhs.c > rhs.c ); }
+			friend bool operator>=( const stack& lhs, const stack& rhs)	{ return ( lhs.c >= rhs.c ); }
 	
 	};	// class stack
 

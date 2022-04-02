@@ -68,6 +68,17 @@
 	// 	return new_node;	
 	// }
 
+	bool isEmpty( node *root )
+	{
+		return root == NULL;
+	}
+
+	int size( node *tree )
+	{
+		if ( !isEmpty( tree ))
+			return 1 + size( tree->left ) + size( tree->right );
+		else return 0;
+	}
 
 	node *insert_to_node(node *root, node *new_node) {
 		if (new_node->value == root->value){
@@ -107,24 +118,38 @@
 	}
 
 
-	void insert (node *root, node *n) {
-		node *temp = new node();
-		node *y = NULL;
+	// void insert (node *root, node *n) {
+	// 	node *temp = new node();
+	// 	node *y = NULL;
 
-		while (temp != NULL) {
-			y = temp;
-			if (n->value < temp->value)
-				{temp = temp->left; }
-			else
-				{temp = temp->right; }
-		}
-		n->parent = y;
-		if (y == NULL)
-			temp = n;
-		else if (n->value < y->value)
-			y->left = n;
+	// 	while (temp != NULL) {
+	// 		y = temp;
+	// 		if (n->value < temp->value)
+	// 			{temp = temp->left; }
+	// 		else
+	// 			{temp = temp->right; }
+	// 	}
+	// 	n->parent = y;
+	// 	if (y == NULL)
+	// 		temp = n;
+	// 	else if (n->value < y->value)
+	// 		y->left = n;
+	// 	else
+	// 		y->right = n;
+	// }
+
+	void insert( node *&root, node *new_node )
+	{
+		if ( isEmpty( root ))
+			root = new_node;
+
 		else
-			y->right = n;
+		{
+			if ( new_node->value < root->value )
+				insert( root->left, new_node );
+
+			else insert( root->right, new_node );
+		}
 	}
 
 	// void insert(node *root, node *new_node) {
@@ -192,15 +217,15 @@ int main () {
 	node left_node2 = node();
 	left_node2.value = 8;	
 	node right_node2 = node();
-	right_node2.value = 18;
+	right_node2.value = 21;
 	// for(int i = 0; i < 10; ++i)
 	// insert(tree, &left_node);
 	// insert(tree, &right_node);
 
-	insert_to_node(tree, &left_node);
-	insert_to_node(tree, &right_node);
-	insert_to_node(tree, &left_node2);
-	insert_to_node(tree, &right_node2);
+	insert(tree, &left_node);
+	insert(tree, &right_node);
+	insert(tree, &left_node2);
+	insert(tree, &right_node2);
 
 	// insert(tree, &left_node2);
 	// insert(tree, &right_node2);
@@ -213,6 +238,7 @@ int main () {
 	// std::cout << tree->right-> << std::endl;
 	// print(tree->left);
 	// print(tree->right);
+	std::cout << "size = " << size(tree) << "\n";
 	
 
 

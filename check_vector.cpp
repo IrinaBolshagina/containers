@@ -146,7 +146,7 @@ int main()
 
 
 
-	// std::cout << std::endl << "  ----------------------      insert 1000 to position 2  ----------------------  " << std::endl << std::endl;
+	std::cout << std::endl << "  ----------------------      insert 1000 to position 2  ----------------------  " << std::endl << std::endl;
 	
 	ft_vector.assign(10, 1);
 	std_vector.assign(10, 1);

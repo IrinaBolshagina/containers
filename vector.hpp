@@ -37,72 +37,48 @@ namespace ft {
 
 		public:
 
-		//	Constructors:
-
-		//	Fill constructor
-		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
-		{
-			_arr = _alloc.allocate(n);
-			for(size_type i = 0; i < n; i++)
-				_alloc.construct(_arr + i, val);
-		}
-
-		// range
-
-		template <class InputIterator>
-        	 vector (InputIterator first, InputIterator last,
-                 const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value>::type* = 0) : _alloc(alloc){
-			if (first > last)
-				throw std::length_error("vector");
-			_size = last - first;
-			_capacity = _size;
-			_arr = _alloc.allocate(_capacity);
-			for (difference_type i = 0; i < static_cast<difference_type>(_size); i++)
-				_alloc.construct(_arr + i, *(first + i));
-		 }
-
-
 		//	Default constructor. Constructs an empty container with a default allocator
-			explicit vector( const allocator_type& alloc = allocator_type() ) : _arr(0), _size(0), _capacity(0), _alloc(alloc) {}			 
+			explicit vector( const allocator_type& alloc = allocator_type() ) : _arr(NULL), _size(0), _capacity(0), _alloc(alloc) {}			 
 
-		// //	Fill constructor. Constructs a container with n elements. Each element is a copy of value
-		// 	explicit vector( size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): 
-		// 	_arr(NULL), _size(n), _capacity(n), _alloc(alloc)  { 
-		// 		if (n > 0) {
-		// 			_arr = _alloc.allocate(n);
-		// 			size_type i = 0;
-		// 			try {
-		// 				for (; i < _size; ++i)
-		// 					_alloc.construct(_arr + i, val);
-		// 			}
-		// 			catch ( std::exception &e ) {
-		// 				for (size_type j = 0; j < i; ++j)
-		// 					_alloc.destroy(_arr + j);
-		// 				_alloc.deallocate(_arr, n);
-		// 				throw;
-		// 			}
-		// 		}
-		// 	}
+		//	Fill constructor. Constructs a container with n elements. Each element is a copy of value
+			explicit vector( size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): 
+			_arr(NULL), _size(n), _capacity(n), _alloc(alloc)  { 
+				if (n < 0)
+					throw std::out_of_range("vector");
+				_arr = _alloc.allocate(n);
+				size_type i = 0;
+				try {
+					for (; i < _size; ++i)
+						_alloc.construct(_arr + i, val);
+				}
+				catch ( std::exception &e ) {
+					for (size_type j = 0; j < i; ++j)
+						_alloc.destroy(_arr + j);
+					_alloc.deallocate(_arr, n);
+					throw;
+				}
+			}
+
 
 		//	Range constructor. Constructs a container with elements in the range first - last
-			// template< class InputIt > 
-			// vector ( InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
-			// typename enable_if<!is_integral<InputIt>::value>::type* = 0) : _alloc(alloc) {
-			// 	_size = last - first;
-			// 	_capacity = _size;
-			// 	_arr = _alloc.allocate(_capacity);
-			// 	size_type i = 0;
-			// 	try {
-			// 		for (; i < _size; ++i, ++first)
-			// 			_alloc.construct(_arr + i, *first);
-			// 	}
-			// 	catch ( std::exception &e ) {
-			// 		for (size_type j = 0; j < i; ++j)
-			// 			_alloc.destroy(_arr + j);
-			// 		_alloc.deallocate(_arr, _capacity);
-			// 		throw;
-			// 	}
-			// } 
+			template< class InputIt > 
+			vector ( InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
+			typename enable_if<!is_integral<InputIt>::value>::type* = 0) : _alloc(alloc) {
+				_size = last - first;
+				_capacity = _size;
+				_arr = _alloc.allocate(_capacity);
+				size_type i = 0;
+				try {
+					for (; i < _size; ++i, ++first)
+						_alloc.construct(_arr + i, *first);
+				}
+				catch ( std::exception &e ) {
+					for (size_type j = 0; j < i; ++j)
+						_alloc.destroy(_arr + j);
+					_alloc.deallocate(_arr, _capacity);
+					throw;
+				}
+			} 
 
 		//	Copy constructor
 			vector( const vector& other ) : _arr(0), _size(0), _capacity(0), _alloc(other._alloc) { *this = other; }
@@ -188,16 +164,16 @@ namespace ft {
 			if (n > _capacity) {
 				pointer new_arr = _alloc.allocate(n);
 				size_type i = 0;
-				try{
+				// try {
 					for (; i < _size; ++i)
 						_alloc.construct(new_arr + i, _arr[i]);
-				} 
-				catch ( std::exception &e ) {
-					for (size_type j = 0; j < i; ++j)
-						_alloc.destroy(new_arr + j);
-					_alloc.deallocate(new_arr, n);
-					throw;
-				}
+				// } 
+				// catch ( std::exception &e ) {
+				// 	for (size_type j = 0; j < i; ++j)
+				// 		_alloc.destroy(new_arr + j);
+				// 	_alloc.deallocate(new_arr, n);
+				// 	throw;
+				// }
 				for(i = 0; i < _size; i++)
 					_alloc.destroy(_arr + i);
 				if(_capacity)
@@ -309,6 +285,7 @@ namespace ft {
 				++_size;
 			} 
 
+
 			void pop_back() {
 				_alloc.destroy(_arr + _size - 1);
 				--_size;
@@ -320,6 +297,7 @@ namespace ft {
 				insert (pos, 1, val);
 				return (begin() + start);
 			}
+
 
 			//	Insert n elements with val value to pos position, 
 			//	effectively increasing the container size by the number of elements inserted
