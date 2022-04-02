@@ -98,27 +98,3 @@ fatal error: too many errors emitted, stopping now [-ferror-limit=]
 5 warnings and 20 errors generated.
 0 errors generated.
 enerated.
-or<_Iter2>& __y)
-^
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iterator:1729:1: note: candidate template ignored: could not match '__wrap_iter' against 'reverse_iterator'
-operator-(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT
-^
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string:565:11: note: candidate template ignored: could not match 'fpos' against 'reverse_iterator'
-streamoff operator-(const fpos<_StateT>& __x, const fpos<_StateT>& __y)
-          ^
-In file included from ../vector_tests/rend().cpp:2:
-In file included from ../vector_tests/__service.ipp:3:
-../vector_tests/../../../vector.hpp:558:37: error: no matching conversion for functional-style cast from 'ft::vector<int>::pointer' (aka 'int *') to 'ft::vector<int>::reverse_iterator' (aka 'reverse_iterator<RandomAccessIterator<int> >')
-                        reverse_iterator rend() { return reverse_iterator(_arr + _size); }
-                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../vector_tests/rend().cpp:20:26: note: in instantiation of member function 'ft::vector<int>::rend' requested here
-    v.push_back(*(vector.rend() - 1));
-                         ^
-../vector_tests/rend().cpp:28:57: note: in instantiation of function template specialization 'rend_test<int>' requested here
-    exit(run_vector_unit_test<int>("rend()", rend_test, rend_test));
-                                                        ^
-../vector_tests/../../../utility.hpp:77:9: note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'ft::vector<int>::pointer' (aka 'int *') to 'const ft::reverse_iterator<ft::RandomAccessIterator<int> >' for 1st argument
-        struct reverse_iterator
-               ^
-../vector_tests/../../../utility.hpp:77:9: note: candidate constructor (the implicit default constructor) not viable: requires 0 arguments, but 1 was provided
-4 warnings and 3 errors generated.
