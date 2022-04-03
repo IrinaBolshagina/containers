@@ -74,6 +74,7 @@
 		"version": "cpp",
 		"memory_resource": "cpp",
 		"__cxx_version": "cpp",
-		"*.ipp": "cpp"
+		"*.ipp": "cpp",
+		"__memory": "cpp"
 	}
 }

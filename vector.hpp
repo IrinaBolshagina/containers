@@ -164,16 +164,16 @@ namespace ft {
 			if (n > _capacity) {
 				pointer new_arr = _alloc.allocate(n);
 				size_type i = 0;
-				// try {
+				try {
 					for (; i < _size; ++i)
 						_alloc.construct(new_arr + i, _arr[i]);
-				// } 
-				// catch ( std::exception &e ) {
-				// 	for (size_type j = 0; j < i; ++j)
-				// 		_alloc.destroy(new_arr + j);
-				// 	_alloc.deallocate(new_arr, n);
-				// 	throw;
-				// }
+				} 
+				catch ( std::exception &e ) {
+					for (size_type j = 0; j < i; ++j)
+						_alloc.destroy(new_arr + j);
+					_alloc.deallocate(new_arr, n);
+					throw;
+				}
 				for(i = 0; i < _size; i++)
 					_alloc.destroy(_arr + i);
 				if(_capacity)
