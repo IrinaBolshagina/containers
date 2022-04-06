@@ -7,8 +7,7 @@
 
 namespace ft {
 
-	template  <	class Key,														
-				class T,														
+	template  <	class Key, class T,														
 				class Compare = std::less<Key>,									
 				class Allocator = std::allocator<ft::pair<const Key, T> > > 	
 	class map {
@@ -27,9 +26,9 @@ namespace ft {
 			typedef typename allocator_type::size_type			size_type;
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef Compare										key_compare;
-			typedef Tree <value_type>							tree_type;
+			typedef Tree <value_type, allocator_type>			tree_type;
 			typedef BidirectionalIterator <value_type>			iterator;
-			// const_iterator;
+			typedef	BidirectionalIterator <const value_type>	const_iterator;
 			// reverse_iterator;
 			// const_reverse_iterator;
 
@@ -72,9 +71,22 @@ namespace ft {
 		//	destructor
 			~map() {}
 
+		//	Allocator
+			allocator_type get_allocator() const;
+
 		//	Iterators
-			iterator begin();
-			iterator end();
+			iterator begin() { 
+				if (_tree.isEmpty())
+					return iterator(_tree.head);
+				else
+					return iterator(_tree.min_node());
+			}
+			iterator end() { 
+				if (_tree.isEmpty())
+					return iterator(_tree.head);
+				else
+					return iterator(_tree.end);
+			}
 			// const_iterator begin() const;
 			// const_iterator end() const;
 			// reverse_iterator rbegin();
@@ -85,13 +97,78 @@ namespace ft {
 		// Capacity
 			bool empty() const { return _tree.isEmpty(); }
 			size_type size() const { return _tree.size(); }
-			size_type max_size() const;
+			size_type max_size() const { return _alloc.max_size(); }
+
+		//	Element access
+			mapped_type& operator[] (const key_type& k);
+			T& at(const Key& key);
+			const T& at(const Key& key) const;
+
+		//	Modifiers
+
+			//	Inserts single element
+			/*pair<iterator,bool> */ void insert (const value_type& val) { 
+				// проверять повторяется ли ключ
+				if (!_tree.search_key(val))
+					_tree.insert_val(val);
+			}
+
+			//	With a hint
+			// iterator insert (iterator position, const value_type& val);
+
+			//	Inserts range 	
+			// template <class InputIterator>
+			// void insert (InputIterator first, InputIterator last);
+
+			void swap (map& x);
+			void clear();
+
+			//	Observers
+			key_compare key_comp() const;
+			value_compare value_comp() const;
+
+			//	Operations
+			iterator find (const key_type& k) {
+			
+			}
+			const_iterator find (const key_type& k) const;
+			size_type count (const key_type& k) const;
+			iterator lower_bound (const key_type& k);
+			const_iterator lower_bound (const key_type& k) const;
+			iterator upper_bound (const key_type& k);
+			const_iterator upper_bound (const key_type& k) const;
+			pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
+			pair<iterator,iterator> equal_range (const key_type& k);
+
 
 
 	};	//	class map
 
+	//	Operators
 
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs,
+					const ft::map<Key,T,Compare,Alloc>& rhs );
 
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs,
+					const ft::map<Key,T,Compare,Alloc>& rhs );
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs,
+					const ft::map<Key,T,Compare,Alloc>& rhs );
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs,
+					const ft::map<Key,T,Compare,Alloc>& rhs );
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs,
+					const ft::map<Key,T,Compare,Alloc>& rhs );
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs,
+					const ft::map<Key,T,Compare,Alloc>& rhs );
 
 
 }	//	namespace ft

@@ -91,7 +91,7 @@ namespace ft {
 		operator value_type() const { return value; }
 	};
 
-	template <class T> struct is_integral	: public ft::integral_constant<T, false> {};
+	template <class T> struct is_integral				: public ft::integral_constant<T, false> {};
 	template <> struct is_integral<bool>				: public ft::integral_constant<bool, true> {};
 	template <> struct is_integral<char>				: public ft::integral_constant<bool, true> {};
 	template <> struct is_integral<signed char>			: public ft::integral_constant<bool, true> {};
@@ -192,8 +192,14 @@ namespace ft {
 			++first1; ++first2;
 		}
 	    return true;
-}
+	}
 
+	template <class T>
+	void swap(T &x, T &y) {
+		T tmp(x);
+		x = y;
+		y = tmp;
+	}
 
 }	//	namespace ft
 

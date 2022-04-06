@@ -150,6 +150,7 @@
 
 			else insert( root->right, new_node );
 		}
+	
 	}
 
 	// void insert(node *root, node *new_node) {

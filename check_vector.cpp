@@ -111,6 +111,12 @@ int main()
 		std::cout << ft_vector[i] << " ";
 		std::cout << "\n";
 
+	std_vector.swap(std_vector);
+	std::cout << "v1:  ";
+	for ( int i = 0; i < ft_vector.size(); i++)
+		std::cout << ft_vector[i] << " ";
+		std::cout << "\n";
+
 	std::cout << "v2:  ";
 	for ( int i = 0; i < ft_vector2.size(); i++)
 		std::cout << ft_vector2[i] << " ";

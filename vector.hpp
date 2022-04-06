@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "vector_iterator.hpp"
-#include "reverse_iterator.hpp"
+#include "vector_reverse_iterator.hpp"
 #include "utility.hpp"
 
 namespace ft {
@@ -87,7 +87,7 @@ namespace ft {
 			~vector() {
 				for (size_type i = 0; i < _size; ++i)
 					_alloc.destroy(_arr + i);
-				if (_capacity)
+				if (_arr)
 					_alloc.deallocate(_arr, _capacity);
 			}
 		
@@ -97,7 +97,7 @@ namespace ft {
 					this->_alloc = other._alloc;
 					for (size_type i = 0; i < _size; ++i)
 						_alloc.destroy(_arr + i);
-					if (_capacity)
+					if (_arr)
 						_alloc.deallocate(_arr, _capacity);
 					this->_size = other._size;
 					this->_capacity = other._capacity;
@@ -125,49 +125,19 @@ namespace ft {
 			size_type max_size() const { return _alloc.max_size(); }	//	Returns the maximum number of elements that the vector can hold
 			size_type capacity() const { return _capacity; }
 			bool empty() const { return (_size == 0); }
-			
-			// void reserve(size_type n) {
-			// // 1) выделить новую память, если размер больше старой
-			// // 2) скопировать объекты по новому адресу - проверить если не создались, почистить все
-			// // 3) удалить старый массив
-			// // 4) задать новый _capacity
 
-			// 	if (_capacity == 0) {
-			// 		_arr = _alloc.allocate(n);
-			// 		return;
-			// 	}
-			// 	if (n > max_size())
-			// 		throw std::length_error("Capacity is greater than vector max_size");
-			// 	if (n > _capacity && _capacity > 0) {
-			// 		pointer new_arr = _alloc.allocate(n);
-			// 		size_type i = 0;
-			// 		try {
-			// 			for (; i < n; ++i)
-			// 				_alloc.construct(new_arr + i, _arr[i]);
-			// 		}
-			// 		catch ( std::exception &e ) {
-			// 			for (size_type j = 0; j < i; ++j)
-			// 				_alloc.destroy(new_arr + j);
-			// 			_alloc.deallocate(new_arr, n);
-			// 			throw;
-			// 		}
-			// 		for (size_type i = 0; i < n; ++i)
-			// 			_alloc.destroy(_arr + i);
-			// 		if (_capacity)
-			// 			_alloc.deallocate(_arr, _capacity);
-			// 		_arr = new_arr;
-			// 	}
-			// 	_capacity = n;
-			// }
-
-			void reserve (size_type n){
-			if (n > _capacity) {
-				pointer new_arr = _alloc.allocate(n);
+			void reserve(size_type n) {
+			// 1) выделить новую память, если размер больше старой
+			// 2) скопировать объекты по новому адресу - проверить если не создались, почистить все
+			// 3) удалить старый массив
+			// 4) задать новый _capacity
+				if (n > _capacity) {
+					pointer new_arr = _alloc.allocate(n);
 				size_type i = 0;
 				try {
 					for (; i < _size; ++i)
 						_alloc.construct(new_arr + i, _arr[i]);
-				} 
+				}
 				catch ( std::exception &e ) {
 					for (size_type j = 0; j < i; ++j)
 						_alloc.destroy(new_arr + j);
@@ -176,12 +146,11 @@ namespace ft {
 				}
 				for(i = 0; i < _size; i++)
 					_alloc.destroy(_arr + i);
-				if(_capacity)
-					_alloc.deallocate(_arr, _capacity);
-				_arr = new_arr;
+				if (_arr) _alloc.deallocate(_arr, _capacity);
 				_capacity = n;
-			}
-		}
+				_arr = new_arr;
+				}
+			};
 
 			void resize (size_type n, value_type val = value_type()) {
 				// увеличить емкость если не хватает
@@ -192,7 +161,7 @@ namespace ft {
 				if (n > _capacity)
 					reserve(std::max(n, _capacity * 2));
 				for (size_type i = _size; i < n; ++i)
-					_alloc.construct(_arr + i, val); // exception?
+					_alloc.construct(_arr + i, val);
 				if (n < _size) {
 					reserve (n); 
 					for (size_type i = n; i < _size; ++i)
@@ -298,7 +267,6 @@ namespace ft {
 				return (begin() + start);
 			}
 
-
 			//	Insert n elements with val value to pos position, 
 			//	effectively increasing the container size by the number of elements inserted
 			void insert (iterator pos, size_type n, const value_type& val) {
@@ -333,7 +301,7 @@ namespace ft {
 				}
 				for (i = 0; i < _size; ++i)
 					_alloc.destroy(_arr + i);
-				if (_capacity)
+				if (_arr)
 					_alloc.deallocate(_arr, _capacity);
 				_arr = new_arr;
 				_size = _size + n;
@@ -375,7 +343,7 @@ namespace ft {
 				for (i = 0; i < _size; ++i)
 
 					_alloc.destroy(_arr + i);
-				if (_capacity)
+				if (_arr)
 					_alloc.deallocate(_arr, _capacity);
 				_arr = new_arr;
 				_size = _size + n;
@@ -498,10 +466,10 @@ namespace ft {
 
 			void swap (vector& other) {
 				if (this != &other ) {
-					std::swap(this->_alloc, other._alloc);
-					std::swap(this->_arr, other._arr);
-					std::swap(this->_size, other._size);
-					std::swap(this->_capacity, other._capacity);
+					ft::swap(this->_alloc, other._alloc);
+					ft::swap(this->_arr, other._arr);
+					ft::swap(this->_size, other._size);
+					ft::swap(this->_capacity, other._capacity);
 				}
 			}
 

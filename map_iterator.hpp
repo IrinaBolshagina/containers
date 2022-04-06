@@ -3,48 +3,55 @@
 
 #include <iterator>
 #include "utility.hpp"
+#include "binary_tree.hpp"
 
 namespace ft {
 
-	template <typename T> class BidirectionalIterator {
+	template < typename T, class Allocator = std::allocator<T> >
+	class BidirectionalIterator {
 
 		public:
-			typedef typename iterator_traits<T*>::value_type			value_type;
-			typedef typename iterator_traits<T*>::difference_type		difference_type;
-			typedef typename iterator_traits<T*>::iterator_category		iterator_category;
-			typedef typename iterator_traits<T*>::pointer				pointer;
-			typedef typename iterator_traits<T*>::reference				reference;
+			typedef Allocator											allocator_type;
+			typedef typename ft::iterator_traits<T*>::value_type		value_type;
+			typedef typename ft::iterator_traits<T*>::difference_type	difference_type;
+			typedef std::bidirectional_iterator_tag 					iterator_category;
+			typedef typename ft::iterator_traits<T*>::pointer			pointer;
+			typedef typename ft::iterator_traits<T*>::reference			reference;
 			typedef pointer												iterator_type;
+			typedef node <value_type, allocator_type> *					node_pointer;
 			
 		private:
-			pointer	_node;
+			node_pointer	_node;
+			bool			_is_end;
 
 		public:
 
 		//	constructors and staff
-			BidirectionalIterator(pointer node = 0) : _node(node) {}
-			BidirectionalIterator(const BidirectionalIterator &other) { *this = other; }
+			BidirectionalIterator(node_pointer node = 0) : _node(node) {}
+			BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
 			virtual ~BidirectionalIterator() {}
-			BidirectionalIterator &operator=( const BidirectionalIterator &other) {
+			BidirectionalIterator &operator=( const BidirectionalIterator<value_type, allocator_type> &other) {
 				if(this != &other)
 					this->_node = other._node;
 				return *this;
 			}
 		
 		//	member functions
-			pointer		getPointer() const { return _node; }
+			node_pointer				node() const { return _node; }
 			
 		//	operators overload
-			reference					operator*() const { return *_node; }
-			pointer						operator->() const { return _node; }
-			reference					operator[](const difference_type &n) const { return _node[n]; }
+			reference					operator*() const { return *(_node->value); }
+			pointer						operator->() const { return _node->value; }
 
 			// BidirectionalIterator&		operator++() { ++_node; return *this; }
 			// BidirectionalIterator&		operator++(int) { return BidirectionalIterator(_node++); }
 			// BidirectionalIterator&		operator--() { --_node; return *this; }
 			// BidirectionalIterator&		operator--(int) { return BidirectionalIterator(_node--); }
-			bool						operator==(const BidirectionalIterator & other) const { return (_node == other._node); }
-			bool 						operator!=(const BidirectionalIterator & other) const { return (_node != other._node); }
+			
+			// friend bool	operator==(const BidirectionalIterator & lhs, const BidirectionalIterator & rhs, ) const 
+			// 	{ return (_node == other._node); }
+			// friend bool	operator!=(const BidirectionalIterator & lhs, const BidirectionalIterator & rhs, ) const
+			// 	{ return (_node != other._node); }
 
 	};	//	class BidirectionalIterator
 
