@@ -22,7 +22,19 @@ namespace ft {
 			
 		private:
 			node_pointer	_node;
-			bool			_is_end;
+
+			node_pointer tree_min(node_pointer n) const {
+				while(n->left != NULL)
+					n = n->left;
+				return n;
+			}
+
+			node_pointer tree_max(node_pointer n) const {
+				while (n->right != NULL)
+					n = n->right;
+				return n;
+			}
+
 
 		public:
 
@@ -42,16 +54,46 @@ namespace ft {
 		//	operators overload
 			reference					operator*() const { return *(_node->value); }
 			pointer						operator->() const { return _node->value; }
+			// BidirectionalIterator&		operator++()  { _node->successor(); return *this; }
 
-			// BidirectionalIterator&		operator++() { ++_node; return *this; }
-			// BidirectionalIterator&		operator++(int) { return BidirectionalIterator(_node++); }
+			// BidirectionalIterator& operator++() {
+			// 	if (_node->right) {
+			// 		_node = tree_min(_node->right);
+			// 	}
+			// 	else {
+			// 		node_pointer y = _node->parent;
+			// 		while (y != NULL && _node == y->right) {
+			// 			_node = y;
+			// 			y = y->parent;
+			// 		}
+			// 		_node = y;
+			// 	}
+			// 	return *this;
+			// }
+
+			BidirectionalIterator& operator++() {
+				if(_node->right)
+					// if (_node->right->is_end)
+					// 	_node = _node->right;
+					// else 
+						_node = tree_min(_node->right);
+				else {
+					node_pointer y = _node->parent;
+					while (y != NULL && _node == y->right) {
+						_node = y;
+						y = y->parent;
+					}
+					_node = y;
+				}
+				return *this;
+			}
+
+			// BidirectionalIterator&		operator++(int) { _node->successor(); return *this; }
 			// BidirectionalIterator&		operator--() { --_node; return *this; }
 			// BidirectionalIterator&		operator--(int) { return BidirectionalIterator(_node--); }
 			
-			// friend bool	operator==(const BidirectionalIterator & lhs, const BidirectionalIterator & rhs, ) const 
-			// 	{ return (_node == other._node); }
-			// friend bool	operator!=(const BidirectionalIterator & lhs, const BidirectionalIterator & rhs, ) const
-			// 	{ return (_node != other._node); }
+			bool operator==(const BidirectionalIterator &other) { return this->_node == other._node; }
+			bool operator!=(const BidirectionalIterator &other) { return this->_node != other._node; }
 
 	};	//	class BidirectionalIterator
 

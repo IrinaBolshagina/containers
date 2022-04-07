@@ -12,27 +12,33 @@ namespace ft {
 				typedef Allocator							allocator_type;
 				typedef typename allocator_type::size_type	size_type;
 	
-			public:
+			// private:
 				allocator_type	_alloc;
 				value_type		*value;
 				node			*left;
 				node			*right;
 				node			*parent;
+				bool			is_end;
+
 			public:
 				// node() : value(), left(NULL), right(NULL), parent(NULL) {}
-				node() : left(NULL), right(NULL), parent(NULL) {
+				node() : left(NULL), right(NULL), parent(NULL), is_end(false) {
 					value = _alloc.allocate(1); //(sizeof(value_type));
 					_alloc.construct(value, *(new Value()));
 				}
-				node(const value_type &val) : left(NULL), right(NULL), parent(NULL) {
+
+				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_end(false) {
 					value = _alloc.allocate(sizeof(value_type));
 					_alloc.construct(value, val);
 				}
+
 				~node() {
 					_alloc.destroy(value);
 					_alloc.deallocate(value, 1);
 				}
+
 				node(const node& other) { *this = other; }
+
 				node &operator=(const node& other) {
 					if (*this != other) {
 					value = other.value;
@@ -42,6 +48,19 @@ namespace ft {
 					}
 					return (*this);
 				}
+
+				// node_pointer tree_min(node_pointer n) const {
+				// 	while(n->left != NULL)
+				// 		n = n->left;
+				// 	return n;
+				// }
+
+				// node_pointer tree_max(node_pointer n) const {
+				// 	while (n->right != NULL)
+				// 		n = n->right;
+				// 	return n;
+				// }
+
 
 		};	//	struct node
 
@@ -62,7 +81,7 @@ namespace ft {
 
 		//	Tree node struct
 		
-		// private:
+		private:
 			node			*root;
 			node			*head;
 			node            *end;
@@ -76,9 +95,18 @@ namespace ft {
 				// _alloc.construct(root, node());
 				head = root;
 				end = new(node);
+				end->is_end = true;
 			}
-			~Tree() { delete root; }
+			~Tree() //{}
+			{ 
+				delete root;
+				delete end; 
+				if (head!=root)
+					delete head;
+			}
 
+			node *end_node() { return end; }
+			node *head_node() { return head; }
 
 			bool	isEmpty() const { return root == head; }
 
@@ -92,6 +120,22 @@ namespace ft {
 			// 	else if (root->value == val)
 			// 		return true;
 			// }
+
+			node	*find(node *root, value_type *val) {
+				if (root == end)
+					return end;
+				if (val->first < root->value->first)
+					search_key(root->left, val);
+				else if (val->first > root->value->first)
+					search_key(root->right, val);
+				else if (root->value->first == val->first)
+					return root;
+				return end;
+			}
+
+			node	*find(value_type val) {
+				return find(root, &val);
+			}
 			
 			bool	search_key(node *root, value_type *val) {
 				if (root == NULL)
@@ -170,14 +214,15 @@ namespace ft {
 			// 	}
 			// }
 
-			void insert_val(value_type const &val)
+			node *insert_val(value_type const &val)
 			{
+				node *new_node = new node(val);
 				if (head == root)
-					root = new node(val);
+					root = new_node;
 				else
-					insert (root, new node(val));
-				// insert_end();
+					insert (root, new_node);
 				++_size;
+				return new_node;
 			}
 
 			// node *insert_to_node(node *root, node *new_node) {
@@ -206,6 +251,9 @@ namespace ft {
 			void print_tree() {
 				print(root);
 			}
+
+			
+
 
 
 

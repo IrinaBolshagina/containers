@@ -7,7 +7,8 @@
 
 namespace ft {
 
-	template  <	class Key, class T,														
+	template  <	class Key,														
+				class T,														
 				class Compare = std::less<Key>,									
 				class Allocator = std::allocator<ft::pair<const Key, T> > > 	
 	class map {
@@ -77,15 +78,15 @@ namespace ft {
 		//	Iterators
 			iterator begin() { 
 				if (_tree.isEmpty())
-					return iterator(_tree.head);
+					return iterator(_tree.head_node());
 				else
 					return iterator(_tree.min_node());
 			}
 			iterator end() { 
 				if (_tree.isEmpty())
-					return iterator(_tree.head);
+					return iterator(_tree.head_node());
 				else
-					return iterator(_tree.end);
+					return iterator(_tree.end_node());
 			}
 			// const_iterator begin() const;
 			// const_iterator end() const;
@@ -107,10 +108,13 @@ namespace ft {
 		//	Modifiers
 
 			//	Inserts single element
-			/*pair<iterator,bool> */ void insert (const value_type& val) { 
+			pair<iterator,bool>  insert (const value_type& val) { 
 				// проверять повторяется ли ключ
-				if (!_tree.search_key(val))
-					_tree.insert_val(val);
+				if (!_tree.search_key(val)) 
+				// if(find(val->first) == end()) 
+					return ft::make_pair(iterator(_tree.insert_val(val)), true);
+				else 
+					return ft::make_pair(iterator(_tree.find(val)), false);
 			}
 
 			//	With a hint
@@ -129,9 +133,9 @@ namespace ft {
 
 			//	Operations
 			iterator find (const key_type& k) {
-			
+				return _tree.find(make_pair(k, mapped_type()));
 			}
-			const_iterator find (const key_type& k) const;
+			const_iterator find (const key_type& k) const {return _tree.find(make_pair(k, mapped_type()));}
 			size_type count (const key_type& k) const;
 			iterator lower_bound (const key_type& k);
 			const_iterator lower_bound (const key_type& k) const;
