@@ -35,7 +35,6 @@ namespace ft {
 				return n;
 			}
 
-
 		public:
 
 		//	constructors and staff
@@ -71,12 +70,11 @@ namespace ft {
 			// 	return *this;
 			// }
 
+			void print_end() { std::cout << _node->is_end << "\n"; }
+
 			BidirectionalIterator& operator++() {
-				if(_node->right)
-					// if (_node->right->is_end)
-					// 	_node = _node->right;
-					// else 
-						_node = tree_min(_node->right);
+				if(_node->right) 
+					_node = tree_min(_node->right);
 				else {
 					node_pointer y = _node->parent;
 					while (y != NULL && _node == y->right) {
@@ -88,7 +86,11 @@ namespace ft {
 				return *this;
 			}
 
-			// BidirectionalIterator&		operator++(int) { _node->successor(); return *this; }
+			BidirectionalIterator&		operator++(int) {
+				BidirectionalIterator tmp(_node);
+				operator++();
+				return tmp;
+            }
 			// BidirectionalIterator&		operator--() { --_node; return *this; }
 			// BidirectionalIterator&		operator--(int) { return BidirectionalIterator(_node--); }
 			

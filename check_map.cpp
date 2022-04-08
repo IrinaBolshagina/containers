@@ -74,6 +74,13 @@ int main() {
 	++it1;
 	// std::cout << second << '\n';
 	std::cout << it1->first << " => " << it1->second << '\n';
+	++it1;
+	// std::cout << it1->first << " => " << it1->second << '\n';
+	ft_iterator it2 = ft_map.end();
+	std::cout << "end "; it2.print_end();
+	// std::cout << it2->is_end << "\n";
+	std::cout << (it1 == it2) << "\n";
+	std::cout << it2->first << " => " << it2->second << '\n';
 	
 
 }

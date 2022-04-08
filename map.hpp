@@ -28,6 +28,7 @@ namespace ft {
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef Compare										key_compare;
 			typedef Tree <value_type, allocator_type>			tree_type;
+			typedef node <value_type, allocator_type>			node;
 			typedef BidirectionalIterator <value_type>			iterator;
 			typedef	BidirectionalIterator <const value_type>	const_iterator;
 			// reverse_iterator;
@@ -107,15 +108,56 @@ namespace ft {
 
 		//	Modifiers
 
+	private: 
+
+		void insert(node *&root, node *new_node)
+			{
+				if (root == NULL)
+					root = new_node;
+				else
+				{
+					if (_comp(new_node->value->first, root->value->first))
+						insert(root->left, new_node);
+
+					else 
+						insert(root->right, new_node);
+				}
+			}
+
+		node *insert_val(value_type const &val)
+		{
+			node *new_node = new node(val);
+			if (_tree.head == _tree.root)
+				_tree.root = new_node;
+			else {
+				node *max = _tree.max_node();
+				if (_comp(max->value->first, val.first)) {
+					delete(_tree.end);
+					node *max = _tree.max_node();
+					max->right = new_node;
+					_tree.end = new node();
+					new_node->right = _tree.end;
+				}
+				else
+					insert (_tree.root, new_node);
+			}
+			// ++_size;
+
+			return new_node;
+		}
+
+		public:
+
 			//	Inserts single element
-			pair<iterator,bool>  insert (const value_type& val) { 
+			pair<iterator,bool> insert (const value_type& val) { 
 				// проверять повторяется ли ключ
 				if (!_tree.search_key(val)) 
 				// if(find(val->first) == end()) 
-					return ft::make_pair(iterator(_tree.insert_val(val)), true);
+					return ft::make_pair(iterator(insert_val(val)), true);
 				else 
 					return ft::make_pair(iterator(_tree.find(val)), false);
 			}
+
 
 			//	With a hint
 			// iterator insert (iterator position, const value_type& val);
@@ -128,8 +170,9 @@ namespace ft {
 			void clear();
 
 			//	Observers
-			key_compare key_comp() const;
-			value_compare value_comp() const;
+			key_compare key_comp(Compare c) const;
+			// value_compare value_comp() const;
+			value_compare value_comp() const { return value_compare(_comp); }
 
 			//	Operations
 			iterator find (const key_type& k) {
