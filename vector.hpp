@@ -254,7 +254,6 @@ namespace ft {
 				++_size;
 			} 
 
-
 			void pop_back() {
 				_alloc.destroy(_arr + _size - 1);
 				--_size;

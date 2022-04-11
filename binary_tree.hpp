@@ -2,15 +2,24 @@
 # define BINARY_TREE_HPP
 
 #include <iostream>
+#include "utility.hpp"
 
 namespace ft {
 
 	template < class Value, class Allocator = std::allocator<Value> >
+	// template  <	class Key,														
+	// 		class T,														
+	// 		class Compare = std::less<Key>,									
+	// 		class Allocator = std::allocator<ft::pair<const Key, T> > > 
 	struct node {
 			public:
-				typedef Value								value_type;
-				typedef Allocator							allocator_type;
-				typedef typename allocator_type::size_type	size_type;
+				// typedef Key											key_type;
+				// typedef T											mapped_type;
+				// typedef ft::pair <const key_type, mapped_type>		value_type;
+				typedef Value										value_type;
+				typedef Allocator									allocator_type;
+				// typedef Compare										key_compare;
+				typedef typename allocator_type::size_type			size_type;
 
 	
 			// private:
@@ -25,10 +34,10 @@ namespace ft {
 				// node() : value(), left(NULL), right(NULL), parent(NULL) {}
 				node() : left(NULL), right(NULL), parent(NULL), is_end(false) {
 					value = _alloc.allocate(1); //(sizeof(value_type));
-					_alloc.construct(value, *(new Value()));
+					_alloc.construct(value, *(new value_type()));
 				}
 
-				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_end(true) {
+				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_end(false) {
 					value = _alloc.allocate(sizeof(value_type));
 					_alloc.construct(value, val);
 				}
@@ -50,35 +59,54 @@ namespace ft {
 					return (*this);
 				}
 
-				// node_pointer tree_min(node_pointer n) const {
-				// 	while(n->left != NULL)
-				// 		n = n->left;
-				// 	return n;
-				// }
+				node* tree_min() {
+					node *n = this;
+					while(n->left != NULL)
+						n = n->left;
+					return n;
+				}
 
-				// node_pointer tree_max(node_pointer n) const {
-				// 	while (n->right != NULL)
-				// 		n = n->right;
-				// 	return n;
-				// }
+				node* tree_max() {
+					node *n = this;
+					while (n->right != NULL)
+						n = n->right;
+					return n;
+				}
+
+				node* successor() {
+					node *n = this;
+					if (n->right) {
+						return n->right->tree_min();
+					}
+					else {
+						node *y = n->parent;
+						while (y != NULL && n == y->right) {
+							n = y;
+							y = y->parent;
+						}
+						return y;
+					}
+				}
 
 
 		};	//	struct node
 
-	template < class Value, class Allocator = std::allocator<Value> >
+
+	template  <	class Key, class T,	
+				class Compare = std::less<Key>,									
+				class Allocator = std::allocator<ft::pair<const Key, T> > > 
+	// template < class Value, class Allocator = std::allocator<Value> >
 	class Tree {
 
 		public:
 		//	Member types
-			typedef Value										value_type;
+			typedef Key											key_type;
+			typedef T											mapped_type;
+			typedef ft::pair <const key_type, mapped_type>		value_type;
 			typedef Allocator									allocator_type;
-			typedef typename allocator_type::reference			reference;
-			typedef typename allocator_type::const_reference	const_reference;
-			typedef typename allocator_type::pointer			pointer;
-			typedef typename allocator_type::const_pointer		const_pointer;
+			typedef Compare										key_compare;
 			typedef typename allocator_type::size_type			size_type;
-			typedef typename allocator_type::difference_type	difference_type;
-			typedef node<value_type, allocator_type>			node;
+			typedef node <value_type, allocator_type>			node;
 
 		//	Tree node struct
 		
@@ -88,6 +116,7 @@ namespace ft {
 			node            *end;
 			size_type		_size;
 			allocator_type	_alloc;
+			key_compare		_comp;
 
 		public:
 			Tree(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc), root(new(node)), end(new(node)) 
@@ -128,9 +157,9 @@ namespace ft {
 				if (root == end)
 					return end;
 				if (val->first < root->value->first)
-					search_key(root->left, val);
+					search_key(root->left, val->first);
 				else if (val->first > root->value->first)
-					search_key(root->right, val);
+					search_key(root->right, val->first);
 				else if (root->value->first == val->first)
 					return root;
 				return end;
@@ -139,43 +168,52 @@ namespace ft {
 			node	*find(value_type val) {
 				return find(root, &val);
 			}
-			
-			bool	search_key(node *root, value_type *val) {
+
+			// переписать на compare
+			bool	search_key(node *root, const key_type &key) {
 				if (root == NULL)
 					return false;
-				if (val->first < root->value->first)
-					search_key(root->left, val);
-				else if (val->first > root->value->first)
-					search_key(root->right, val);
-				else if (root->value->first == val->first)
+				if (key < root->value->first)
+					search_key(root->left, key);
+				else if (key > root->value->first)
+					search_key(root->right, key);
+				else if (root->value->first == key)
 					return true;
 				return false;
 			}
 
-			bool	search_key(value_type val) {
-				return search_key(root, &val);
+			bool	search_key(const key_type &key) {
+				return search_key(root, key);
 			}
 
-			node	*max_node(node *root) {
-				if (root->right == NULL)
-					return root;
-				else
-					return max_node(root->right);
-			}
+			// node	*max_node(node *root) {
+			// 	if (root->right == NULL)
+			// 		return root;
+			// 	else
+			// 		return max_node(root->right);
+			// }
+
+			// node	*max_node() {
+			// 	return max_node(root);
+			// }
 
 			node	*max_node() {
-				return max_node(root);
+				return head->tree_max();
 			}
 
-			node	*min_node(node *root) {
-				if (root->left == NULL)
-					return root;
-				else
-					return min_node(root->left);
-			}
+			// node	*min_node(node *root) {
+			// 	if (root->left == NULL)
+			// 		return root;
+			// 	else
+			// 		return min_node(root->left);
+			// }
+
+			// node	*min_node() {
+			// 	return min_node(root);
+			// }
 
 			node	*min_node() {
-				return min_node(root);
+				return head->tree_min();
 			}
 
 			size_type	size(node *root) const {
@@ -187,8 +225,8 @@ namespace ft {
 			}
 
 			size_type	size() const {
-				return size(root);
-				// return _size;
+				// return size(head);
+				return _size;
 			}
 
 			// void insert(node *&root, node *new_node)
@@ -248,6 +286,43 @@ namespace ft {
 			// 	new_node->parent = root;
 			// 	return (new_node);
 			// }
+
+
+		void insert(node *&root, node *new_node)
+		{
+			if (root == NULL)
+				root = new_node;
+			else
+			{
+				if (_comp(new_node->value->first, root->value->first))
+					insert(root->left, new_node);
+
+				else 
+					insert(root->right, new_node);
+			}
+		}
+
+		node *insert_val(value_type const &val)
+		{
+			node *new_node = new node(val);
+			if (head == root)
+				root = new_node;
+			else {
+				node *max = max_node();
+				if (_comp(max->value->first, val.first)) {
+					delete(end);
+					node *max = max_node();
+					max->right = new_node;
+					end = new node();
+					new_node->right = end;
+					end->is_end = true;
+				}
+				else
+					insert (root, new_node);
+			}
+			++_size;
+			return new_node;
+		}
 	
 			void print(node *root) {
 				if (root == NULL)
