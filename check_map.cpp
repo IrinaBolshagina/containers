@@ -44,19 +44,6 @@ int main() {
 	std::cout << "return: " << res1->first << " => " << res1->second;
 	std::cout << " is inserted: " << res.second << std::endl;
 
-	ft::pair<char, int> p1('e', 50);
-	ft::pair<ft_iterator, bool> res_ft;
-	res_ft = ft_map.insert(p1);
-	ft_iterator ft_it1 = res_ft.first;
-	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
-	std::cout << " is inserted: " << res_ft.second << std::endl;
-	
-	ft::pair<char, int> p2('f', 60);
-	res_ft = ft_map.insert(p2);
-	ft_it1 = res_ft.first;
-	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
-	std::cout << " is inserted: " << res_ft.second << std::endl;
-
 	size = std_map.size();
 	std::cout << size << "\n";
 	size = ft_map.size();
@@ -64,23 +51,80 @@ int main() {
 
 	std::map<char, int>::iterator it;
 	print_map(std_map, it, "std_map");
-	// for(it=std_map.begin(); it!=std_map.end(); ++it)
-		// std::cout << it->first << " => " << it->second << '\n';
 	std::cout << "end " << (--std_map.end())->second << '\n';
-	ft::map<char, int>::iterator it1 = ft_map.begin();
+
+	
+	
+	
+	std::cout << "\n\nft map\n";
+	ft::pair<char, int> p1('a', 10);
+	ft::pair<char, int> p2('b', 20);
+	ft::pair<char, int> p3('c', 30);
+	ft::pair<char, int> p4('d', 40);
+	ft::pair<char, int> p5('e', 50);
+	
+	ft_iterator it1 = ft_map.begin();
+	std::cout << "head " << &(*it1);
+	std::cout << " right: " << &*it1.right() << std::endl;
+	ft_iterator it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
+	ft::pair<ft_iterator, bool> res_ft;
+	res_ft = ft_map.insert(p3);
+	ft_iterator ft_it1 = res_ft.first;
+	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	std::cout << " is inserted: " << res_ft.second;
+	std::cout << " right: " << &(*ft_it1.right()) << std::endl;
+	it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
+	res_ft = ft_map.insert(p2);
+	ft_it1 = res_ft.first;
+	it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
+	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	std::cout << " is inserted: " << res_ft.second << std::endl;
+	
+	
 	// char first = it1->first;
 
 	// int second = p1.second;
-	++it1;
+	//++it1;
 	// std::cout << second << '\n';
-	std::cout << it1->first << " => " << it1->second << '\n';
-	++it1;
 	// std::cout << it1->first << " => " << it1->second << '\n';
-	ft_iterator it2 = ft_map.end();
-	std::cout << "end "; it2.print_end();
-	// std::cout << it2->is_end << "\n";
-	std::cout << (it1 == it2) << "\n";
-	std::cout << it2->first << " => " << it2->second << '\n';
-	
+	// ++it1;
+	// std::cout << it1->first << " => " << it1->second << '\n';
 
+	// std::cout << it1->first << " => " << it1->second << '\n';
+	it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
+	// std::cout << it2->is_end << "\n";
+	// std::cout << (it1 == it2) << "\n";
+	// std::cout << it2->first << " => " << it2->second << '\n';
+	res_ft = ft_map.insert(p1);
+	ft_it1 = res_ft.first;
+	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	std::cout << " is inserted: " << res_ft.second << std::endl;
+	
+	it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
+
+	res_ft = ft_map.insert(p4);
+	ft_it1 = res_ft.first;
+	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	std::cout << " is inserted: " << res_ft.second << std::endl;
+	
+	it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
+
+	// res_ft = ft_map.insert(p5);
+	// ft_it1 = res_ft.first;
+	// std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	// std::cout << " is inserted: " << res_ft.second << std::endl;
+	it1 = ft_map.begin();
+	// for(int i = 0; i < 4; ++i, ++it1)
+	// 	std::cout << &(*it1) << it1->first << " => " << it1->second << '\n';
+
+	for(it1 = ft_map.begin(); it1 != ft_map.end(); ++it1)
+		std::cout << &(*it1) << " " << it1->first << " => " << it1->second << '\n';
+	it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
 }

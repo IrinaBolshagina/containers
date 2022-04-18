@@ -84,6 +84,8 @@ namespace ft {
 
 			void print_end() { std::cout << _node->is_end << "\n"; }
 
+			node_pointer right() const { return _node->right; }
+
 			// BidirectionalIterator& operator++() {
 			// 	if(_node->right) 
 			// 		_node = tree_min(_node->right);

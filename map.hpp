@@ -78,7 +78,7 @@ namespace ft {
 
 		//	Iterators
 			iterator begin() { 
-				if (_tree.isEmpty())
+				if (size() < 2)
 					return iterator(_tree.head_node());
 				else
 					return iterator(_tree.min_node());
@@ -151,7 +151,7 @@ namespace ft {
 			//	Inserts single element
 			pair<iterator,bool> insert (const value_type& val) { 
 				// проверять повторяется ли ключ
-				if (!_tree.search_key(val.first)) 
+				if (!_tree.find(val)) 
 				// if(find(val->first) == end()) 
 					return ft::make_pair(iterator(_tree.insert_val(val)), true);
 				else 
