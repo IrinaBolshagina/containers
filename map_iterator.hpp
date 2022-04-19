@@ -30,18 +30,6 @@ namespace ft {
 		private:
 			node_pointer	_node;
 
-			// node_pointer tree_min(node_pointer n) const {
-			// 	while(n->left != NULL)
-			// 		n = n->left;
-			// 	return n;
-			// }
-
-			// node_pointer tree_max(node_pointer n) const {
-			// 	while (n->right != NULL)
-			// 		n = n->right;
-			// 	return n;
-			// }
-
 		public:
 
 		//	constructors and staff
@@ -60,22 +48,6 @@ namespace ft {
 		//	operators overload
 			reference					operator*() const { return *(_node->value); }
 			pointer						operator->() const { return _node->value; }
-			// BidirectionalIterator&		operator++()  { _node->successor(); return *this; }
-
-			// BidirectionalIterator& operator++() {
-			// 	if (_node->right) {
-			// 		_node = tree_min(_node->right);
-			// 	}
-			// 	else {
-			// 		node_pointer y = _node->parent;
-			// 		while (y != NULL && _node == y->right) {
-			// 			_node = y;
-			// 			y = y->parent;
-			// 		}
-			// 		_node = y;
-			// 	}
-			// 	return *this;
-			// }
 
 			BidirectionalIterator& operator++() {
 				_node = _node->successor();
@@ -85,20 +57,6 @@ namespace ft {
 			void print_end() { std::cout << _node->is_end << "\n"; }
 
 			node_pointer right() const { return _node->right; }
-
-			// BidirectionalIterator& operator++() {
-			// 	if(_node->right) 
-			// 		_node = tree_min(_node->right);
-			// 	else {
-			// 		node_pointer y = _node->parent;
-			// 		while (y != NULL && _node == y->right) {
-			// 			_node = y;
-			// 			y = y->parent;
-			// 		}
-			// 		_node = y;
-			// 	}
-			// 	return *this;
-			// }
 
 			BidirectionalIterator&		operator++(int) {
 				BidirectionalIterator tmp(_node);

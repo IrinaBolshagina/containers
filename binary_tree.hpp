@@ -22,10 +22,9 @@ namespace ft {
 				bool			is_end;
 
 			public:
-				// node() : value(), left(NULL), right(NULL), parent(NULL) {}
 				node() : left(NULL), right(NULL), parent(NULL), is_end(false) {
-					value = _alloc.allocate(1); //(sizeof(value_type));
-					_alloc.construct(value, *(new value_type()));
+					value = _alloc.allocate(sizeof(value_type));
+					_alloc.construct(value, value_type());
 				}
 
 				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_end(false) {
@@ -35,7 +34,7 @@ namespace ft {
 
 				~node() {
 					_alloc.destroy(value);
-					_alloc.deallocate(value, 1);
+					_alloc.deallocate(value, sizeof(value_type));
 				}
 
 				node(const node& other) { *this = other; }
@@ -86,7 +85,6 @@ namespace ft {
 	template  <	class Key, class T,	
 				class Compare = std::less<Key>,									
 				class Allocator = std::allocator<ft::pair<const Key, T> > > 
-	// template < class Value, class Allocator = std::allocator<Value> >
 	class Tree {
 
 		public:
@@ -98,11 +96,8 @@ namespace ft {
 			typedef Compare										key_compare;
 			typedef typename allocator_type::size_type			size_type;
 			typedef node <value_type, allocator_type>			node;
-
-		//	Tree node struct
 		
-		// private:
-			// node			*root;
+		private:
 			node			*head;
 			node            *end;
 			size_type		_size;
@@ -110,22 +105,28 @@ namespace ft {
 			key_compare		_comp;
 
 		public:
-			Tree(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc), head(new(node)), end(new(node)) 
+			Tree(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc)
 			{
-				// root = _alloc.allocate(1);
-				// _alloc.construct(root, node());
-				// head = new node();
-				// head = root;
-				// end = new node();
+				head = new node();
+				end = new node();
 				end->is_end = true;
 
 			}
-			~Tree() //{}
+			~Tree() 
 			{ 
-				delete end;
-				delete head;
+				del_tree(head);	
+				// delete head;
+				// delete end;
 			}
 
+			void del_tree(node *root) {
+				if (root) {
+					del_tree(root->left);
+					del_tree(root->right);
+					delete root;
+				}
+			}
+			
 			node *end_node() { return end; }
 			node *head_node() { return head; }
 
