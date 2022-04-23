@@ -84,7 +84,7 @@ namespace ft {
 					return iterator(_tree.min_node());
 			}
 			iterator end() { 
-				if (_tree.isEmpty())
+				if (_tree.empty())
 					return iterator(_tree.head_node());
 				else
 					return iterator(_tree.end_node());
@@ -97,27 +97,25 @@ namespace ft {
 			// const_reverse_iterator rend() const;
 		
 		// Capacity
-			bool empty() const { return _tree.isEmpty(); }
+			bool empty() const { return _tree.empty(); }
 			size_type size() const { return _tree.size(); }
 			size_type max_size() const { return _alloc.max_size(); }
 
 		//	Element access
 			mapped_type& operator[] (const key_type& key) {
-				return (*((this->insert(ft::make_pair(key,mapped_type()))).first)).second;
+				return (*((insert(ft::make_pair(key, mapped_type()))).first)).second;
 			}
 
 			T& at(const Key& key) {
-				iterator res = _tree.search(ft::make_pair(key, mapped_type()));
-				if (res == _tree.end())
-					throw std::out_of_range("map::at: key not found");
+				node *res = _tree.search(ft::make_pair(key, mapped_type()));
+				if (!res)
+					throw std::out_of_range("key is out of range");
 				return (res->second);
 			}
 			
 			const T& at(const Key& key) const;
 
 		//	Modifiers
-
-
 		public:
 
 			//	Inserts single element
@@ -138,16 +136,31 @@ namespace ft {
 			// void insert (InputIterator first, InputIterator last);
 
 			void swap (map& x);
-			void clear();
+			void clear() {
+				_tree.clear();
+			}
 
 			//	Observers
 			key_compare key_comp(Compare c) const;
-			// value_compare value_comp() const;
 			value_compare value_comp() const { return value_compare(_comp); }
 
 			//	Operations
-			iterator find (const key_type& k) {	return _tree.search(make_pair(k, mapped_type())); }
-			const_iterator find (const key_type& k) const { return _tree.search(ft::make_pair(k, mapped_type())); }
+			iterator find (const key_type& k) {
+				node* res = _tree.search(make_pair(k, mapped_type()));
+				if (res) 
+					return iterator(res);
+				else 
+					return end();
+				}
+				
+			// const_iterator find (const key_type& k) const { 
+			// 	node* res = _tree.search(make_pair(k, mapped_type()));
+			// 	if (res) 
+			// 		return iterator(res);
+			// 	else 
+			// 		return end();
+			// }
+
 			size_type count (const key_type& k) const;
 			iterator lower_bound (const key_type& k);
 			const_iterator lower_bound (const key_type& k) const;

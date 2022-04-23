@@ -127,10 +127,21 @@ int main() {
 	// for(int i = 0; i < 4; ++i, ++it1)
 	// 	std::cout << &(*it1) << it1->first << " => " << it1->second << '\n';
 
+	ft_map['c'] = 30; 
+
 	for(it1 = ft_map.begin(); it1 != ft_map.end(); ++it1) {
 		std::cout << &*it1.node() << " " << it1->first << " => " << it1->second << '\n';
 		std::cout << " right: " << &(*it1.node()->right) << std::endl;
 	}
 	it2 = ft_map.end();
 	std::cout << "end " << &*it2.node() << " "; it2.print_end();
+
+	ft_iterator it_find = ft_map.find('a');
+	std::cout << "\nfind: " << it_find->first << " => " << it_find->second << std::endl;
+
+	it_find = ft_map.find('x');
+	std::cout << "find: " << it_find->first << " => " << it_find->second << std::endl;
+
+	
+
 }

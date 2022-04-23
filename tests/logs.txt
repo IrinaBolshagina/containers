@@ -1,1 +1,60 @@
-
+In file included from ../map_tests/operator <=.cpp:1:
+In file included from ../map_tests/../system/system_methods.ipp:2:
+In file included from ../map_tests/../system/lib.hpp:30:
+../map_tests/../system/Alloc.hpp:55:27: warning: variadic templates are a C++11 extension [-Wc++11-extensions]
+template <class _Up, class... _Args>
+                          ^
+../map_tests/../system/Alloc.hpp:58:34: warning: rvalue references are a C++11 extension [-Wc++11-extensions]
+        construct(_Up* __p, _Args&&... __args)
+                                 ^
+../map_tests/../system/Alloc.hpp:164:27: warning: variadic templates are a C++11 extension [-Wc++11-extensions]
+template <class _Up, class... _Args>
+                          ^
+../map_tests/../system/Alloc.hpp:167:34: warning: rvalue references are a C++11 extension [-Wc++11-extensions]
+        construct(_Up* __p, _Args&&... __args)
+                                 ^
+In file included from ../map_tests/operator <=.cpp:2:
+../map_tests/__service.ipp:3:10: warning: non-portable path to file '"../../../map.hpp"'; specified path differs in case from file name on disk [-Wnonportable-include-path]
+#include MAP
+         ^
+../map_tests/../system/../../config.hpp:10:18: note: expanded from macro 'MAP'
+#define MAP                             "../../../Map.hpp"
+                                        ^
+5 warnings generated.
+Undefined symbols for architecture x86_64:
+  "bool ft::operator<=<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >(ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&, ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&)", referenced from:
+      map_less_or_equal_test() in operator <=-a53d87.o
+  "bool ft::operator<=<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > >(ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&, ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&)", referenced from:
+      map_less_or_equal_test() in operator <=-a53d87.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+perator <.cpp:2:
+../map_tests/__service.ipp:39:47: error: use of undeclared identifier 'ft'
+                m1.insert(std::make_pair(2, 3)); mp1.insert(ft::make_pair(2, 3));
+                                                            ^
+../map_tests/__service.ipp:40:47: error: use of undeclared identifier 'ft'
+                m2.insert(std::make_pair(3, 3)); mp2.insert(ft::make_pair(3, 3));
+                                                            ^
+../map_tests/__service.ipp:41:47: error: use of undeclared identifier 'ft'
+                m3.insert(std::make_pair(3, 4)); mp3.insert(ft::make_pair(3, 4));
+                                                            ^
+../map_tests/__service.ipp:42:47: error: use of undeclared identifier 'ft'
+                m4.insert(std::make_pair(4, 4)); mp4.insert(ft::make_pair(4, 4));
+                                                            ^
+../map_tests/__service.ipp:43:47: error: use of undeclared identifier 'ft'
+                m4.insert(std::make_pair(4, 5)); mp4.insert(ft::make_pair(4, 5));
+                                                            ^
+../map_tests/__service.ipp:44:55: error: use of undeclared identifier 'ft'
+                m5.insert(std::make_pair("123", "123")); mp5.insert(ft::make_pair("123", "123"));
+                                                                    ^
+../map_tests/__service.ipp:45:55: error: use of undeclared identifier 'ft'
+                m6.insert(std::make_pair("123", "124")); mp6.insert(ft::make_pair("123", "124"));
+                                                                    ^
+../map_tests/__service.ipp:46:55: error: use of undeclared identifier 'ft'
+                m7.insert(std::make_pair("124", "123")); mp7.insert(ft::make_pair("124", "123"));
+                                                                    ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+5 warnings and 20 errors generated.
+ted.
+0 errors generated.
+enerated.
