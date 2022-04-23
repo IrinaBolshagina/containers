@@ -132,37 +132,50 @@ namespace ft {
 
 			bool	isEmpty() const { return _size == 0; }
 
-			node	*find(node *root, value_type *val) {
-				if (root == NULL)
-					return NULL;
-				if (val->first < root->value->first)
-					find(root->left, val);
-				else if (val->first > root->value->first)
-					find(root->right, val);
-				else if (root->value->first == val->first)
+			// node	*find(node *root, value_type *val) { // два раза проходит почему-то
+			// 	node *res;
+			// 	if (root == NULL)
+			// 		res = NULL;
+			// 	if (val->first < root->value->first)
+			// 		find(root->left, val);
+			// 	else if (val->first > root->value->first)
+			// 		find(root->right, val);
+			// 	else if (root->value->first == val->first)
+			// 		res = root;
+			// 	return res;
+			// }
+
+			// node	*find(value_type val) {
+			// 	return find(head, &val);
+			// }
+
+			node*	search(node* root, const key_type& key) const {
+				if (root == NULL || root->value->first == key)
 					return root;
-				return NULL;
+				if (_comp(key, root->value->first))
+					return search(root->left, key);
+				return search(root->right, key);
 			}
 
-			node	*find(value_type val) {
-				return find(head, &val);
+			node*	search(const value_type& val) const {
+				return search(head, val.first);
 			}
 
 			// переписать на compare
-			bool	search_key(node *root, const key_type &key) {
-				if (root == NULL)
-					return false;
-				if (_comp(key, root->value->first))
-					search_key(root->left, key);
-				else if (_comp(root->value->first, key))
-					search_key(root->right, key);
-				else
-					return true;
-			}
+			// bool	search_key(node *root, const key_type &key) {
+			// 	if (root == NULL)
+			// 		return false;
+			// 	if (_comp(key, root->value->first))
+			// 		search_key(root->left, key);
+			// 	else if (_comp(root->value->first, key))
+			// 		search_key(root->right, key);
+			// 	else
+			// 		return true;
+			// }
 
-			bool	search_key(const key_type &key) {
-				return search_key(head, key);
-			}
+			// bool	search_key(const key_type &key) {
+			// 	return search_key(head, key);
+			// }
 
 			node	*max_node() {
 				return head->tree_max();
@@ -212,24 +225,17 @@ namespace ft {
 			}
 			else {
 			node *new_node = new node(val);
-			node *max = max_node(); std::cout << "max = " << max->value->first << "\n";
+			node *max = max_node();
 			if (_comp(max->value->first, val.first)) {
-				std::cout << "!\n";
 				node *tmp = end;
-				// delete(end);
-				// end = NULL;
 				max->right = new_node;
 				new_node->parent = max;
 				end = tmp;
 				new_node->right = end;
 				end->parent = new_node;
-				// end->is_end = true;
 			}
-			else {
-				std::cout << "!!\n";
-				insert_to_node(head, new_node);
-			}
-				
+			else
+				insert_to_node(head, new_node);				
 			++_size;
 			return new_node;
 			}

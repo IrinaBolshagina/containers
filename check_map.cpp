@@ -70,7 +70,7 @@ int main() {
 	std::cout << "end " << &*it2.node() << " "; it2.print_end();
 	ft::pair<ft_iterator, bool> res_ft;
 	
-	res_ft = ft_map.insert(p3);
+	res_ft = ft_map.insert(p5);
 	ft_iterator ft_it1 = res_ft.first;
 	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
 	std::cout << " is inserted: " << res_ft.second << std::endl; //"node: " << &*it2.node();
@@ -119,10 +119,10 @@ int main() {
 	it2 = ft_map.end();
 	std::cout << "end " << &*it2.node() << " "; it2.print_end();
 
-	// res_ft = ft_map.insert(p5);
-	// ft_it1 = res_ft.first;
-	// std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
-	// std::cout << " is inserted: " << res_ft.second << std::endl;
+	res_ft = ft_map.insert(p4);
+	ft_it1 = res_ft.first;
+	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	std::cout << " is inserted: " << res_ft.second << std::endl;
 	it1 = ft_map.begin();
 	// for(int i = 0; i < 4; ++i, ++it1)
 	// 	std::cout << &(*it1) << it1->first << " => " << it1->second << '\n';
