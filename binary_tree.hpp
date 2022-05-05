@@ -49,7 +49,7 @@ namespace ft {
 					return (*this);
 				}
 
-				node*	tree_min() {
+				node*	tree_min() { // исключение для begin
 					node *n = this;
 					while(n->left != NULL)
 						n = n->left;
@@ -78,6 +78,21 @@ namespace ft {
 					}
 				}
 
+				node*	predecessor() {
+					node *n = this;
+					if (n->left) {
+						return n->left->tree_max();
+					}
+					else {
+						node *y = n->parent;
+						while (y != NULL && n == y->left) {
+							n = y;
+							y = y->parent;
+						}
+						return y;
+					}
+				}
+
 		};	//	struct node
 
 
@@ -99,15 +114,30 @@ namespace ft {
 		private:
 			node			*head;
 			node            *end;
+			node			*begin; // для реверс итератора прицепить перед началом
 			size_type		_size;
 			allocator_type	_alloc;
 			key_compare		_comp;
 
 		public:
-			Tree(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc) {
+			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
+			_comp(comp), _alloc(alloc), _size(0) {
 				head = new node();
 				end = new node();
+				head->right = end;
+				end->parent = head;
 				end->is_end = true;
+			}
+
+			Tree& operator= (const Tree& other) {
+				if (this == &other)
+					return *this;
+				this->head = new node(&other->head); 	// содержимое, а не указатель
+				this->end = new node(&other->end);		//
+				this->_size = other._size;
+				this->_alloc = other._alloc;
+				this->_comp = other._comp;
+				return *this;
 			}
 
 			~Tree() { del_tree(head); }
@@ -123,6 +153,11 @@ namespace ft {
 			void	clear() {
 				del_tree(head);
 				_size = 0;
+				head = new node();
+				end = new node();
+				head->right = end;
+				end->parent = head;
+				end->is_end = true;
 			}
 
 			node*	end_node() { return end; }
@@ -169,12 +204,38 @@ namespace ft {
 						return (insert_node(root->left, new_node));
 					root->left = new_node;
 				}
-				else{
+				else {
 					if (root->right)
 						return (insert_node(root->right, new_node));
 					root->right = new_node;
 				}
 				new_node->parent = root;
+				return (new_node);
+			} 
+
+			// node*	insert_val(node *hint, value_type const &val) {
+			// 	if (hint == min_node()) // insert in the begining
+			// 		if (_comp(val.first, hint->first) {
+			// 			node *new_node = new node(val);
+			// 			hint->left = new_node;
+			// 			new_node->parent = hint;
+			// 			return (new_node);
+			// 		}
+			// 	else if (_comp(hint->first, val.first) && _comp(val.first, (++hint)->first))
+			// 		return (insert_val(hint, val))
+			// 	return (insert_val(val));
+			// }
+
+			//	inserts right child to parent node
+			node*	insert_val(node *parent, value_type const &val) {
+				node *new_node = new node(val);
+				if (parent->right) {
+					node *tmp = parent->right;
+					new_node->right = tmp;
+					tmp->parent = new_node;
+				}
+				new_node->parent = parent;
+				parent->right = new_node;
 				return (new_node);
 			}
 
@@ -193,6 +254,7 @@ namespace ft {
 				else {
 				node *new_node = new node(val);
 				node *max = max_node();
+				// проверять минимальную ноду
 				if (_comp(max->value->first, val.first)) {
 					node *tmp = end;
 					max->right = new_node;
@@ -207,6 +269,47 @@ namespace ft {
 				return new_node;
 				}
 			}
+
+			void	transplant(node* old_node, node* new_node)
+			{
+				node *tmp = old_node;
+				if (old_node->parent == NULL)
+					head = new_node;
+				else if (old_node == old_node->parent->left)
+					old_node->parent->left = new_node;
+				else
+					old_node->parent->right = new_node;
+				if (new_node != NULL)
+					new_node->parent = old_node->parent;
+				delete tmp;	
+			}
+
+			void	delete_node(node* old_node) {
+				if (old_node->left == NULL)
+					transplant(old_node, old_node->right);
+				else if (old_node->right == NULL)
+					transplant(old_node, old_node->left);
+				else {
+					node *tmp = old_node->right->tree_min();
+					if (tmp->parent != old_node) {
+						transplant(tmp, tmp->right);
+						tmp->right = old_node->right;
+						tmp->right->parent = tmp;
+					}
+					transplant(old_node, tmp);
+					tmp->left = old_node->left;
+					tmp->left->parent = tmp;
+				}
+			}
+
+			void	swap(Tree& other) {
+				std::swap(this->head, other->head);
+				std::swap(this->end, other->end);
+				std::swap(this->size , other->size);
+				std::swap(this->_alloc, other->_alloc);
+				std::swap(this->_comp, other->_comp);
+			}
+
 
 	};	//	class Tree	
 

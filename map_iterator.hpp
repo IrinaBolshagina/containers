@@ -8,16 +8,9 @@
 namespace ft {
 
 	template < class Value, class Allocator = std::allocator<Value> >
-	// template  <	class Key, class T,														
-	// 			class Compare = std::less<Key>,									
-	// 			class Allocator = std::allocator<ft::pair<const Key, T> > > 
 	class BidirectionalIterator {
 
 		public:
-			// typedef Key													key_type;
-			// typedef Value												mapped_type;
-			// typedef ft::pair <const key_type, mapped_type>				value_type;
-			// typedef Compare										key_compare;
 			typedef Value													value_type;
 			typedef Allocator												allocator_type;
 			typedef typename ft::iterator_traits<Value*>::difference_type	difference_type;
@@ -36,7 +29,7 @@ namespace ft {
 			BidirectionalIterator(node_pointer node = 0) : _node(node) {}
 			BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
 			virtual ~BidirectionalIterator() {}
-			BidirectionalIterator &operator=( const BidirectionalIterator<value_type, allocator_type> &other) {
+			BidirectionalIterator &operator=(const BidirectionalIterator<value_type, allocator_type> &other) {
 				if(this != &other)
 					this->_node = other._node;
 				return *this;
@@ -52,22 +45,32 @@ namespace ft {
 			BidirectionalIterator& operator++() {
 				_node = _node->successor();
 				return *this;
-			}			
+			}
 
-			void print_end() { std::cout << _node->is_end << "\n"; }
-
-			node_pointer right() const { return _node->right; }
-
-			BidirectionalIterator&		operator++(int) {
+			BidirectionalIterator		operator++(int) {
 				BidirectionalIterator tmp(_node);
-				operator++();
+				++(*this);
 				return tmp;
             }
-			// BidirectionalIterator&		operator--() { --_node; return *this; }
-			// BidirectionalIterator&		operator--(int) { return BidirectionalIterator(_node--); }
+			
+			BidirectionalIterator&		operator--() { 
+				_node = _node->predecessor();
+				return *this;
+			}
+			
+			BidirectionalIterator		operator--(int) { 
+				BidirectionalIterator tmp(_node);
+				--(*this);
+				return tmp;
+			}
 			
 			bool operator==(const BidirectionalIterator &other) { return this->_node == other._node; }
 			bool operator!=(const BidirectionalIterator &other) { return this->_node != other._node; }
+
+// remove!
+			void print_end() { std::cout << _node->is_end << "\n"; }
+			node_pointer right() const { return _node->right; }
+// remove!
 
 	};	//	class BidirectionalIterator
 

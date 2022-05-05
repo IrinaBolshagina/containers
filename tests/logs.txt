@@ -1,4 +1,4 @@
-In file included from ../map_tests/operator <=.cpp:1:
+In file included from ../map_tests/operator >=.cpp:1:
 In file included from ../map_tests/../system/system_methods.ipp:2:
 In file included from ../map_tests/../system/lib.hpp:30:
 ../map_tests/../system/Alloc.hpp:55:27: warning: variadic templates are a C++11 extension [-Wc++11-extensions]
@@ -13,48 +13,92 @@ template <class _Up, class... _Args>
 ../map_tests/../system/Alloc.hpp:167:34: warning: rvalue references are a C++11 extension [-Wc++11-extensions]
         construct(_Up* __p, _Args&&... __args)
                                  ^
-In file included from ../map_tests/operator <=.cpp:2:
-../map_tests/__service.ipp:3:10: warning: non-portable path to file '"../../../map.hpp"'; specified path differs in case from file name on disk [-Wnonportable-include-path]
-#include MAP
-         ^
-../map_tests/../system/../../config.hpp:10:18: note: expanded from macro 'MAP'
-#define MAP                             "../../../Map.hpp"
-                                        ^
-5 warnings generated.
+4 warnings generated.
 Undefined symbols for architecture x86_64:
-  "bool ft::operator<=<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >(ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&, ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&)", referenced from:
-      map_less_or_equal_test() in operator <=-a53d87.o
-  "bool ft::operator<=<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > >(ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&, ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&)", referenced from:
-      map_less_or_equal_test() in operator <=-a53d87.o
+  "bool ft::operator>=<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >(ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&, ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&)", referenced from:
+      map_more_or_equal_test() in operator >=-74a7dd.o
+  "bool ft::operator>=<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > >(ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&, ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&)", referenced from:
+      map_more_or_equal_test() in operator >=-74a7dd.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
-perator <.cpp:2:
-../map_tests/__service.ipp:39:47: error: use of undeclared identifier 'ft'
-                m1.insert(std::make_pair(2, 3)); mp1.insert(ft::make_pair(2, 3));
-                                                            ^
-../map_tests/__service.ipp:40:47: error: use of undeclared identifier 'ft'
-                m2.insert(std::make_pair(3, 3)); mp2.insert(ft::make_pair(3, 3));
-                                                            ^
-../map_tests/__service.ipp:41:47: error: use of undeclared identifier 'ft'
-                m3.insert(std::make_pair(3, 4)); mp3.insert(ft::make_pair(3, 4));
-                                                            ^
-../map_tests/__service.ipp:42:47: error: use of undeclared identifier 'ft'
-                m4.insert(std::make_pair(4, 4)); mp4.insert(ft::make_pair(4, 4));
-                                                            ^
-../map_tests/__service.ipp:43:47: error: use of undeclared identifier 'ft'
-                m4.insert(std::make_pair(4, 5)); mp4.insert(ft::make_pair(4, 5));
-                                                            ^
-../map_tests/__service.ipp:44:55: error: use of undeclared identifier 'ft'
-                m5.insert(std::make_pair("123", "123")); mp5.insert(ft::make_pair("123", "123"));
-                                                                    ^
-../map_tests/__service.ipp:45:55: error: use of undeclared identifier 'ft'
-                m6.insert(std::make_pair("123", "124")); mp6.insert(ft::make_pair("123", "124"));
-                                                                    ^
-../map_tests/__service.ipp:46:55: error: use of undeclared identifier 'ft'
-                m7.insert(std::make_pair("124", "123")); mp7.insert(ft::make_pair("124", "123"));
-                                                                    ^
-fatal error: too many errors emitted, stopping now [-ferror-limit=]
-5 warnings and 20 errors generated.
-ted.
-0 errors generated.
-enerated.
+                                ^
+../map_tests/../../../map.hpp:175:16: note: 'key_comp' declared here
+                        key_compare key_comp(Compare c) const;
+                                    ^
+4 warnings and 4 errors generated.
+t, int>::const_iterator>& pair = mp.equal_range(10);
+                                                                                         ^
+../map_tests/equal_range().cpp:64:73: note: in instantiation of function template specialization 'equal_range_test<int, int>' requested here
+    exit(run_map_unit_test<int, int>("equal_range()", equal_range_test, equal_range_test));
+                                                                        ^
+../map_tests/../../../map_iterator.hpp:29:4: note: candidate constructor not viable: no known conversion from 'const ft::pair<ft::BidirectionalIterator<ft::pair<const int, int> >, ft::BidirectionalIterator<ft::pair<const int, int> > >::first_type' (aka 'const ft::BidirectionalIterator<ft::pair<const int, int> >') to 'ft::BidirectionalIterator<const ft::pair<const int, int>, std::allocator<ft::pair<const int, int> > >::node_pointer' (aka 'node<const ft::pair<const int, int>, std::allocator<ft::pair<const int, int> > > *') for 1st argument
+                        BidirectionalIterator(node_pointer node = 0) : _node(node) {}
+                        ^
+../map_tests/../../../map_iterator.hpp:30:4: note: candidate constructor not viable: no known conversion from 'const BidirectionalIterator<pair<...>, [...]>' to 'const BidirectionalIterator<pair<...>, [...]>' for 1st argument
+                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
+                        ^
+In file included from ../map_tests/equal_range().cpp:2:
+In file included from ../map_tests/__service.ipp:3:
+In file included from ../map_tests/../../../map.hpp:4:
+../map_tests/../../../utility.hpp:148:49: error: no matching constructor for initialization of 'ft::pair<ft::BidirectionalIterator<const ft::pair<const int, int>, std::allocator<ft::pair<const int, int> > >, ft::BidirectionalIterator<const ft::pair<const int, int>, std::allocator<ft::pair<const int, int> > > >::second_type' (aka 'ft::BidirectionalIterator<const ft::pair<const int, int>, std::allocator<ft::pair<const int, int> > >')
+                pair(const pair<U1, U2> &p) : first(p.first), second(p.second) {}
+                                                              ^      ~~~~~~~~
+../map_tests/../../../map_iterator.hpp:29:4: note: candidate constructor not viable: no known conversion from 'const ft::pair<ft::BidirectionalIterator<ft::pair<const int, int> >, ft::BidirectionalIterator<ft::pair<const int, int> > >::second_type' (aka 'const ft::BidirectionalIterator<ft::pair<const int, int> >') to 'ft::BidirectionalIterator<const ft::pair<const int, int>, std::allocator<ft::pair<const int, int> > >::node_pointer' (aka 'node<const ft::pair<const int, int>, std::allocator<ft::pair<const int, int> > > *') for 1st argument
+                        BidirectionalIterator(node_pointer node = 0) : _node(node) {}
+                        ^
+../map_tests/../../../map_iterator.hpp:30:4: note: candidate constructor not viable: no known conversion from 'const BidirectionalIterator<pair<...>, [...]>' to 'const BidirectionalIterator<pair<...>, [...]>' for 1st argument
+                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
+                        ^
+4 warnings and 3 errors generated.
+:29:4: note: candidate constructor not viable: no known conversion from 'int' to 'ft::BidirectionalIterator<ft::pair<const int, int> >::node_pointer' (aka 'node<ft::pair<const int, int> > *') for 1st argument
+                        BidirectionalIterator(node_pointer node = 0) : _node(node) {}
+                        ^
+../map_tests/../../../map_iterator.hpp:30:4: note: candidate constructor not viable: no known conversion from 'int' to 'const BidirectionalIterator<ft::BidirectionalIterator<ft::pair<const int, int> >::value_type> &' (aka 'const BidirectionalIterator<ft::pair<const int, int> > &') for 1st argument
+                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
+                        ^
+../map_tests/../../../map.hpp:165:25: note: passing argument to parameter 'pos' here
+                        void erase (iterator pos) {
+                                             ^
+../map_tests/erase(key).cpp:47:17: error: reference to type 'const std::__vector_base<int, std::allocator<int> >::value_type' (aka 'const int') could not bind to an rvalue of type 'void'
+    v.push_back(mp.erase(-5));
+                ^~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector:713:62: note: passing argument to parameter '__x' here
+    _LIBCPP_INLINE_VISIBILITY void push_back(const_reference __x);
+                                                             ^
+../map_tests/erase(key).cpp:49:17: error: reference to type 'const std::__vector_base<int, std::allocator<int> >::value_type' (aka 'const int') could not bind to an rvalue of type 'void'
+    v.push_back(mp.erase(0));
+                ^~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector:713:62: note: passing argument to parameter '__x' here
+    _LIBCPP_INLINE_VISIBILITY void push_back(const_reference __x);
+                                                             ^
+../map_tests/erase(key).cpp:56:18: error: no viable conversion from 'ft::pair<const int, int>::first_type' (aka 'const int') to 'ft::map<int, int>::iterator' (aka 'BidirectionalIterator<pair<const int, int> >')
+        mp.erase(it4->first);
+                 ^~~~~~~~~~
+../map_tests/../../../map_iterator.hpp:29:4: note: candidate constructor not viable: no known conversion from 'ft::pair<const int, int>::first_type' (aka 'const int') to 'ft::BidirectionalIterator<ft::pair<const int, int> >::node_pointer' (aka 'node<ft::pair<const int, int> > *') for 1st argument
+                        BidirectionalIterator(node_pointer node = 0) : _node(node) {}
+                        ^
+../map_tests/../../../map_iterator.hpp:30:4: note: candidate constructor not viable: no known conversion from 'ft::pair<const int, int>::first_type' (aka 'const int') to 'const BidirectionalIterator<ft::BidirectionalIterator<ft::pair<const int, int> >::value_type> &' (aka 'const BidirectionalIterator<ft::pair<const int, int> > &') for 1st argument
+                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
+                        ^
+../map_tests/../../../map.hpp:165:25: note: passing argument to parameter 'pos' here
+                        void erase (iterator pos) {
+                                             ^
+../map_tests/erase(key).cpp:59:26: error: no viable conversion from 'int' to 'ft::map<int, int>::iterator' (aka 'BidirectionalIterator<pair<const int, int> >')
+    v.push_back(mp.erase(30 * _ratio - 1));
+                         ^~~~~~~~~~~~~~~
+../map_tests/../../../map_iterator.hpp:29:4: note: candidate constructor not viable: no known conversion from 'int' to 'ft::BidirectionalIterator<ft::pair<const int, int> >::node_pointer' (aka 'node<ft::pair<const int, int> > *') for 1st argument
+                        BidirectionalIterator(node_pointer node = 0) : _node(node) {}
+                        ^
+../map_tests/../../../map_iterator.hpp:30:4: note: candidate constructor not viable: no known conversion from 'int' to 'const BidirectionalIterator<ft::BidirectionalIterator<ft::pair<const int, int> >::value_type> &' (aka 'const BidirectionalIterator<ft::pair<const int, int> > &') for 1st argument
+                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
+                        ^
+../map_tests/../../../map.hpp:165:25: note: passing argument to parameter 'pos' here
+                        void erase (iterator pos) {
+                                             ^
+../map_tests/erase(key).cpp:59:17: error: reference to type 'const std::__vector_base<int, std::allocator<int> >::value_type' (aka 'const int') could not bind to an rvalue of type 'void'
+    v.push_back(mp.erase(30 * _ratio - 1));
+                ^~~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector:713:62: note: passing argument to parameter '__x' here
+    _LIBCPP_INLINE_VISIBILITY void push_back(const_reference __x);
+                                                             ^
+4 warnings and 11 errors generated.

@@ -38,7 +38,7 @@ namespace ft {
 
 			class value_compare {
 				private:
-					Compare		_comp;
+					Compare	_comp;
 				protected:
 				//	Constructor
 					value_compare(Compare c) : _comp(c) {}
@@ -50,25 +50,37 @@ namespace ft {
 
 		private:
 			allocator_type		_alloc;
-			tree_type			_tree;
 			key_compare			_comp;
+			tree_type			_tree;
 
 		public:
 
+		// map() {}
+
 		//	default constructor
 			explicit map (const key_compare& comp = key_compare(), 
-				const allocator_type& alloc = allocator_type()) {}
+				const allocator_type& alloc = allocator_type()) : _alloc(alloc), _comp(comp), _tree(tree_type(comp, alloc)) {}
 
 		//	range constructor
 			template <class InputIterator>
   			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-       			const allocator_type& alloc = allocator_type()) {}
+       			const allocator_type& alloc = allocator_type()) : _alloc(alloc), _comp(comp), _tree(tree_type(comp, alloc)) { 
+					insert(first, last);
+			}
 
 		//	copy constructor
-			map (const map& other) {}
+			map (const map& other) : _alloc(other._alloc), _comp(other._comp), _tree(tree_type(other._comp, other._alloc)) {
+				*this = other;
+			}
 
 		//	assignment operator
-			map& operator= (const map& other) {}
+			map& operator= (const map& other) {
+				if (this != &other) {
+					clear();
+					insert(other.begin(), other.end());
+				}
+				return *this;
+			}
 
 		//	destructor
 			~map() {}
@@ -98,7 +110,9 @@ namespace ft {
 		
 		// Capacity
 			bool empty() const { return _tree.empty(); }
+			
 			size_type size() const { return _tree.size(); }
+			
 			size_type max_size() const { return _alloc.max_size(); }
 
 		//	Element access
@@ -113,7 +127,12 @@ namespace ft {
 				return (res->second);
 			}
 			
-			const T& at(const Key& key) const;
+			const T& at(const Key& key) const {
+				node *res = _tree.search(ft::make_pair(key, mapped_type()));
+				if (!res)
+					throw std::out_of_range("key is out of range");
+				return (res->second);
+			}
 
 		//	Modifiers
 		public:
@@ -128,20 +147,42 @@ namespace ft {
 			}
 
 
-			//	With a hint
-			// iterator insert (iterator position, const value_type& val);
+			//	With a hint - inserts after the position
+			//	if position points to the element that will precede the inserted element
+			iterator insert (iterator hint, const value_type& val) {
+				// if ((*position).first + 1 == val.first)
+				// 	return(iterator(_tree.insert_val(val)));
+				if (node* n = _tree.search(val)) 
+					return (iterator(n));
+				if (_comp((*hint).first, val.first) && _comp(val.first, (*(++hint)).first))
+					return(iterator(_tree.insert_val(hint.node(), val)));
+				return(iterator(_tree.insert_val(val)));
+			}
 
 			//	Inserts range 	
-			// template <class InputIterator>
-			// void insert (InputIterator first, InputIterator last);
+			template <class InputIterator>
+			void insert (InputIterator first, InputIterator last) {
+				for(; first != last; ++first)
+					_tree.insert_val(*first);
+			}
 
-			void swap (map& x);
+			void erase (iterator pos) {
+				_tree.delete_node(pos.node());
+			}
+
 			void clear() {
 				_tree.clear();
 			}
 
+			void swap(map& other) {
+				std::swap(this->_comp, other._comp);
+				std::swap(this->_alloc, other._alloc);
+				_tree.swap(other._tree);
+			}
+
 			//	Observers
-			key_compare key_comp(Compare c) const;
+			key_compare key_comp() const { return _comp; }
+
 			value_compare value_comp() const { return value_compare(_comp); }
 
 			//	Operations
@@ -152,16 +193,16 @@ namespace ft {
 				else 
 					return end();
 				}
-				
-			// const_iterator find (const key_type& k) const { 
-			// 	node* res = _tree.search(make_pair(k, mapped_type()));
-			// 	if (res) 
-			// 		return iterator(res);
-			// 	else 
-			// 		return end();
-			// }
+			
+			//	Because all elements in a map container are unique, 
+			//	the function can only return 1 (if the element is found) or zero
+			size_type count (const key_type& k) const {
+				if (_tree.search(make_pair(k, mapped_type())))
+					return 1;
+				else
+					return 0;
+			}
 
-			size_type count (const key_type& k) const;
 			iterator lower_bound (const key_type& k);
 			const_iterator lower_bound (const key_type& k) const;
 			iterator upper_bound (const key_type& k);
