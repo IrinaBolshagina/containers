@@ -19,15 +19,17 @@ namespace ft {
 				node			*left;
 				node			*right;
 				node			*parent;
+				// bool			nil;
 				bool			is_end;
+				bool			is_begin;
 
 			public:
-				node() : left(NULL), right(NULL), parent(NULL), is_end(false) {
+				node() : left(NULL), right(NULL), parent(NULL), is_end(false), is_begin(false) {
 					value = _alloc.allocate(sizeof(value_type));
 					_alloc.construct(value, value_type());
 				}
 
-				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_end(false) {
+				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_end(false), is_begin(false) {
 					value = _alloc.allocate(sizeof(value_type));
 					_alloc.construct(value, val);
 				}
@@ -41,17 +43,19 @@ namespace ft {
 
 				node&	operator=(const node& other) {
 					if (*this != other) {
-					value = other.value;
-					left = other.left;
-					right = other.right;
-					parent = other.parent;
+						value = other.value;
+						left = other.left;
+						right = other.right;
+						parent = other.parent;
 					}
-					return (*this);
+					return *this;
 				}
+
+				// bool is_nil() { return nil; }
 
 				node*	tree_min() { // исключение для begin
 					node *n = this;
-					while(n->left != NULL)
+					while(n->left != NULL && !n->left->is_begin)
 						n = n->left;
 					return n;
 				}
@@ -115,25 +119,30 @@ namespace ft {
 			node			*head;
 			node            *end;
 			node			*begin; // для реверс итератора прицепить перед началом
-			size_type		_size;
-			allocator_type	_alloc;
 			key_compare		_comp;
+			allocator_type	_alloc;
+			size_type		_size;
 
 		public:
 			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
-			_comp(comp), _alloc(alloc), _size(0) {
+			_comp(comp), _alloc(alloc), _size(0)  {
 				head = new node();
 				end = new node();
+				begin = new node();
 				head->right = end;
 				end->parent = head;
 				end->is_end = true;
+				head->left = begin;
+				begin->parent = head;
+				begin->is_begin = true;
 			}
 
 			Tree& operator= (const Tree& other) {
 				if (this == &other)
 					return *this;
 				this->head = new node(&other->head); 	// содержимое, а не указатель
-				this->end = new node(&other->end);		//
+				this->end = new node(&other->end);		// содержимое, а не указатель
+				this->begin = new node(&other->begin);
 				this->_size = other._size;
 				this->_alloc = other._alloc;
 				this->_comp = other._comp;
@@ -158,11 +167,16 @@ namespace ft {
 				head->right = end;
 				end->parent = head;
 				end->is_end = true;
+				head->left = begin;
+				begin->parent = head;
+				begin->is_begin = true;
 			}
 
 			node*	end_node() { return end; }
 			
 			node*	head_node() { return head; }
+
+			node*	begin_node() { return begin; }
 
 			bool	empty() const { return _size == 0; }
 
@@ -178,13 +192,9 @@ namespace ft {
 				return search(head, val.first);
 			}
 
-			node*	max_node() {
-				return head->tree_max();
-			}
+			node*	max_node() { return head->tree_max(); }
 
-			node*	min_node() {
-				return head->tree_min();
-			}
+			node*	min_node() { return head->tree_min(); }
 
 			size_type	size(node *root) const {
 				if (root != NULL)
@@ -248,13 +258,15 @@ namespace ft {
 					head = new node(val);
 					head->right = end;
 					end->parent = head;
+					head->left = begin;
+					begin->parent = head;
 					++_size;
 					return head;
 				}
 				else {
 				node *new_node = new node(val);
 				node *max = max_node();
-				// проверять минимальную ноду
+				node *min = min_node();	// проверять минимальную ноду
 				if (_comp(max->value->first, val.first)) {
 					node *tmp = end;
 					max->right = new_node;
@@ -262,6 +274,14 @@ namespace ft {
 					end = tmp;
 					new_node->right = end;
 					end->parent = new_node;
+				}
+				else if (_comp(val.first, min->value->first)) {
+					node *tmp = begin;
+					min->left = new_node;
+					new_node->parent = min;
+					begin = tmp;
+					new_node->left = begin;
+					begin->parent = new_node;
 				}
 				else
 					insert_node(head, new_node);				

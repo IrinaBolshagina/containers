@@ -152,10 +152,12 @@ namespace ft {
 			iterator insert (iterator hint, const value_type& val) {
 				// if ((*position).first + 1 == val.first)
 				// 	return(iterator(_tree.insert_val(val)));
-				if (node* n = _tree.search(val)) 
+				node* n = _tree.search(val);
+				if (n) 
 					return (iterator(n));
-				if (_comp((*hint).first, val.first) && _comp(val.first, (*(++hint)).first))
-					return(iterator(_tree.insert_val(hint.node(), val)));
+				n = hint.node();
+				if (hint != end() && _comp((*hint).first, val.first) && _comp(val.first, (*(++hint)).first)) // убрать итерацию хинта
+					return(iterator(_tree.insert_val(n, val)));
 				return(iterator(_tree.insert_val(val)));
 			}
 

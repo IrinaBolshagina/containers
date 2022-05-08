@@ -78,12 +78,12 @@ int main() {
 	it2 = ft_map.end();
 	std::cout << "end " << &(*it2) << " "; it2.print_end();
 	
-	res_ft = ft_map.insert(p2);
-	ft_it1 = res_ft.first;
-	it2 = ft_map.end();
-	std::cout << "end " << &(*it2) << " "; it2.print_end();
-	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
-	std::cout << " is inserted: " << res_ft.second << std::endl; //<< "node: " << &*it2.node();
+	// res_ft = ft_map.insert(p2);
+	// ft_it1 = res_ft.first;
+	// it2 = ft_map.end();
+	// std::cout << "end " << &(*it2) << " "; it2.print_end();
+	// std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	// std::cout << " is inserted: " << res_ft.second << std::endl; //<< "node: " << &*it2.node();
 	// std::cout << " right: " << &*ft_it1.right() << std::endl;
 	
 	
@@ -144,18 +144,20 @@ int main() {
 	std::cout << "end-- " << it2->first << " => " << it2->second << std::endl;
 
 	ft_iterator it_find = ft_map.find('d');
-	// std::cout << "\nfind: " << it_find->first << " => " << it_find->second << std::endl;
+	std::cout << "\nfind: " << it_find->first << " => " << it_find->second << std::endl;
 
 	// it_find = ft_map.find('x');
 	// std::cout << "find: " << it_find->first << " => " << it_find->second << std::endl;
 
-	ft_map.erase(it_find);
+	// ft_map.erase(it_find);
 	for(it1 = ft_map.begin(); it1 != ft_map.end(); ++it1) {
 		std::cout << it1->first << " => " << it1->second << '\n';
 	}
 	std::cout << '\n';
-	it_find = ft_map.find('c');
-	ft_map.insert(it_find, p4);
+	it_find = ft_map.find('a');
+	std::cout << "\nfind: " << it_find->first << " => " << it_find->second << std::endl;
+
+	ft_map.insert(it_find, p2);
 	for(it1 = ft_map.begin(); it1 != ft_map.end(); ++it1) {
 		std::cout << it1->first << " => " << it1->second << '\n';
 	}
