@@ -54,7 +54,7 @@ int main() {
 	std::cout << "end " << (--std_map.end())->second << '\n';
 
 	
-	
+	// ---------------------------------------------------------------------
 	
 	std::cout << "\n\nft map\n";
 	ft::pair<char, int> p1('a', 10);
@@ -64,26 +64,28 @@ int main() {
 	ft::pair<char, int> p5('e', 50);
 	
 	ft_iterator it1 = ft_map.begin();
-	std::cout << "head " << &*it1.node();
-	std::cout << " right: " << &*it1.right() << std::endl;
+	// std::cout << "head " << &*it1.node();
+	// std::cout << " right: " << &*it1.right() << std::endl;
 	ft_iterator it2 = ft_map.end();
 	std::cout << "end " << &*it2.node() << " "; it2.print_end();
-	ft::pair<ft_iterator, bool> res_ft;
 	
+	ft::pair<ft_iterator, bool> res_ft;
 	res_ft = ft_map.insert(p5);
 	ft_iterator ft_it1 = res_ft.first;
 	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
-	std::cout << " is inserted: " << res_ft.second << std::endl; //"node: " << &*it2.node();
-	//std::cout << " right: " << &*ft_it1.right() << std::endl;
-	it2 = ft_map.end();
-	std::cout << "end " << &(*it2) << " "; it2.print_end();
-	
-	// res_ft = ft_map.insert(p2);
-	// ft_it1 = res_ft.first;
+	std::cout << " is inserted: " << res_ft.second << std::endl;
+	// std::cout << "node: " << &*ft_it1.node() << " end: "; ft_it1.print_end();
+	// std::cout << " right: " << &*ft_it1.right() << std::endl;
+	// std::cout << " left: " << &*ft_it1.left() << std::endl;
 	// it2 = ft_map.end();
 	// std::cout << "end " << &(*it2) << " "; it2.print_end();
-	// std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
-	// std::cout << " is inserted: " << res_ft.second << std::endl; //<< "node: " << &*it2.node();
+	
+	res_ft = ft_map.insert(p2);
+	ft_it1 = res_ft.first;
+	it2 = ft_map.end();
+	std::cout << "end " << &(*it2) << " "; it2.print_end();
+	std::cout << "return: " << ft_it1->first << " => " << ft_it1->second;
+	std::cout << " is inserted: " << res_ft.second << std::endl; //<< "node: " << &*it2.node();
 	// std::cout << " right: " << &*ft_it1.right() << std::endl;
 	
 	
@@ -97,8 +99,8 @@ int main() {
 	// std::cout << it1->first << " => " << it1->second << '\n';
 
 	// std::cout << it1->first << " => " << it1->second << '\n';
-	it2 = ft_map.end();
-	std::cout << "end " << &*it2.node() << " "; it2.print_end();
+	// it2 = ft_map.end();
+	// std::cout << "end " << &*it2.node() << " "; it2.print_end();
 	// std::cout << it2->is_end << "\n";
 	// std::cout << (it1 == it2) << "\n";
 	// std::cout << it2->first << " => " << it2->second << '\n';
@@ -128,15 +130,22 @@ int main() {
 	// 	std::cout << &(*it1) << it1->first << " => " << it1->second << '\n';
 
 	ft_map['c'] = 30; 
-
-	for(it1 = ft_map.begin(); it1 != ft_map.end(); it1++) {
-		std::cout << &*it1.node() << " " << it1->first << " => " << it1->second << '\n';
-		std::cout << " right: " << &(*it1.node()->right) << std::endl;
-	}
+	it1 = ft_map.begin();
+	std::cout << it1->first << " => " << it1->second << '\n';
 	it2 = ft_map.end();
-	std::cout << "end " << &*it2.node() << " "; it2.print_end();
+	it2 = ft_map.end().node()->parent;
+	std::cout << it2->first << " => " << it2->second << '\n';
+	std::cout << "iter++\n";
+	++it1;
+
+	// for(it1 = ft_map.begin(); it1 != ft_map.end(); it1++) {
+	// 	std::cout << &*it1.node() << " " << it1->first << " => " << it1->second << '\n';
+	// 	std::cout << " right: " << &(*it1.node()->right) << std::endl;
+	// }
+	// it2 = ft_map.end();
+	// std::cout << "end " << &*it2.node() << " "; it2.print_end();
 	
-	it2--;
+	// it2--;
 	for(; it2 != ft_map.begin(); it2--) {
 		std::cout << &*it2.node() << " " << it2->first << " => " << it2->second << '\n';
 		std::cout << " right: " << &(*it2.node()->right) << std::endl;

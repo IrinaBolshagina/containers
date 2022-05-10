@@ -19,17 +19,17 @@ namespace ft {
 				node			*left;
 				node			*right;
 				node			*parent;
-				// bool			nil;
-				bool			is_end;
-				bool			is_begin;
+				bool			is_leaf;
+				// bool			is_end;
+				// bool			is_begin;
 
 			public:
-				node() : left(NULL), right(NULL), parent(NULL), is_end(false), is_begin(false) {
+				node() : left(NULL), right(NULL), parent(NULL), is_leaf(false) {
 					value = _alloc.allocate(sizeof(value_type));
 					_alloc.construct(value, value_type());
 				}
 
-				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_end(false), is_begin(false) {
+				node(const value_type &val) : left(NULL), right(NULL), parent(NULL), is_leaf(false) {
 					value = _alloc.allocate(sizeof(value_type));
 					_alloc.construct(value, val);
 				}
@@ -42,61 +42,70 @@ namespace ft {
 				node(const node& other) { *this = other; }
 
 				node&	operator=(const node& other) {
-					// if (*this == other) 
-					// 	return *this;
+					if (this == &other)
+						return *this;
 					value = other.value;
 					left = other.left;
 					right = other.right;
 					parent = other.parent;
-					is_begin = other.is_begin;
-					is_end = other.is_end;
+					is_leaf = other.is_leaf;
 					return *this;
 				}
 
-				// bool is_nil() { return nil; }
+				// void set_value(const value_type& val) {
+				// 	*value = val;
+				// }
 
-				node*	tree_min() { // исключение для begin
+				node*	tree_min() { 
 					node *n = this;
-					while(n->left != NULL && !n->left->is_begin)
+					// while(n->left != NULL && !n->left->is_begin)
+					while(n->left->is_leaf == false)
 						n = n->left;
 					return n;
 				}
 
 				node*	tree_max() {
 					node *n = this;
-					while (n->right != NULL && !n->right->is_end)
+					while (n->right->is_leaf == false) 
 						n = n->right;
+					return n;
+				}
+
+				node* find_root() {
+					node *n = this;
+					while (n->parent != NULL) 
+						n = n->parent;
 					return n;
 				}
 
 				node*	successor() {
 					node *n = this;
-					if (n->right) {
+					if (find_root()->tree_max() == n)
+						return n->right;
+					if (n->right->is_leaf == false)
 						return n->right->tree_min();
+					node *y = n->parent;
+					while (y != NULL && n == y->right) {
+						n = y;
+						y = y->parent;
 					}
-					else {
-						node *y = n->parent;
-						while (y != NULL && n == y->right) {
-							n = y;
-							y = y->parent;
-						}
-						return y;
-					}
+					return y;
 				}
 
 				node*	predecessor() {
 					node *n = this;
-					if (n->left) {
+					// if (find_root()->tree_min() == n)
+					// 	return n->left;
+					if (n->left->is_leaf == false) {
 						return n->left->tree_max();
 					}
-					else {
-						node *y = n->parent;
-						while (y != NULL && n == y->left) {
-							n = y;
-							y = y->parent;
-						}
-						return y;
+					node *y = n->parent;
+					while (y != NULL && n == y->left) {
+						n = y;
+						y = y->parent;
 					}
+					return y;
+
 				}
 
 		};	//	struct node
@@ -119,8 +128,8 @@ namespace ft {
 		
 		private:
 			node			*head;
-			node            *end;
-			node			*begin; // для реверс итератора прицепить перед началом
+			// node            *end;
+			// node			*begin;
 			key_compare		_comp;
 			allocator_type	_alloc;
 			size_type		_size;
@@ -129,48 +138,25 @@ namespace ft {
 		
 			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
 			_comp(comp), _alloc(alloc), _size(0)  {
-				head = new node();
-				end = new node();
-				begin = new node();
-				head->right = end;
-				end->parent = head;
-				end->is_end = true;
-				head->left = begin;
-				begin->parent = head;
-				begin->is_begin = true;
+				head = new node(value_type()); // так будет работать? -да
+				head->is_leaf = true;
+				// end = new node();
+				// begin = new node();
+				// head->right = end;
+				// end->parent = head;
+				// end->is_end = true;
+				// head->left = begin;
+				// begin->parent = head;
+				// begin->is_begin = true;
 			}
 
-			node *copy_node(node *src) {
-				node *res = new node(*src->value);
-				res->is_begin = src->is_begin;
-				res->is_end = src->is_end;
-				return res;
-			}
-
-			node	*clone(node *src) {
-				node *res = copy_node(src);
-				if (src->left) { // && !src->left->is_begin) {
-					res->left = clone(src->left);
-					res->left->parent = res;
-				}
-				if (src->right) {
-					res->right = clone(src->right);
-					res->right->parent = res;
-				}
-				return res;
-			}
-
-			Tree& operator= (const Tree& other) {
+			Tree&	operator= (const Tree& other) {
 				if (this == &other)
 					return *this;
 				del_tree(head);
 				this->head = this->clone(other.head);
-				this->begin = min_node()->left;
-				// begin->is_begin = true;
-				// begin->parent = min;
-				// this->begin->parent = min_node();
-				this->end = max_node()->right;
-				// end->is_end = true;
+				// this->begin = min_node()->left;
+				// this->end = max_node()->right;
 				this->_size = other._size;
 				this->_alloc = other._alloc;
 				this->_comp = other._comp;	
@@ -191,30 +177,63 @@ namespace ft {
 				// if (_size > 0) {
 					del_tree(head);
 					_size = 0;
-					head = new node();
-					end = new node();
-					begin = new node();
-					head->right = end;
-					end->parent = head;
-					end->is_end = true;
-					head->left = begin;
-					begin->parent = head;
-					begin->is_begin = true;
+					head = new_node();
+					// end = new node();
+					// begin = new node();
+					// head->right = end;
+					// end->parent = head;
+					// end->is_end = true;
+					// head->left = begin;
+					// begin->parent = head;
+					// begin->is_begin = true;
 				// }
 			}
 
-			node*	end_node() { return end; }
+						//	create new node with value and leafs
+			node* new_node(const value_type& val = value_type()) {
+				node *n = new node(val);
+				n->left = new node(); 		//	left leaf
+				n->left->is_leaf = true;
+				n->left->parent = n;
+				n->right = new node();		//	right leaf
+				n->right->is_leaf = true;
+				n->right->parent = n;
+				return n;
+			}
+
+			node	*copy_node(node *src) {
+				node *res = new node(*src->value);
+				res->is_leaf = src->is_leaf; // убрала end, begin
+				return res;
+			}
+
+			node	*clone(node *src) {
+				node *res = copy_node(src);
+				if (src->left) { // && !src->left->is_begin) {
+					res->left = clone(src->left);
+					res->left->parent = res;
+				}
+				if (src->right) {
+					res->right = clone(src->right);
+					res->right->parent = res;
+				}
+				return res;
+			}
 			
 			node*	head_node() { return head; }
 
-			node*	begin_node() { return begin; }
+			node*	end_node() { return max_node()->right; }
+
+			node*	begin_node() { return min_node()->left; }
 
 			bool	empty() const { return _size == 0; }
 
 			node*	search(node* root, const key_type& key) const {
-				if (root == NULL || (root->value->first == key && !root->is_begin && !root->is_end)) {
+				// if (root == NULL || (root->value->first == key && !root->is_begin && !root->is_end)) 
+				if (root->is_leaf == true)
+					return NULL;
+				if (root->value->first == key && root->is_leaf == false)
 					return root;
-				}
 				if (_comp(key, root->value->first))
 					return search(root->left, key);
 				return search(root->right, key);
@@ -230,57 +249,38 @@ namespace ft {
 
 			node*	min_node() { return head->tree_min(); }
 
-			size_type	size(node *root) const {
-				if (root != NULL)
-					return (1 + size(root->left) + size(root->right));
-				else 
-					return 0;
-			}
-
 			size_type	size() const {
-				// return size(head);
 				return _size;
 			}
 
 			node*	insert_node(node* root, node* new_node) {
 				if (_comp(new_node->value->first, root->value->first)) {
-					if (root->left)
+					if (root->left->is_leaf == false)
 						return (insert_node(root->left, new_node));
+					delete(root->left);
 					root->left = new_node;
 				}
 				else {
-					if (root->right)
+					if (root->right->is_leaf == false)
 						return (insert_node(root->right, new_node));
+					delete(root->right);
 					root->right = new_node;
 				}
 				new_node->parent = root;
 				return (new_node);
-			} 
-
-			// node*	insert_val(node *hint, value_type const &val) {
-			// 	if (hint == min_node()) // insert in the begining
-			// 		if (_comp(val.first, hint->first) {
-			// 			node *new_node = new node(val);
-			// 			hint->left = new_node;
-			// 			new_node->parent = hint;
-			// 			return (new_node);
-			// 		}
-			// 	else if (_comp(hint->first, val.first) && _comp(val.first, (++hint)->first))
-			// 		return (insert_val(hint, val))
-			// 	return (insert_val(val));
-			// }
+			}
 
 			//	inserts right child to parent node
 			node*	insert_val(node *parent, value_type const &val) {
-				node *new_node = new node(val);
-				if (parent->right) {
-					node *tmp = parent->right;
-					new_node->right = tmp;
-					tmp->parent = new_node;
-				}
+			//	надо ли проверять begin, end?
+				node *new_node = new node(val);				
+				node *tmp = parent->right;
+				new_node->right = tmp;
+				tmp->parent = new_node;
 				new_node->parent = parent;
 				parent->right = new_node;
 				return (new_node);
+
 			}
 
 			// if inserted value greater than tree maximum value
@@ -288,39 +288,42 @@ namespace ft {
 			node*	insert_val(value_type const &val)
 			{
 				if (_size == 0) {
+					// head->set_value(val); // сработает?? -нет
 					delete head;
-					head = new node(val);
-					head->right = end;
-					end->parent = head;
-					head->left = begin;
-					begin->parent = head;
+					head = new_node(val);
+					// head = new node(val);
+					// head->right = end;
+					// end->parent = head;
+					// head->left = begin;
+					// begin->parent = head;
 					++_size;
 					return head;
 				}
 				else {
-				node *new_node = new node(val);
-				node *max = max_node();
-				node *min = min_node();	// проверять минимальную ноду
-				if (_comp(max->value->first, val.first)) {
-					node *tmp = end;
-					max->right = new_node;
-					new_node->parent = max;
-					end = tmp;
-					new_node->right = end;
-					end->parent = new_node;
-				}
-				else if (_comp(val.first, min->value->first)) {
-					node *tmp = begin;
-					min->left = new_node;
-					new_node->parent = min;
-					begin = tmp;
-					new_node->left = begin;
-					begin->parent = new_node;
-				}
-				else
-					insert_node(head, new_node);				
+				// node *new_node = new node(val);
+				node *n = new_node(val);
+				// node *max = max_node();
+				// node *min = min_node();	// проверять минимальную ноду
+				// if (_comp(max->value->first, val.first)) {
+				// 	node *tmp = end;
+				// 	max->right = new_node;
+				// 	new_node->parent = max;
+				// 	end = tmp;
+				// 	new_node->right = end;
+				// 	end->parent = new_node;
+				// }
+				// else if (_comp(val.first, min->value->first)) {
+				// 	node *tmp = begin;
+				// 	min->left = new_node;
+				// 	new_node->parent = min;
+				// 	begin = tmp;
+				// 	new_node->left = begin;
+				// 	begin->parent = new_node;
+				// }
+				// else
+				insert_node(head, n);				
 				++_size;
-				return new_node;
+				return n;
 				}
 			}
 

@@ -48,7 +48,8 @@ namespace ft {
 					{ return _comp(lhs.first, rhs.first); }
 			};
 
-		private:
+		// private:
+		public:
 			allocator_type		_alloc;
 			key_compare			_comp;
 			tree_type			_tree;
