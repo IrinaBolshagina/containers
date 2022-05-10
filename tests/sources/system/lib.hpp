@@ -4,7 +4,7 @@
 #ifdef FAST
 int _ratio = 1;
 #else
-int _ratio = 10000;
+int _ratio = 100;
 #endif
 
 int _allocator_used = 0;

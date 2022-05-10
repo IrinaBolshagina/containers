@@ -40,7 +40,7 @@ namespace ft {
 			reference					operator[](const difference_type &n) const { return _ptr[n]; }
 
 			RandomAccessIterator&		operator++() { ++_ptr; return *this; }
-			RandomAccessIterator&		operator++(int) { return RandomAccessIterator(_ptr++); }
+			RandomAccessIterator&		operator++(int) { return RandomAccessIterator(_ptr++); } // пофиксить
 			RandomAccessIterator&		operator--() { --_ptr; return *this; }
 			RandomAccessIterator&		operator--(int) { return RandomAccessIterator(_ptr--); }
 			RandomAccessIterator&		operator+=(const difference_type &n) { _ptr += n; return *this; }
@@ -58,7 +58,7 @@ namespace ft {
 			friend RandomAccessIterator	operator+(const difference_type &n, const RandomAccessIterator & other) { return other + n; }
 			friend RandomAccessIterator	operator-(const difference_type &n, const RandomAccessIterator & other) { return other - n; }
 			friend difference_type		operator-(const RandomAccessIterator& lhs, RandomAccessIterator& rhs) { return lhs._ptr - rhs._ptr; }
-
+			difference_type				operator-(RandomAccessIterator const &obj) const { return _ptr - obj._ptr; }
 	};	//	class RandomAccessIterator
 
 

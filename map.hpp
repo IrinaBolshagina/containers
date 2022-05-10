@@ -69,15 +69,22 @@ namespace ft {
 			}
 
 		//	copy constructor
-			map (const map& other) : _alloc(other._alloc), _comp(other._comp), _tree(tree_type(other._comp, other._alloc)) {
+			map (const map& other) {
 				*this = other;
 			}
 
 		//	assignment operator
 			map& operator= (const map& other) {
 				if (this != &other) {
+					_alloc = other._alloc;
+					_comp = other._comp;
 					clear();
-					insert(other.begin(), other.end());
+					_tree = other._tree;	
+					
+					// iterator first = other.begin();
+					// iterator last = other.end();
+					// for(; first != last; ++first)
+					// 	_tree.insert_val(*first);
 				}
 				return *this;
 			}
@@ -86,7 +93,7 @@ namespace ft {
 			~map() {}
 
 		//	Allocator
-			allocator_type get_allocator() const;
+			allocator_type get_allocator() const { return _alloc; }
 
 		//	Iterators
 			iterator begin() { 
@@ -101,8 +108,18 @@ namespace ft {
 				else
 					return iterator(_tree.end_node());
 			}
-			// const_iterator begin() const;
-			// const_iterator end() const;
+			// const_iterator begin() const { 
+			// 	if (size() < 2)
+			// 		return const_iterator(_tree.head_node());
+			// 	else
+			// 		return const_iterator(_tree.min_node());
+			// }
+			// const_iterator end() const { 
+			// 	if (_tree.empty())
+			// 		return const_iterator(_tree.head_node());
+			// 	else
+			// 		return const_iterator(_tree.end_node());
+			// }
 			// reverse_iterator rbegin();
 			// reverse_iterator rend();
 			// const_reverse_iterator rbegin() const;
@@ -168,12 +185,24 @@ namespace ft {
 					_tree.insert_val(*first);
 			}
 
+			// template <class InputIterator>
+			// void insert(InputIterator first, InputIterator last)
+			// {
+			// 	for ( ; first != last; ++first)
+			// 		insert(ft::make_pair(first->first, first->second));
+			// }
+
 			void erase (iterator pos) {
 				_tree.delete_node(pos.node());
 			}
 
 			void clear() {
-				_tree.clear();
+					_tree.clear();
+			}
+
+			void print_clone() {
+				node *n = _tree.test_clone();
+				std::cout << n->value->first << " => " << n->value->second << "\n";
 			}
 
 			void swap(map& other) {

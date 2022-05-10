@@ -42,12 +42,14 @@ namespace ft {
 				node(const node& other) { *this = other; }
 
 				node&	operator=(const node& other) {
-					if (*this != other) {
-						value = other.value;
-						left = other.left;
-						right = other.right;
-						parent = other.parent;
-					}
+					// if (*this == other) 
+					// 	return *this;
+					value = other.value;
+					left = other.left;
+					right = other.right;
+					parent = other.parent;
+					is_begin = other.is_begin;
+					is_end = other.is_end;
 					return *this;
 				}
 
@@ -124,6 +126,7 @@ namespace ft {
 			size_type		_size;
 
 		public:
+		
 			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
 			_comp(comp), _alloc(alloc), _size(0)  {
 				head = new node();
@@ -137,15 +140,40 @@ namespace ft {
 				begin->is_begin = true;
 			}
 
+			node *copy_node(node *src) {
+				node *res = new node(*src->value);
+				res->is_begin = src->is_begin;
+				res->is_end = src->is_end;
+				return res;
+			}
+
+			node	*clone(node *src) {
+				node *res = copy_node(src);
+				if (src->left) { // && !src->left->is_begin) {
+					res->left = clone(src->left);
+					res->left->parent = res;
+				}
+				if (src->right) {
+					res->right = clone(src->right);
+					res->right->parent = res;
+				}
+				return res;
+			}
+
 			Tree& operator= (const Tree& other) {
 				if (this == &other)
 					return *this;
-				this->head = new node(&other->head); 	// содержимое, а не указатель
-				this->end = new node(&other->end);		// содержимое, а не указатель
-				this->begin = new node(&other->begin);
+				del_tree(head);
+				this->head = this->clone(other.head);
+				this->begin = min_node()->left;
+				// begin->is_begin = true;
+				// begin->parent = min;
+				// this->begin->parent = min_node();
+				this->end = max_node()->right;
+				// end->is_end = true;
 				this->_size = other._size;
 				this->_alloc = other._alloc;
-				this->_comp = other._comp;
+				this->_comp = other._comp;	
 				return *this;
 			}
 
@@ -160,16 +188,19 @@ namespace ft {
 			}
 
 			void	clear() {
-				del_tree(head);
-				_size = 0;
-				head = new node();
-				end = new node();
-				head->right = end;
-				end->parent = head;
-				end->is_end = true;
-				head->left = begin;
-				begin->parent = head;
-				begin->is_begin = true;
+				// if (_size > 0) {
+					del_tree(head);
+					_size = 0;
+					head = new node();
+					end = new node();
+					begin = new node();
+					head->right = end;
+					end->parent = head;
+					end->is_end = true;
+					head->left = begin;
+					begin->parent = head;
+					begin->is_begin = true;
+				// }
 			}
 
 			node*	end_node() { return end; }
@@ -181,14 +212,17 @@ namespace ft {
 			bool	empty() const { return _size == 0; }
 
 			node*	search(node* root, const key_type& key) const {
-				if (root == NULL || root->value->first == key)
+				if (root == NULL || (root->value->first == key && !root->is_begin && !root->is_end)) {
 					return root;
+				}
 				if (_comp(key, root->value->first))
 					return search(root->left, key);
 				return search(root->right, key);
 			}
 
 			node*	search(const value_type& val) const {
+				if (_size == 0)
+					return NULL;
 				return search(head, val.first);
 			}
 

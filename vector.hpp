@@ -63,7 +63,7 @@ namespace ft {
 		//	Range constructor. Constructs a container with elements in the range first - last
 			template< class InputIt > 
 			vector ( InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
-			typename enable_if<!is_integral<InputIt>::value>::type* = 0) : _alloc(alloc) {
+			typename enable_if<!is_integral<InputIt>::value>::type* = 0) : _alloc(alloc), _arr(NULL) {
 				_size = last - first;
 				_capacity = _size;
 				_arr = _alloc.allocate(_capacity);
@@ -75,7 +75,8 @@ namespace ft {
 				catch ( std::exception &e ) {
 					for (size_type j = 0; j < i; ++j)
 						_alloc.destroy(_arr + j);
-					_alloc.deallocate(_arr, _capacity);
+					if (_arr)
+						_alloc.deallocate(_arr, _capacity);
 					throw;
 				}
 			} 
@@ -85,8 +86,9 @@ namespace ft {
 
 		//	Destructor. Destructs all object then free memory
 			~vector() {
-				for (size_type i = 0; i < _size; ++i)
-					_alloc.destroy(_arr + i);
+				clear();
+				// for (size_type i = 0; i < _size; ++i)
+				// 	_alloc.destroy(_arr + i);
 				if (_arr)
 					_alloc.deallocate(_arr, _capacity);
 			}
@@ -132,25 +134,28 @@ namespace ft {
 			// 3) удалить старый массив
 			// 4) задать новый _capacity
 				if (n > _capacity) {
-					pointer new_arr = _alloc.allocate(n);
-				size_type i = 0;
-				try {
-					for (; i < _size; ++i)
-						_alloc.construct(new_arr + i, _arr[i]);
+					pointer new_arr = NULL;
+					new_arr = _alloc.allocate(n);
+					size_type i = 0;
+					try {
+						for (; i < _size; ++i)
+							_alloc.construct(new_arr + i, _arr[i]);
+					}
+					catch ( std::exception &e ) {
+						for (size_type j = 0; j < i; ++j)
+							_alloc.destroy(new_arr + j);
+						if (_arr)
+							_alloc.deallocate(new_arr, n);
+						throw;
+					}
+					for(i = 0; i < _size; i++)
+						_alloc.destroy(_arr + i);
+					if (_arr)
+						_alloc.deallocate(_arr, _capacity);
+					_capacity = n;
+					_arr = new_arr;
 				}
-				catch ( std::exception &e ) {
-					for (size_type j = 0; j < i; ++j)
-						_alloc.destroy(new_arr + j);
-					_alloc.deallocate(new_arr, n);
-					throw;
-				}
-				for(i = 0; i < _size; i++)
-					_alloc.destroy(_arr + i);
-				if (_arr) _alloc.deallocate(_arr, _capacity);
-				_capacity = n;
-				_arr = new_arr;
-				}
-			};
+			}
 
 			void resize (size_type n, value_type val = value_type()) {
 				// увеличить емкость если не хватает
@@ -242,7 +247,7 @@ namespace ft {
 				}
 				_size = n;
 			}
-			
+
 			void push_back (const value_type& val) {
 				if (_capacity == _size) {
 					if (_capacity == 0)
@@ -307,46 +312,181 @@ namespace ft {
 				_capacity = new_cap;
 			}
 
+			// iterator insert (iterator pos, const value_type& val) {
+			// 	size_type start = pos.getPointer() - _arr;
+			// 	size_type new_cap = _capacity;
+			// 	if (_size + 1 > _capacity)
+			// 		new_cap = std::max(_size + 1, _capacity * 2);
+			// 	pointer new_arr = NULL;
+			// 	new_arr = _alloc.allocate(new_cap);
+			// 	size_type i = 0;
+			// 	try {
+			// 	// copy part before insert
+			// 		for (; i < start; ++i)
+			// 			_alloc.construct(new_arr + i, _arr[i]);
+
+			// 	// copy insert values
+			// 		for (; i < 1 + start; ++i)
+			// 			_alloc.construct(new_arr + i, val);
+
+			// 	// copy part after insert
+			// 		for (; i < 1 + _size; ++i)
+			// 			_alloc.construct(new_arr + i, _arr[i - 1]);
+			// 	}
+			// 	catch ( std::exception &e ) {
+			// 		for (size_type j = 0; j < i; ++j)
+			// 			_alloc.destroy(new_arr + j);
+			// 		if (_arr)
+			// 			_alloc.deallocate(new_arr, new_cap);
+			// 		throw;
+			// 	}
+			// 	for (i = 0; i < _size; ++i)
+			// 		_alloc.destroy(_arr + i);
+			// 	if (_arr)
+			// 		_alloc.deallocate(_arr, _capacity);
+			// 	_arr = new_arr;
+			// 	_size = _size + 1;
+			// 	_capacity = new_cap;
+			// 	// return pos;
+			// 	return begin() + start;
+			// }
+
+	// 	void insert( iterator pos, size_type count, const T& value ) {
+	// 	int index = pos - begin();
+	// 	size_t max_size = _size + count;
+
+	// 	if (count >= _capacity) {
+	// 		reserve(_capacity + count);
+	// 		_size = max_size;
+	// 	} else {
+	// 		while (_size != max_size) {
+	// 			if (_size == _capacity)
+	// 				reserve(_capacity * 2);
+	// 			_size++;
+	// 		}
+	// 	}
+	// 	for (int i = _size; i >= 0; --i) {
+	// 		if (i == index) {
+	// 			for (; count > 0; --count) {
+	// 				buffer[i] = value;
+	// 				return;
+	// 			}
+	// 		}
+	// 		buffer[i] = buffer[i - count];
+	// 	}
+	// };
+
+
+
 			//	Insert range from another vector
-			template <class InputIt>
-			void insert (iterator pos, InputIt first, InputIt last,
-			typename enable_if<!is_integral<InputIt>::value>::type* = 0) 
-			{
-				size_type n = (last - first);
-				size_type start = pos.getPointer() - _arr;
-				size_type new_cap = _capacity;
-				if (_size + n > _capacity)
-					new_cap = std::max(_size + n, _capacity * 2);
-				pointer new_arr = _alloc.allocate(new_cap);
-				size_type i = 0;
-				try {
-				// copy part before insert
-					for (; i < start; ++i)
-						_alloc.construct(new_arr + i, _arr[i]);
+			// template <class InputIt>
+			// void insert (iterator pos, InputIt first, InputIt last,
+			// typename enable_if<!is_integral<InputIt>::value>::type* = 0) 
+			// {
+			// 	size_type n = (last - first);
+			// 	size_type start = pos.getPointer() - _arr;
+			// 	size_type new_cap = _capacity;
+			// 	if (_size + n > _capacity)
+			// 		new_cap = std::max(_size + n, _capacity * 2);
+			// 	pointer new_arr = NULL;
+			// 	new_arr = _alloc.allocate(new_cap);
+			// 	size_type i = 0;
+			// 	// try {
+			// 	// copy part before insert
+			// 		for (; i < start; ++i)
+			// 			_alloc.construct(new_arr + i, _arr[i]);
 
-				// copy insert values
-					for (; i < n + start; ++i, ++first)
-						_alloc.construct(new_arr + i, *first);
+			// 	// copy insert values
+			// 		for (; i < n + start; ++i, ++first)
+			// 			_alloc.construct(new_arr + i, *first);
 
-				// copy part after insert
-					for (; i < n + _size; ++i)
-						_alloc.construct(new_arr + i, _arr[i - n]);
-				}
-				catch ( std::exception &e ) {
-					for (size_type j = 0; j < i; ++j)
-						_alloc.destroy(new_arr + j);
-					_alloc.deallocate(new_arr, new_cap);
-					throw;
-				}
+			// 	// copy part after insert
+			// 		for (; i < n + _size; ++i)
+			// 			_alloc.construct(new_arr + i, _arr[i - n]);
+			// 	// }
+			// 	// catch ( std::exception &e ) {
+			// 	// 	for (size_type j = 0; j < i; ++j)
+			// 	// 		_alloc.destroy(new_arr + j);
+			// 	// 	_alloc.deallocate(new_arr, new_cap);
+			// 	// 	throw;
+			// 	// }
+			// 	for (i = 0; i < _size; ++i)
+			// 		_alloc.destroy(_arr + i);
+			// 	if (_arr)
+			// 		_alloc.deallocate(_arr, _capacity);
+			// 	_arr = new_arr;
+			// 	_size = _size + n;
+			// 	_capacity = new_cap;
+			// }
 
-				for (i = 0; i < _size; ++i)
+			// template <class InputIt>
+			// typename ft::enable_if<!ft::is_integral<InputIt>::value, void>::type
+			// insert( iterator pos, InputIt first, InputIt last) {
+			// 	size_t range_size = last - first;
+			// 	// if (!validate_iterator_values(first, last, range_size))
+			// 	// 	throw std::exception();
+			// 	size_t new_size = _size + range_size;
 
-					_alloc.destroy(_arr + i);
-				if (_arr)
+			// 	int last_index = (pos - begin()) + range_size - 1;
+			// 	// pos.getPointer() - _arr
+			// 	if (range_size >= _capacity) {
+			// 		reserve(_capacity + range_size);
+			// 		_size = new_size;
+			// 	} else {
+			// 		while (_size != new_size) {
+			// 			if (_size == _capacity)
+			// 				reserve(_capacity * 2);
+			// 			_size++;
+			// 		}
+			// 	}
+			// 	for (int i = _size - 1; i >= 0; --i) {
+			// 		if (i == last_index) {
+			// 			for (; range_size > 0; --range_size, --i) {
+			// 				_arr[i] = *--last;
+			// 			}
+			// 			return;
+			// 		}
+			// 		_arr[i] = _arr[i - range_size];
+			// 	}
+			// }
+
+			template <class InputIterator>
+    		void insert (iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value>::type* = 0) {
+				size_type start = position - begin();
+				size_type count = last - first;
+				if (_size + count > _capacity) {
+					size_type new_cap = _capacity * 2 >= _size + count ? _capacity * 2 : _size + count;
+					pointer new_arr = _alloc.allocate(new_cap);
+					std::uninitialized_copy(begin(), position, iterator(new_arr));
+					try {
+						for (size_type i = 0; i < count; ++i, ++first)
+							_alloc.construct(new_arr + start + i, *first);
+					}
+					catch (...){
+						for (size_type i = 0; i < count + start; ++i)
+							_alloc.destroy(new_arr + i);
+						_alloc.deallocate(new_arr, new_cap);
+						throw;
+					}
+					std::uninitialized_copy(position, end(), iterator(new_arr + start + count));
+					for (size_type i = 0; i < _size; i++)
+						_alloc.destroy(_arr + i);
 					_alloc.deallocate(_arr, _capacity);
-				_arr = new_arr;
-				_size = _size + n;
-				_capacity = new_cap;
+					_size += count;
+					_capacity = new_cap;
+					_arr = new_arr;
+				}
+				else {
+					for (size_type i = _size; i > start; i--) {
+						_alloc.destroy(_arr + i + count - 1);
+						_alloc.construct(_arr + i + count - 1, *(_arr + i - 1));
+					}
+					for (size_type i = 0; i < count; ++i, ++first) {
+						_alloc.destroy(_arr + i + count);
+						_alloc.construct(_arr + start + i, *first);
+					}
+					_size += count;
+				}
 			}
 			
 

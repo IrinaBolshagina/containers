@@ -71,6 +71,9 @@
 		"utility": "cpp",
 		"vector": "cpp",
 		"__functional_03": "cpp",
-		"filesystem": "cpp"
+		"filesystem": "cpp",
+		"*.ipp": "cpp",
+		"memory_resource": "cpp",
+		"binary_tree": "cpp"
 	}
 }
