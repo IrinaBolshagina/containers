@@ -23,7 +23,13 @@ int main()
 	
 	it1 = m.begin();
 	std::cout << "begin "<< it1->first << " => " << it1->second << "\n";
-
+	it2 = m.end();
+	std::cout << "end "<< it2->first << " => " << it2->second << "\n";
+	// ++it1;
+	// ++it1;
+	// ++it1;
+	// ++it1;
+	// ++it1;
 	for(it = m.begin(); it != m.end(); it++)
 		std::cout << it->first << " => " << it->second << "\n";
 

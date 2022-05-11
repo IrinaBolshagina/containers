@@ -52,7 +52,6 @@ namespace ft {
 
 				node*	tree_min() { 
 					node *n = this;
-					// while(n->left != NULL && !n->left->is_begin)
 					while(n->left->is_leaf == false)
 						n = n->left;
 					return n;
@@ -67,19 +66,17 @@ namespace ft {
 
 				node*	find_root() {
 					node *n = this;
-					while (n->parent != NULL) 
+					while (n->parent->is_leaf == false) 
 						n = n->parent;
 					return n;
 				}
 
 				node*	successor() {
 					node *n = this;
-					if (find_root()->tree_max() == n)
-						return n->right;
-					if (n->right->is_leaf == false)
-						return n->right->tree_min();
+					if (n->right && n->right->is_leaf == false)
+						return (n->right->tree_min());
 					node *y = n->parent;
-					while (y != NULL && n == y->right) {
+					while (y && y->is_leaf == false && n == y->right) {
 						n = y;
 						y = y->parent;
 					}
@@ -88,19 +85,14 @@ namespace ft {
 
 				node*	predecessor() {
 					node *n = this;
-					if (find_root()->tree_max()->right == n)
-						return n->parent;
-					// if (find_root()->tree_min() == n)
-					// 	return n->left;
 					if (n->left->is_leaf == false)
 						return n->left->tree_max();
 					node *y = n->parent;
-					while (y != NULL && n == y->left) {
+					while (y && y->is_leaf == false && n == y->left) {
 						n = y;
 						y = y->parent;
 					}
 					return y;
-
 				}
 
 		};	//	struct node
@@ -197,7 +189,8 @@ namespace ft {
 			
 			node*	head_node() { return head; }
 
-			node*	end_node() { return max_node()->right; }
+			node*	end_node() { return head->parent; }
+				//return max_node()->right; }
 
 			node*	begin_node() { return min_node()->left; }
 
@@ -262,6 +255,8 @@ namespace ft {
 				if (_size == 0) {
 					delete head;
 					head = n;
+					head->parent = new node();
+					head->parent->is_leaf = true;
 				}
 				else
 					insert_node(head, n);				
@@ -270,7 +265,7 @@ namespace ft {
 			}
 
 			void	transplant(node* old_node, node* new_node) {				
-				if (old_node->parent == NULL)
+				if (old_node->parent->is_leaf == true)
 					head = new_node;
 				else if (old_node == old_node->parent->left)
 					old_node->parent->left = new_node;

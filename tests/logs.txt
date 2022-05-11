@@ -1,8 +1,8 @@
 Undefined symbols for architecture x86_64:
   "bool ft::operator>=<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >(ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&, ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&)", referenced from:
-      map_more_or_equal_test() in operator >=-1e3404.o
+      map_more_or_equal_test() in operator >=-94de50.o
   "bool ft::operator>=<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > >(ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&, ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&)", referenced from:
-      map_more_or_equal_test() in operator >=-1e3404.o
+      map_more_or_equal_test() in operator >=-94de50.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 first_type' (aka 'const ft::BidirectionalIterator<ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >') to 'ft::BidirectionalIterator<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >::node_pointer' (aka 'node<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > > *') for 1st argument
@@ -112,11 +112,11 @@ In file included from ../map_tests/swap().cpp:2:
 In file included from ../map_tests/__service.ipp:3:
 In file included from ../map_tests/../../../map.hpp:5:
 In file included from ../map_tests/../../../map_iterator.hpp:6:
-../map_tests/../../../binary_tree.hpp:314:34: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
+../map_tests/../../../binary_tree.hpp:309:34: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
                                 std::swap(this->_alloc, other->_alloc);
                                                         ~~~~~^~
                                                              .
-../map_tests/../../../binary_tree.hpp:315:33: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
+../map_tests/../../../binary_tree.hpp:310:33: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
                                 std::swap(this->_comp, other->_comp);
                                                        ~~~~~^~
                                                             .

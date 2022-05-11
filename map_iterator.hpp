@@ -47,6 +47,23 @@ namespace ft {
 				return *this;
 			}
 
+			// BidirectionalIterator& operator++()
+			// {
+			// 	if (_node->right && _node->right->is_leaf == false)
+			// 		_node = _node->right->tree_min();
+			// 	else
+			// 	{
+			// 		node_pointer y = _node->parent;
+			// 		while (y && y->is_leaf == false && _node == y->right)
+			// 		{
+			// 			_node = y;
+			// 			y = y->parent;
+			// 		}
+			// 		_node = y;
+			// 	}
+			// 	return *this;
+			// }
+
 			BidirectionalIterator		operator++(int) {
 				BidirectionalIterator tmp(_node);
 				++(*this);

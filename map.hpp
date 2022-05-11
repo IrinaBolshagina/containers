@@ -134,23 +134,24 @@ namespace ft {
 			size_type	max_size() const { return _alloc.max_size(); }
 
 		//	Element access
-			mapped_type& operator[] (const key_type& key) {
+			mapped_type&	operator[] (const key_type& key) {
 				return (*((insert(ft::make_pair(key, mapped_type()))).first)).second;
 			}
 
-			T&	at(const Key& key) {
-				node *res = _tree.search(ft::make_pair(key, mapped_type()));
-				if (!res)
+			mapped_type&	at(const key_type& key) {
+				if (!_tree.search(ft::make_pair(key, mapped_type())))
 					throw std::out_of_range("key is out of range");
-				return (res->second);
+				else
+					return (*this)[key];
+			}
+
+			const mapped_type&	at(const key_type& key) const {
+				if (!_tree.search(ft::make_pair(key, mapped_type())))
+					throw std::out_of_range("key is out of range");
+				else
+					return (*this)[key];
 			}
 			
-			const T&	at(const Key& key) const {
-				node *res = _tree.search(ft::make_pair(key, mapped_type()));
-				if (!res)
-					throw std::out_of_range("key is out of range");
-				return (res->second);
-			}
 
 		//	Modifiers
 		public:
