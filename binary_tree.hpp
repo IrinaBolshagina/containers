@@ -20,8 +20,6 @@ namespace ft {
 				node			*right;
 				node			*parent;
 				bool			is_leaf;
-				// bool			is_end;
-				// bool			is_begin;
 
 			public:
 				node() : left(NULL), right(NULL), parent(NULL), is_leaf(false) {
@@ -52,10 +50,6 @@ namespace ft {
 					return *this;
 				}
 
-				// void set_value(const value_type& val) {
-				// 	*value = val;
-				// }
-
 				node*	tree_min() { 
 					node *n = this;
 					// while(n->left != NULL && !n->left->is_begin)
@@ -71,7 +65,7 @@ namespace ft {
 					return n;
 				}
 
-				node* find_root() {
+				node*	find_root() {
 					node *n = this;
 					while (n->parent != NULL) 
 						n = n->parent;
@@ -94,11 +88,12 @@ namespace ft {
 
 				node*	predecessor() {
 					node *n = this;
+					if (find_root()->tree_max()->right == n)
+						return n->parent;
 					// if (find_root()->tree_min() == n)
 					// 	return n->left;
-					if (n->left->is_leaf == false) {
+					if (n->left->is_leaf == false)
 						return n->left->tree_max();
-					}
 					node *y = n->parent;
 					while (y != NULL && n == y->left) {
 						n = y;
@@ -128,8 +123,6 @@ namespace ft {
 		
 		private:
 			node			*head;
-			// node            *end;
-			// node			*begin;
 			key_compare		_comp;
 			allocator_type	_alloc;
 			size_type		_size;
@@ -138,16 +131,8 @@ namespace ft {
 		
 			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
 			_comp(comp), _alloc(alloc), _size(0)  {
-				head = new node(value_type()); // так будет работать? -да
+				head = new node(value_type());
 				head->is_leaf = true;
-				// end = new node();
-				// begin = new node();
-				// head->right = end;
-				// end->parent = head;
-				// end->is_end = true;
-				// head->left = begin;
-				// begin->parent = head;
-				// begin->is_begin = true;
 			}
 
 			Tree&	operator= (const Tree& other) {
@@ -155,8 +140,6 @@ namespace ft {
 					return *this;
 				del_tree(head);
 				this->head = this->clone(other.head);
-				// this->begin = min_node()->left;
-				// this->end = max_node()->right;
 				this->_size = other._size;
 				this->_alloc = other._alloc;
 				this->_comp = other._comp;	
@@ -174,22 +157,14 @@ namespace ft {
 			}
 
 			void	clear() {
-				// if (_size > 0) {
+				if (_size > 0) {
 					del_tree(head);
 					_size = 0;
 					head = new_node();
-					// end = new node();
-					// begin = new node();
-					// head->right = end;
-					// end->parent = head;
-					// end->is_end = true;
-					// head->left = begin;
-					// begin->parent = head;
-					// begin->is_begin = true;
-				// }
+				}
 			}
 
-						//	create new node with value and leafs
+			//	create new node with leafs
 			node* new_node(const value_type& val = value_type()) {
 				node *n = new node(val);
 				n->left = new node(); 		//	left leaf
@@ -203,13 +178,13 @@ namespace ft {
 
 			node	*copy_node(node *src) {
 				node *res = new node(*src->value);
-				res->is_leaf = src->is_leaf; // убрала end, begin
+				res->is_leaf = src->is_leaf; 
 				return res;
 			}
 
 			node	*clone(node *src) {
 				node *res = copy_node(src);
-				if (src->left) { // && !src->left->is_begin) {
+				if (src->left) { 
 					res->left = clone(src->left);
 					res->left->parent = res;
 				}
@@ -229,7 +204,6 @@ namespace ft {
 			bool	empty() const { return _size == 0; }
 
 			node*	search(node* root, const key_type& key) const {
-				// if (root == NULL || (root->value->first == key && !root->is_begin && !root->is_end)) 
 				if (root->is_leaf == true)
 					return NULL;
 				if (root->value->first == key && root->is_leaf == false)
@@ -280,83 +254,57 @@ namespace ft {
 				new_node->parent = parent;
 				parent->right = new_node;
 				return (new_node);
-
 			}
 
-			// if inserted value greater than tree maximum value
-			// end node has to be replaced
 			node*	insert_val(value_type const &val)
 			{
-				if (_size == 0) {
-					// head->set_value(val); // сработает?? -нет
-					delete head;
-					head = new_node(val);
-					// head = new node(val);
-					// head->right = end;
-					// end->parent = head;
-					// head->left = begin;
-					// begin->parent = head;
-					++_size;
-					return head;
-				}
-				else {
-				// node *new_node = new node(val);
 				node *n = new_node(val);
-				// node *max = max_node();
-				// node *min = min_node();	// проверять минимальную ноду
-				// if (_comp(max->value->first, val.first)) {
-				// 	node *tmp = end;
-				// 	max->right = new_node;
-				// 	new_node->parent = max;
-				// 	end = tmp;
-				// 	new_node->right = end;
-				// 	end->parent = new_node;
-				// }
-				// else if (_comp(val.first, min->value->first)) {
-				// 	node *tmp = begin;
-				// 	min->left = new_node;
-				// 	new_node->parent = min;
-				// 	begin = tmp;
-				// 	new_node->left = begin;
-				// 	begin->parent = new_node;
-				// }
-				// else
-				insert_node(head, n);				
+				if (_size == 0) {
+					delete head;
+					head = n;
+				}
+				else
+					insert_node(head, n);				
 				++_size;
 				return n;
-				}
 			}
 
-			void	transplant(node* old_node, node* new_node)
-			{
-				node *tmp = old_node;
+			void	transplant(node* old_node, node* new_node) {				
 				if (old_node->parent == NULL)
 					head = new_node;
 				else if (old_node == old_node->parent->left)
 					old_node->parent->left = new_node;
 				else
 					old_node->parent->right = new_node;
-				if (new_node != NULL)
-					new_node->parent = old_node->parent;
-				delete tmp;	
+				new_node->parent = old_node->parent;
 			}
 
 			void	delete_node(node* old_node) {
-				if (old_node->left == NULL)
+				node*	x;
+				node*	y = old_node;
+
+				if (old_node->left->is_leaf == true) {
+					x = old_node->left;
 					transplant(old_node, old_node->right);
-				else if (old_node->right == NULL)
-					transplant(old_node, old_node->left);
-				else {
-					node *tmp = old_node->right->tree_min();
-					if (tmp->parent != old_node) {
-						transplant(tmp, tmp->right);
-						tmp->right = old_node->right;
-						tmp->right->parent = tmp;
-					}
-					transplant(old_node, tmp);
-					tmp->left = old_node->left;
-					tmp->left->parent = tmp;
 				}
+				else if (old_node->right->is_leaf == true) {
+					x = old_node->right;
+					transplant(old_node, old_node->left);
+				}
+				else {
+					y = old_node->right->tree_min();
+					if (y->parent != old_node) {
+						transplant(y, y->right);
+						y->right = old_node->right;
+						y->right->parent = y;
+					}
+					transplant(old_node, y);
+					y->left = old_node->left;
+					y->left->parent = y;
+				}
+				--_size;
+				delete x;
+				delete y;
 			}
 
 			void	swap(Tree& other) {
@@ -366,7 +314,6 @@ namespace ft {
 				std::swap(this->_alloc, other->_alloc);
 				std::swap(this->_comp, other->_comp);
 			}
-
 
 	};	//	class Tree	
 

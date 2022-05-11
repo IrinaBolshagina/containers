@@ -75,7 +75,7 @@ namespace ft {
 			}
 
 		//	assignment operator
-			map& operator= (const map& other) {
+			map&	operator= (const map& other) {
 				if (this != &other) {
 					_alloc = other._alloc;
 					_comp = other._comp;
@@ -94,16 +94,16 @@ namespace ft {
 			~map() {}
 
 		//	Allocator
-			allocator_type get_allocator() const { return _alloc; }
+			allocator_type	get_allocator() const { return _alloc; }
 
 		//	Iterators
-			iterator begin() { 
+			iterator	begin() { 
 				if (size() < 2)
 					return iterator(_tree.head_node());
 				else
 					return iterator(_tree.min_node());
 			}
-			iterator end() { 
+			iterator	end() { 
 				if (_tree.empty())
 					return iterator(_tree.head_node());
 				else
@@ -127,25 +127,25 @@ namespace ft {
 			// const_reverse_iterator rend() const;
 		
 		// Capacity
-			bool empty() const { return _tree.empty(); }
+			bool		empty() const { return _tree.empty(); }
 			
-			size_type size() const { return _tree.size(); }
+			size_type	size() const { return _tree.size(); }
 			
-			size_type max_size() const { return _alloc.max_size(); }
+			size_type	max_size() const { return _alloc.max_size(); }
 
 		//	Element access
 			mapped_type& operator[] (const key_type& key) {
 				return (*((insert(ft::make_pair(key, mapped_type()))).first)).second;
 			}
 
-			T& at(const Key& key) {
+			T&	at(const Key& key) {
 				node *res = _tree.search(ft::make_pair(key, mapped_type()));
 				if (!res)
 					throw std::out_of_range("key is out of range");
 				return (res->second);
 			}
 			
-			const T& at(const Key& key) const {
+			const T&	at(const Key& key) const {
 				node *res = _tree.search(ft::make_pair(key, mapped_type()));
 				if (!res)
 					throw std::out_of_range("key is out of range");
@@ -156,7 +156,7 @@ namespace ft {
 		public:
 
 			//	Inserts single element
-			pair<iterator,bool> insert (const value_type& val) { 
+			pair<iterator,bool>	insert (const value_type& val) { 
 				// check if map already contains value with this key
 				if (!_tree.search(val)) 
 					return ft::make_pair(iterator(_tree.insert_val(val)), true);
@@ -167,7 +167,7 @@ namespace ft {
 
 			//	With a hint - inserts after the position
 			//	if position points to the element that will precede the inserted element
-			iterator insert (iterator hint, const value_type& val) {
+			iterator	insert (iterator hint, const value_type& val) {
 				// if ((*position).first + 1 == val.first)
 				// 	return(iterator(_tree.insert_val(val)));
 				node* n = _tree.search(val);
@@ -181,7 +181,7 @@ namespace ft {
 
 			//	Inserts range 	
 			template <class InputIterator>
-			void insert (InputIterator first, InputIterator last) {
+			void	insert (InputIterator first, InputIterator last) {
 				for(; first != last; ++first)
 					_tree.insert_val(*first);
 			}
@@ -193,33 +193,42 @@ namespace ft {
 			// 		insert(ft::make_pair(first->first, first->second));
 			// }
 
-			void erase (iterator pos) {
+			void erase(iterator pos) {
 				_tree.delete_node(pos.node());
 			}
 
-			void clear() {
-					_tree.clear();
+			size_type	erase(const key_type& key) {
+				node *res = _tree.search(ft::make_pair(key, mapped_type()));
+				if (!res)
+					return 0;
+				_tree.delete_node(res);
+				return 1;
+
 			}
 
-			void print_clone() {
-				node *n = _tree.test_clone();
-				std::cout << n->value->first << " => " << n->value->second << "\n";
+     		void	erase(iterator first, iterator last) {
+				while (first != last)
+                	erase(first++);
 			}
 
-			void swap(map& other) {
+			void	clear() {
+				_tree.clear();
+			}
+
+			void	swap(map& other) {
 				std::swap(this->_comp, other._comp);
 				std::swap(this->_alloc, other._alloc);
 				_tree.swap(other._tree);
 			}
 
 			//	Observers
-			key_compare key_comp() const { return _comp; }
+			key_compare	key_comp() const { return _comp; }
 
-			value_compare value_comp() const { return value_compare(_comp); }
+			value_compare	value_comp() const { return value_compare(_comp); }
 
 			//	Operations
-			iterator find (const key_type& k) {
-				node* res = _tree.search(make_pair(k, mapped_type()));
+			iterator	find (const key_type& k) {
+				node* res = _tree.search(ft::make_pair(k, mapped_type()));
 				if (res) 
 					return iterator(res);
 				else 
@@ -228,19 +237,19 @@ namespace ft {
 			
 			//	Because all elements in a map container are unique, 
 			//	the function can only return 1 (if the element is found) or zero
-			size_type count (const key_type& k) const {
+			size_type	count (const key_type& k) const {
 				if (_tree.search(make_pair(k, mapped_type())))
 					return 1;
 				else
 					return 0;
 			}
 
-			iterator lower_bound (const key_type& k);
-			const_iterator lower_bound (const key_type& k) const;
-			iterator upper_bound (const key_type& k);
-			const_iterator upper_bound (const key_type& k) const;
-			pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-			pair<iterator,iterator> equal_range (const key_type& k);
+			iterator	lower_bound (const key_type& k);
+			const_iterator	lower_bound (const key_type& k) const;
+			iterator	upper_bound (const key_type& k);
+			const_iterator	upper_bound (const key_type& k) const;
+			pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
+			pair<iterator,iterator>	equal_range (const key_type& k);
 
 
 
