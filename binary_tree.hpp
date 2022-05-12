@@ -74,7 +74,7 @@ namespace ft {
 				node*	successor() {
 					node *n = this;
 					if (n->right && n->right->is_leaf == false)
-						return (n->right->tree_min());
+						return n->right->tree_min();
 					node *y = n->parent;
 					while (y && y->is_leaf == false && n == y->right) {
 						n = y;
@@ -85,6 +85,8 @@ namespace ft {
 
 				node*	predecessor() {
 					node *n = this;
+					if (n->is_leaf == true)
+						return n->right->tree_max();
 					if (n->left->is_leaf == false)
 						return n->left->tree_max();
 					node *y = n->parent;
@@ -132,13 +134,16 @@ namespace ft {
 					return *this;
 				del_tree(head);
 				this->head = this->clone(other.head);
+				this->head->parent = new node();
+				this->head->parent->is_leaf = true;
+				this->head->parent->right = head;
 				this->_size = other._size;
 				this->_alloc = other._alloc;
 				this->_comp = other._comp;	
 				return *this;
 			}
 
-			~Tree() { del_tree(head); }
+			~Tree() { del_tree(head->parent); }
 
 			void	del_tree(node *root) {
 				if (root) {
@@ -150,7 +155,8 @@ namespace ft {
 
 			void	clear() {
 				if (_size > 0) {
-					del_tree(head);
+					// delete (head->parent);
+					del_tree(head->parent);
 					_size = 0;
 					head = new_node();
 				}
@@ -257,6 +263,7 @@ namespace ft {
 					head = n;
 					head->parent = new node();
 					head->parent->is_leaf = true;
+					head->parent->right = head;
 				}
 				else
 					insert_node(head, n);				
@@ -265,8 +272,11 @@ namespace ft {
 			}
 
 			void	transplant(node* old_node, node* new_node) {				
-				if (old_node->parent->is_leaf == true)
+				if (old_node->parent->is_leaf == true) {
+					node *tmp = head;
 					head = new_node;
+					head->parent = tmp->parent;
+				}
 				else if (old_node == old_node->parent->left)
 					old_node->parent->left = new_node;
 				else

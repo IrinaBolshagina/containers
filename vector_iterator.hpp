@@ -14,7 +14,7 @@ namespace ft {
 			typedef typename ft::iterator_traits<T*>::iterator_category		iterator_category;
 			typedef typename ft::iterator_traits<T*>::pointer				pointer;
 			typedef typename ft::iterator_traits<T*>::reference				reference;
-			typedef pointer												iterator_type;
+			typedef pointer													iterator_type;
 
 		private:
 			pointer	_ptr;

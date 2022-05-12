@@ -1,30 +1,58 @@
-Undefined symbols for architecture x86_64:
-  "bool ft::operator>=<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >(ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&, ft::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<ft::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > > const&)", referenced from:
-      map_more_or_equal_test() in operator >=-94de50.o
-  "bool ft::operator>=<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > >(ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&, ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<int const, int> > > const&)", referenced from:
-      map_more_or_equal_test() in operator >=-94de50.o
-ld: symbol(s) not found for architecture x86_64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-first_type' (aka 'const ft::BidirectionalIterator<ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >') to 'ft::BidirectionalIterator<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >::node_pointer' (aka 'node<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > > *') for 1st argument
-                        BidirectionalIterator(node_pointer node = 0) : _node(node) {}
-                        ^
-../map_tests/../../../map_iterator.hpp:30:4: note: candidate constructor not viable: no known conversion from 'const BidirectionalIterator<pair<...>, [...]>' to 'const BidirectionalIterator<pair<...>, [...]>' for 1st argument
-                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
-                        ^
-In file included from ../map_tests/equal_range().cpp:2:
+In file included from ../map_tests/swap().cpp:2:
 In file included from ../map_tests/__service.ipp:3:
-In file included from ../map_tests/../../../map.hpp:4:
-../map_tests/../../../utility.hpp:148:49: error: no matching constructor for initialization of 'ft::pair<ft::BidirectionalIterator<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >, ft::BidirectionalIterator<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > > >::second_type' (aka 'ft::BidirectionalIterator<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >')
-                pair(const pair<U1, U2> &p) : first(p.first), second(p.second) {}
-                                                              ^      ~~~~~~~~
-../map_tests/../../../map_iterator.hpp:29:4: note: candidate constructor not viable: no known conversion from 'const ft::pair<ft::BidirectionalIterator<ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >, ft::BidirectionalIterator<ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > > >::second_type' (aka 'const ft::BidirectionalIterator<ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >') to 'ft::BidirectionalIterator<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > >::node_pointer' (aka 'node<const ft::pair<const int, int>, std::__1::allocator<ft::pair<const int, int> > > *') for 1st argument
-                        BidirectionalIterator(node_pointer node = 0) : _node(node) {}
-                        ^
-../map_tests/../../../map_iterator.hpp:30:4: note: candidate constructor not viable: no known conversion from 'const BidirectionalIterator<pair<...>, [...]>' to 'const BidirectionalIterator<pair<...>, [...]>' for 1st argument
-                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
-                        ^
-2 errors generated.
-te ignored: could not match 'shared_ptr<type-parameter-0-0>' against 'unsigned long'
+In file included from ../map_tests/../../../map.hpp:5:
+In file included from ../map_tests/../../../map_iterator.hpp:6:
+../map_tests/../../../binary_tree.hpp:316:32: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
+                                std::swap(this->head, other->head);
+                                                      ~~~~~^~
+                                                           .
+../map_tests/../../../map.hpp:230:11: note: in instantiation of member function 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >::swap' requested here
+                                _tree.swap(other._tree);
+                                      ^
+../map_tests/swap().cpp:44:8: note: in instantiation of member function 'ft::map<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >::swap' requested here
+    mp.swap(mp2);
+       ^
+../map_tests/swap().cpp:64:59: note: in instantiation of function template specialization 'swap_test<int, int>' requested here
+    exit(run_map_unit_test<int, int>("swap()", swap_test, swap_test));
+                                                          ^
+In file included from ../map_tests/swap().cpp:2:
+In file included from ../map_tests/__service.ipp:3:
+In file included from ../map_tests/../../../map.hpp:5:
+In file included from ../map_tests/../../../map_iterator.hpp:6:
+../map_tests/../../../binary_tree.hpp:317:21: error: no member named 'end' in 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >'
+                                std::swap(this->end, other->end);
+                                          ~~~~  ^
+../map_tests/../../../binary_tree.hpp:318:33: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
+                                std::swap(this->size , other->size);
+                                                       ~~~~~^~
+                                                            .
+../map_tests/../../../binary_tree.hpp:318:21: error: reference to non-static member function must be called; did you mean to call it with no arguments?
+                                std::swap(this->size , other->size);
+                                          ~~~~~~^~~~
+                                                    ()
+../map_tests/../../../binary_tree.hpp:318:35: error: reference to non-static member function must be called; did you mean to call it with no arguments?
+                                std::swap(this->size , other->size);
+                                                       ~~~~~~~^~~~
+                                                                  ()
+../map_tests/../../../binary_tree.hpp:318:5: error: no matching function for call to 'swap'
+                                std::swap(this->size , other->size);
+                                ^~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/type_traits:4523:1: note: candidate function [with _Tp = unsigned long] not viable: expects an l-value for 1st argument
+swap(_Tp& __x, _Tp& __y) _NOEXCEPT_(is_nothrow_move_constructible<_Tp>::value &&
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:271:1: note: candidate template ignored: could not match '_Tp [_Np]' against 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >::size_type' (aka 'unsigned long')
+swap(_Tp (&__a)[_Np], _Tp (&__b)[_Np]) _NOEXCEPT_(__is_nothrow_swappable<_Tp>::value)
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:633:1: note: candidate template ignored: could not match 'pair<type-parameter-0-0, type-parameter-0-1>' against 'unsigned long'
+swap(pair<_T1, _T2>& __x, pair<_T1, _T2>& __y)
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:2311:6: note: candidate template ignored: could not match '__compressed_pair<type-parameter-0-0, type-parameter-0-1>' against 'unsigned long'
+void swap(__compressed_pair<_T1, _T2>& __x, __compressed_pair<_T1, _T2>& __y)
+     ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:2959:1: note: candidate template ignored: could not match 'unique_ptr<type-parameter-0-0, type-parameter-0-1>' against 'unsigned long'
+swap(unique_ptr<_Tp, _Dp>& __x, unique_ptr<_Tp, _Dp>& __y) _NOEXCEPT {__x.swap(__y);}
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:4946:1: note: candidate template ignored: could not match 'shared_ptr<type-parameter-0-0>' against 'unsigned long'
 swap(shared_ptr<_Tp>& __x, shared_ptr<_Tp>& __y) _NOEXCEPT
 ^
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:5245:1: note: candidate template ignored: could not match 'weak_ptr<type-parameter-0-0>' against 'unsigned long'
@@ -112,11 +140,11 @@ In file included from ../map_tests/swap().cpp:2:
 In file included from ../map_tests/__service.ipp:3:
 In file included from ../map_tests/../../../map.hpp:5:
 In file included from ../map_tests/../../../map_iterator.hpp:6:
-../map_tests/../../../binary_tree.hpp:309:34: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
+../map_tests/../../../binary_tree.hpp:319:34: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
                                 std::swap(this->_alloc, other->_alloc);
                                                         ~~~~~^~
                                                              .
-../map_tests/../../../binary_tree.hpp:310:33: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
+../map_tests/../../../binary_tree.hpp:320:33: error: member reference type 'ft::Tree<int, int, std::__1::less<int>, std::__1::allocator<ft::pair<const int, int> > >' is not a pointer; did you mean to use '.'?
                                 std::swap(this->_comp, other->_comp);
                                                        ~~~~~^~
                                                             .
