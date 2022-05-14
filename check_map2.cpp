@@ -38,9 +38,10 @@ int main()
 	std::cout << "end "<< it2->first << " => " << it2->second << "\n";
 	print_map(m, "ft::map");
 	--it2;
+	std::cout << it2->first << " => " << it2->second << "\n";
 
 	m1 = m;
-	it = m1.find('a');
+	it = m1.find('b');
 	std::cout << it->first << " => " << it->second << "\n";
 	m1.erase(it);
 	print_map(m1, "ft::map1");

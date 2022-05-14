@@ -103,13 +103,11 @@ namespace ft {
 				else
 					return iterator(_tree.min_node());
 			}
+
 			iterator	end() { 
 				if (_tree.empty())
 					return iterator(_tree.head_node());
-				else {
-					node * n = _tree.end_node();
-					return iterator(n);
-				}
+				return iterator(_tree.end_node());
 			}
 			// const_iterator begin() const { 
 			// 	if (size() < 2)
@@ -227,6 +225,7 @@ namespace ft {
 			void	swap(map& other) {
 				std::swap(this->_comp, other._comp);
 				std::swap(this->_alloc, other._alloc);
+				// std::swap(this->_tree, other._tree);
 				_tree.swap(other._tree);
 			}
 
@@ -253,7 +252,12 @@ namespace ft {
 					return 0;
 			}
 
-			iterator	lower_bound (const key_type& k);
+			iterator	lower_bound (const key_type& k) {
+				for (iterator it = begin(); it != end(); ++it)
+					if(comp(k, (*it).first))
+						return it;
+				return NULL;
+			}
 			const_iterator	lower_bound (const key_type& k) const;
 			iterator	upper_bound (const key_type& k);
 			const_iterator	upper_bound (const key_type& k) const;

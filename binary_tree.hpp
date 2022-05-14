@@ -85,9 +85,9 @@ namespace ft {
 
 				node*	predecessor() {
 					node *n = this;
-					if (n->is_leaf == true)
-						return n->right->tree_max();
-					if (n->left->is_leaf == false)
+					// if (n->is_leaf == true)
+					// 	return n->left->tree_max();
+					if (n->left->is_leaf == false || n->is_leaf == true)
 						return n->left->tree_max();
 					node *y = n->parent;
 					while (y && y->is_leaf == false && n == y->left) {
@@ -117,6 +117,8 @@ namespace ft {
 		
 		private:
 			node			*head;
+			node			*begin;
+			node			*end;
 			key_compare		_comp;
 			allocator_type	_alloc;
 			size_type		_size;
@@ -124,26 +126,28 @@ namespace ft {
 		public:
 		
 			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
-			_comp(comp), _alloc(alloc), _size(0)  {
-				head = new node(value_type());
-				head->is_leaf = true;
+			_comp(comp), _alloc(alloc), _size(0), head(NULL), begin(NULL)  {
+				end = new node(value_type());
+				end->is_leaf = true;
 			}
 
 			Tree&	operator= (const Tree& other) {
 				if (this == &other)
 					return *this;
-				del_tree(head);
-				this->head = this->clone(other.head);
-				this->head->parent = new node();
-				this->head->parent->is_leaf = true;
-				this->head->parent->right = head;
+				del_tree(end);
+				this->end = this->clone(other.end);
+				// this->end = new node();
+				// this->head->parent = end;
+				// this->end->is_leaf = true;
+				// this->end->left = head;
+				this->head = this->end->left;
 				this->_size = other._size;
 				this->_alloc = other._alloc;
-				this->_comp = other._comp;	
+				this->_comp = other._comp;
 				return *this;
 			}
 
-			~Tree() { del_tree(head->parent); }
+			~Tree() { del_tree(end); }
 
 			void	del_tree(node *root) {
 				if (root) {
@@ -155,10 +159,10 @@ namespace ft {
 
 			void	clear() {
 				if (_size > 0) {
-					// delete (head->parent);
-					del_tree(head->parent);
+					del_tree(end);
 					_size = 0;
-					head = new_node();
+					end = new node(value_type());
+					end->is_leaf = true;
 				}
 			}
 
@@ -195,8 +199,7 @@ namespace ft {
 			
 			node*	head_node() { return head; }
 
-			node*	end_node() { return head->parent; }
-				//return max_node()->right; }
+			node*	end_node() { return end; }
 
 			node*	begin_node() { return min_node()->left; }
 
@@ -240,7 +243,7 @@ namespace ft {
 					root->right = new_node;
 				}
 				new_node->parent = root;
-				return (new_node);
+				return new_node;
 			}
 
 			//	inserts right child to parent node
@@ -252,18 +255,16 @@ namespace ft {
 				tmp->parent = new_node;
 				new_node->parent = parent;
 				parent->right = new_node;
-				return (new_node);
+				return new_node;
 			}
 
 			node*	insert_val(value_type const &val)
 			{
 				node *n = new_node(val);
 				if (_size == 0) {
-					delete head;
 					head = n;
-					head->parent = new node();
-					head->parent->is_leaf = true;
-					head->parent->right = head;
+					head->parent = end;
+					end->left = head;
 				}
 				else
 					insert_node(head, n);				
@@ -273,9 +274,9 @@ namespace ft {
 
 			void	transplant(node* old_node, node* new_node) {				
 				if (old_node->parent->is_leaf == true) {
-					node *tmp = head;
 					head = new_node;
-					head->parent = tmp->parent;
+					head->parent = end;
+					end->left = head;
 				}
 				else if (old_node == old_node->parent->left)
 					old_node->parent->left = new_node;
@@ -313,9 +314,8 @@ namespace ft {
 			}
 
 			void	swap(Tree& other) {
-				std::swap(this->head, other->head);
-				std::swap(this->end, other->end);
-				std::swap(this->size , other->size);
+				std::swap(this->head, other->head);	
+				std::swap(this->_size, other->_size);
 				std::swap(this->_alloc, other->_alloc);
 				std::swap(this->_comp, other->_comp);
 			}
