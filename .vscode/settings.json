@@ -74,6 +74,7 @@
 		"filesystem": "cpp",
 		"*.ipp": "cpp",
 		"memory_resource": "cpp",
-		"binary_tree": "cpp"
+		"binary_tree": "cpp",
+		"__cxx_version": "cpp"
 	}
 }

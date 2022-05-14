@@ -29,7 +29,7 @@ namespace ft {
 			typedef node <value_type, allocator_type>			node;
 			typedef Tree <key_type, mapped_type, 
 						key_compare, allocator_type>			tree_type;
-			typedef BidirectionalIterator <value_type, allocator_type>			iterator;
+			typedef BidirectionalIterator <value_type, allocator_type>		iterator;
 			typedef	BidirectionalIterator <const value_type, allocator_type>	const_iterator;
 			// reverse_iterator;
 			// const_reverse_iterator;
@@ -99,14 +99,12 @@ namespace ft {
 		//	Iterators
 			iterator	begin() { 
 				if (size() < 2)
-					return iterator(_tree.head_node());
+					return iterator(_tree.end_node());
 				else
 					return iterator(_tree.min_node());
 			}
 
 			iterator	end() { 
-				if (_tree.empty())
-					return iterator(_tree.head_node());
 				return iterator(_tree.end_node());
 			}
 			// const_iterator begin() const { 

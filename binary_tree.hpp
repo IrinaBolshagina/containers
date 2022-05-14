@@ -131,16 +131,28 @@ namespace ft {
 				end->is_leaf = true;
 			}
 
+			// Tree&	operator= (const Tree& other) {
+			// 	if (this == &other)
+			// 		return *this;
+			// 	if (this->_size > 0)	
+			// 		del_tree(end);
+			// 	this->end = clone(other.end);
+			// 	this->head = this->end->left;
+			// 	this->_size = other._size;
+			// 	this->_alloc = other._alloc;
+			// 	this->_comp = other._comp;
+			// 	return *this;
+			// }
+
 			Tree&	operator= (const Tree& other) {
 				if (this == &other)
 					return *this;
-				del_tree(end);
-				this->end = this->clone(other.end);
-				// this->end = new node();
-				// this->head->parent = end;
-				// this->end->is_leaf = true;
-				// this->end->left = head;
-				this->head = this->end->left;
+				if (this->size() > 0)
+					del_tree(head);
+				this->head = clone(other.head);
+				// this->head = other.head;
+				this->head->parent = this->end;
+				this->end->left = this->head;
 				this->_size = other._size;
 				this->_alloc = other._alloc;
 				this->_comp = other._comp;
@@ -159,10 +171,9 @@ namespace ft {
 
 			void	clear() {
 				if (_size > 0) {
-					del_tree(end);
-					_size = 0;
-					end = new node(value_type());
-					end->is_leaf = true;
+					del_tree(head);
+				end->left = NULL;
+				_size = 0;
 				}
 			}
 
@@ -233,7 +244,7 @@ namespace ft {
 				if (_comp(new_node->value->first, root->value->first)) {
 					if (root->left->is_leaf == false)
 						return (insert_node(root->left, new_node));
-					delete(root->left);
+					delete(root->left); // delete leaf
 					root->left = new_node;
 				}
 				else {

@@ -27,7 +27,8 @@ namespace ft {
 
 		//	constructors and staff
 			BidirectionalIterator(node_pointer node = 0) : _node(node) {}
-			BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) { *this = other; }
+			BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) : _node(other._node) {}
+				// { *this = other; }
 			virtual ~BidirectionalIterator() {}
 			BidirectionalIterator &operator=(const BidirectionalIterator<value_type, allocator_type> &other) {
 				if(this != &other)
