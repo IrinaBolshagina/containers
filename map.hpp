@@ -74,12 +74,15 @@ namespace ft {
 				*this = other;
 			}
 
+
+
 		//	assignment operator
 			map&	operator= (const map& other) {
 				if (this != &other) {
 					_alloc = other._alloc;
 					_comp = other._comp;
-					clear();
+					// if (!this->_tree.empty())
+					// 	clear();
 					_tree = other._tree;	
 					
 					// iterator first = other.begin();
@@ -98,15 +101,17 @@ namespace ft {
 
 		//	Iterators
 			iterator	begin() { 
-				if (size() < 2)
+				if (_tree.empty())
+					return iterator(_tree.end_node());
+				if (size() == 1)
 					return iterator(_tree.head_node());
 				else
 					return iterator(_tree.min_node());
 			}
 
 			iterator	end() { 
-				if (_tree.empty())
-					return iterator(_tree.head_node());
+				// if (_tree.empty())
+				// 	return iterator(_tree.head_node());
 				return iterator(_tree.end_node());
 			}
 			// const_iterator begin() const { 

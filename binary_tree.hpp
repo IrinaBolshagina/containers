@@ -126,26 +126,84 @@ namespace ft {
 		public:
 		
 			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
-			_comp(comp), _alloc(alloc), _size(0), head(NULL), begin(NULL)  {
+			_comp(comp), _alloc(alloc), _size(0), begin(NULL)  {
 				end = new node(value_type());
 				end->is_leaf = true;
+				head = end->left;
 			}
 
-			Tree&	operator= (const Tree& other) {
+			Tree&	operator=( const Tree& other )
+			{
 				if (this == &other)
 					return *this;
-				del_tree(end);
-				this->end = this->clone(other.end);
-				// this->end = new node();
-				// this->head->parent = end;
-				// this->end->is_leaf = true;
-				// this->end->left = head;
-				this->head = this->end->left;
+				if (other.empty())
+					{
+						this->clear();
+						return *this;
+					}
+				this->clear();
+				this->head = this->clone(other.head);
+				this->end->left = this->head;
+				this->head->parent = end;
 				this->_size = other._size;
-				this->_alloc = other._alloc;
 				this->_comp = other._comp;
+				this->_alloc = other._alloc;
 				return *this;
 			}
+
+
+		// 	Tree& operator=(const Tree&src) {
+		// 	if (this == &src || src._size == 0)
+		// 		return *this;
+		// 	this->_alloc = src._alloc;
+		// 	// this->_val_alloc = src._val_alloc;
+		// 	this->_comp = src._comp;
+		// 	// if (this->head == NULL) {
+		// 	// 	end = new node(value_type());
+		// 	// 	end->is_leaf = true;
+		// 	// }
+		// 	// else
+		// 	if (this->head)
+		// 		del_tree(head);
+		// 	this->head = copy_node(src.head);
+		// 	copy_child(this->head, src.head);
+		// 	this->end->left = this->head;
+		// 	this->head->parent = end;
+		// 	this->_size = src._size;
+		// 	return *this;
+		// }
+
+		// void	copy_child(node* my_node, node* other){
+		// 	if (other->left) {
+		// 		my_node->left = copy_node(other->left);
+		// 		my_node->left->parent = my_node;
+		// 		copy_child(my_node->left, other->left);
+		// 	}
+		// 	if (other->right) {
+		// 		my_node->right = copy_node(other->right);
+		// 		my_node->right->parent = my_node;
+		// 		copy_child(my_node->right, other->right);
+		// 	}
+		// }
+
+
+			// Tree&	operator= (const Tree& other) {
+			// 	if (this == &other)
+			// 		return *this;
+			// 	// del_tree(head);
+			// 	// this->head = copy_node(other.head);// скопировать head сначала, потом остальное дерево
+			// 	this->head = clone(other.head);
+			// 	// this->end = new node();
+			// 	// this->head->parent = end;
+			// 	// this->end->is_leaf = true;
+			// 	// this->end->left = head;
+			// 	this->end->left = this->head; // wtf??? this->end->left = this->head
+			// 	this->head->parent = this->end;
+			// 	this->_size = other._size;
+			// 	this->_alloc = other._alloc;
+			// 	this->_comp = other._comp;
+			// 	return *this;
+			// }
 
 			~Tree() { del_tree(end); }
 
@@ -158,11 +216,10 @@ namespace ft {
 			}
 
 			void	clear() {
-				if (_size > 0) {
-					del_tree(end);
+				if (head) {
+					del_tree(head);
+					end->left = NULL;
 					_size = 0;
-					end = new node(value_type());
-					end->is_leaf = true;
 				}
 			}
 
@@ -184,14 +241,45 @@ namespace ft {
 				return res;
 			}
 
-			node	*clone(node *src) {
-				node *res = copy_node(src);
-				if (src->left) { 
-					res->left = clone(src->left);
+			// node	*clone(node *src) {
+			// 	node *res = copy_node(src);
+			// 	if (src->left) { 
+			// 		res->left = clone(src->left);
+			// 		res->left->parent = res;
+			// 	}
+			// 	if (src->right) {
+			// 		res->right = clone(src->right);
+			// 		res->right->parent = res;
+			// 	}
+			// 	return res;
+			// }
+
+			node	*clone( node *src )
+			{
+				node *res = new node(*src->value);
+				res->is_leaf = src->is_leaf;
+				// node *res = copy_node(src);
+					
+				if (src->left->is_leaf) 
+					// res->left = copy_node(src->left);
+				{
+					res->left = new node();
+					res->left->parent = res;
+					res->left->is_leaf = true;
+				}
+				else{
+					res->left = this->clone(src->left);
 					res->left->parent = res;
 				}
-				if (src->right) {
-					res->right = clone(src->right);
+				if (src->right->is_leaf) 
+					// res->right = copy_node(src->right);
+				{
+					res->right = new node();
+					res->right->is_leaf = true;
+					res->left->parent = res;
+				}
+				else {
+					res->right = this->clone(src->right);
 					res->right->parent = res;
 				}
 				return res;
@@ -201,7 +289,11 @@ namespace ft {
 
 			node*	end_node() { return end; }
 
-			node*	begin_node() { return min_node()->left; }
+			node*	begin_node() { 
+				if (_size == 0)
+					return end;
+				return min_node()->left; 
+				}
 
 			bool	empty() const { return _size == 0; }
 
@@ -273,29 +365,35 @@ namespace ft {
 			}
 
 			void	transplant(node* old_node, node* new_node) {				
+				node *tmp = old_node;
 				if (old_node->parent->is_leaf == true) {
 					head = new_node;
 					head->parent = end;
 					end->left = head;
+					// return;
 				}
 				else if (old_node == old_node->parent->left)
 					old_node->parent->left = new_node;
 				else
 					old_node->parent->right = new_node;
 				new_node->parent = old_node->parent;
+				// delete tmp;
 			}
 
 			void	delete_node(node* old_node) {
 				node*	x;
-				node*	y = old_node;
+				node*	y;
+				node*	tmp = old_node;
 
 				if (old_node->left->is_leaf == true) {
 					x = old_node->left;
 					transplant(old_node, old_node->right);
+					delete x;
 				}
 				else if (old_node->right->is_leaf == true) {
 					x = old_node->right;
 					transplant(old_node, old_node->left);
+					delete x;
 				}
 				else {
 					y = old_node->right->tree_min();
@@ -309,8 +407,8 @@ namespace ft {
 					y->left->parent = y;
 				}
 				--_size;
-				delete x;
-				delete y;
+				// if (x) delete x;
+				delete tmp;
 			}
 
 			void	swap(Tree& other) {

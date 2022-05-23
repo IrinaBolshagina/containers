@@ -18,7 +18,7 @@ ft::map<char, int>::iterator it;
 template <class T>
 void print_map(T n, std::string name) {
 	std::cout << name << ":  \n";	
-	for(it = m.begin(); it != m.end(); ++it)
+	for(it = n.begin(); it != n.end(); ++it)
 		std::cout << it->first << " => " << it->second << "\n";
 	std::cout << std::endl;	
 
@@ -37,14 +37,19 @@ int main()
 	it2 = m.end();
 	std::cout << "end "<< it2->first << " => " << it2->second << "\n";
 	print_map(m, "ft::map");
-	--it2;
-	std::cout << it2->first << " => " << it2->second << "\n";
+	// --it2;
+	// std::cout << it2->first << " => " << it2->second << "\n";
 
 	m1 = m;
-	it = m1.find('b');
+	// ft::map<char, int> m1(m);
+	it = m1.find('c');
 	std::cout << it->first << " => " << it->second << "\n";
+
+	m.clear();
 	m1.erase(it);
 	print_map(m1, "ft::map1");
+	// for(it = m1.begin(); it != m1.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << "\n";
 	// it1 = ++m1.begin();
 	// it2 = m1.end();
 	// --it2;
