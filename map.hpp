@@ -228,9 +228,8 @@ namespace ft {
 			}
 
 			void	swap(map& other) {
-				std::swap(this->_comp, other._comp);
-				std::swap(this->_alloc, other._alloc);
-				// std::swap(this->_tree, other._tree);
+				ft::swap(this->_comp, other._comp);
+				ft::swap(this->_alloc, other._alloc);
 				_tree.swap(other._tree);
 			}
 
@@ -257,18 +256,45 @@ namespace ft {
 					return 0;
 			}
 
-			iterator	lower_bound (const key_type& k) {
-				for (iterator it = begin(); it != end(); ++it)
-					if(comp(k, (*it).first))
+			iterator	lower_bound (const key_type& key) {
+				iterator last = end();
+				for (iterator it = begin(); it != last; ++it)
+					if(!_comp(it->first, key))
 						return it;
-				return NULL;
+				return last;
 			}
-			const_iterator	lower_bound (const key_type& k) const;
-			iterator	upper_bound (const key_type& k);
-			const_iterator	upper_bound (const key_type& k) const;
-			pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
-			pair<iterator,iterator>	equal_range (const key_type& k);
 
+			const_iterator	lower_bound (const key_type& key) const {
+				iterator last = end();
+				for (iterator it = begin(); it != last; ++it)
+					if(!_comp(it->first, key))
+						return it;
+				return last;
+			}
+
+			iterator	upper_bound (const key_type& key) {
+				iterator last = end();
+				for (iterator it = begin(); it != last; ++it)
+					if(_comp(key, it->first))
+						return it;
+				return last;
+			}
+
+			const_iterator	upper_bound (const key_type& key) const {
+				iterator last = end();
+				for (iterator it = begin(); it != last; ++it)
+					if(_comp(key, it->first))
+						return it;
+				return last;
+			}
+
+			ft::pair<iterator, iterator> equal_range(const key_type & key) {
+				return ft::make_pair(lower_bound(key), upper_bound(key));
+			}
+
+			ft::pair<const_iterator, const_iterator> equal_range (const key_type& key) const {
+				return ft::make_pair(lower_bound(key), upper_bound(key));
+			}
 
 			// friend bool	operator==(const map &lhs, const map &rhs) {
 			// 	iterator	l_begin = lhs.begin();

@@ -411,15 +411,43 @@ namespace ft {
 				delete tmp;
 			}
 
-			void	swap(Tree& other) {
-				std::swap(this->head, other->head);	
-				std::swap(this->_size, other->_size);
-				std::swap(this->_alloc, other->_alloc);
-				std::swap(this->_comp, other->_comp);
+			void swap(Tree &other) {
+				ft::swap(this->head, other.head);
+				ft::swap(this->end, other.end);
+				ft::swap(this->begin, other.begin);	
+				ft::swap(this->_size, other._size);
+				ft::swap(this->_alloc, other._alloc);
+				ft::swap(this->_comp, other._comp);
 			}
+
+			
+
+			// 			node			*head;
+			// node			*begin;
+			// node			*end;
+			// key_compare		_comp;
+			// allocator_type	_alloc;
+			// size_type		_size;
+
+			// void	swap(Tree& other) {
+			// 	ft::swap(this->head, other->head);
+			// 	ft::swap(this->end, other->end);	
+			// 	ft::swap(this->_size, other->_size);
+			// 	ft::swap(this->_alloc, other->_alloc);
+			// 	ft::swap(this->_comp, other->_comp);
+			// }
 
 	};	//	class Tree	
 
+	template<class Content, class Compare, class Alloc>
+	void swap(const  Tree<Content, Compare, Alloc>& lhs, const  Tree<Content, Compare, Alloc>& rhs)
+		{ lhs.swap(rhs); }
+	
+
 }	//	namespace ft
+
+
+
+
 
 #endif

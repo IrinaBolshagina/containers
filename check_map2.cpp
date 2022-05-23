@@ -1,6 +1,8 @@
 #include "map.hpp"
 #include <iostream>
 
+typedef ft::map<const char, int>::iterator 	iterator;
+
 ft::map<char, int> m;
 ft::map<char, int> m1;
 ft::map<char, int> m2;
@@ -45,9 +47,27 @@ int main()
 	it = m1.find('c');
 	std::cout << it->first << " => " << it->second << "\n";
 
-	m.clear();
+	// m.clear();
 	m1.erase(it);
 	print_map(m1, "ft::map1");
+
+	ft::swap(m1, m);
+
+	print_map(m, "ft::map");
+	print_map(m1, "ft::map1");
+
+	it = m.lower_bound('a');
+	std::cout << it->first << " => " << it->second << "\n";
+
+	it = m.upper_bound('a');
+	std::cout << it->first << " => " << it->second << "\n";
+
+	ft::pair<iterator, iterator> p = m.equal_range('a');
+	it = p.first;
+	std::cout << it->first << " => " << it->second << "\n";
+	it = p.second;
+	std::cout << it->first << " => " << it->second << "\n";
+
 	// for(it = m1.begin(); it != m1.end(); ++it)
 	// 	std::cout << it->first << " => " << it->second << "\n";
 	// it1 = ++m1.begin();

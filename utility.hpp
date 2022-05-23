@@ -3,6 +3,8 @@
 
 #include <iterator>
 #include <iostream>
+// #include "map.hpp"
+// #include "vector.hpp"
 
 namespace ft {
 
@@ -202,5 +204,17 @@ namespace ft {
 	}
 
 }	//	namespace ft
+
+// namespace std {
+// 	template <class T, class A>
+// 	void swap(ft::vector<T, A> &v1, ft::vector<T, A> &v2 ) {
+// 		v1.swap(v2);
+// 	}
+
+// 	// template <class Key, class T, class Compare, class A>
+// 	// void swap(ft::map<Key, T, Compare, A> &m1, ft::map<Key, T, Compare, A> &m2 ) {
+// 	// 	m1.swap(m2);
+// 	// }
+// }
 
 #endif
