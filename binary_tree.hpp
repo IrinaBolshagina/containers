@@ -285,11 +285,11 @@ namespace ft {
 				return res;
 			}
 			
-			node*	head_node() { return head; }
+			node*	head_node() const { return head; }
 
-			node*	end_node() { return end; }
+			node*	end_node() const { return end; }
 
-			node*	begin_node() { 
+			node*	begin_node() const { 
 				if (_size == 0)
 					return end;
 				return min_node()->left; 
@@ -313,9 +313,9 @@ namespace ft {
 				return search(head, val.first);
 			}
 
-			node*	max_node() { return head->tree_max(); }
+			node*	max_node() const { return head->tree_max(); }
 
-			node*	min_node() { return head->tree_min(); }
+			node*	min_node() const { return head->tree_min(); }
 
 			size_type	size() const {
 				return _size;
@@ -439,10 +439,34 @@ namespace ft {
 
 	};	//	class Tree	
 
-	template<class Content, class Compare, class Alloc>
-	void swap(const  Tree<Content, Compare, Alloc>& lhs, const  Tree<Content, Compare, Alloc>& rhs)
+	template<class Value, class Compare, class Alloc>
+	void swap(const  Tree<Value, Compare, Alloc>& lhs, const  Tree<Value, Compare, Alloc>& rhs)
 		{ lhs.swap(rhs); }
 	
+	template <class Value, class Compare, class Alloc>
+	bool operator<(
+			const Tree<Value, Compare, Alloc>& lhs,
+			const Tree<Value, Compare, Alloc>& rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template<class Value, class Compare, class Alloc>
+	bool operator>(
+			const Tree<Value, Compare, Alloc>& lhs,
+			const Tree<Value, Compare, Alloc>& rhs)
+	{
+		return (lhs < rhs);
+	}
+
+
+	template<class Value, class Compare, class Alloc>
+	bool operator==(
+			const Tree<Value, Compare, Alloc>& lhs,
+			const Tree<Value, Compare, Alloc>& rhs)
+	{
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
 
 }	//	namespace ft
 

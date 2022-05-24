@@ -68,6 +68,8 @@ int main()
 	it = p.second;
 	std::cout << it->first << " => " << it->second << "\n";
 
+	std::cout << (m == m1) << "\n";
+
 	// for(it = m1.begin(); it != m1.end(); ++it)
 	// 	std::cout << it->first << " => " << it->second << "\n";
 	// it1 = ++m1.begin();
