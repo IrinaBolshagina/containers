@@ -3,6 +3,8 @@
 #include <map>
 #include "binary_tree.hpp"
 
+typedef ft::map<const char, int>::iterator 	iterator;
+
 ft::map<char, int> m;
 ft::map<char, int> m1;
 std::map<char, int> m2;
@@ -20,7 +22,7 @@ ft::map<char, int>::iterator it;
 template <class T>
 void print_map(T n, std::string name) {
 	std::cout << name << ":  \n";	
-	for(it = m.begin(); it != m.end(); ++it)
+	for(it = n.begin(); it != n.end(); ++it)
 		std::cout << it->first << " => " << it->second << "\n";
 	std::cout << std::endl;	
 
@@ -46,8 +48,8 @@ int main()
 	it2 = m2.end();
 	std::cout << "end "<< it2->first << " => " << it2->second << "\n";
 	print_map(m, "ft::map");
-	--it2;
-	std::cout << it2->first << " => " << it2->second << "\n";
+	// --it2;
+	// std::cout << it2->first << " => " << it2->second << "\n";
 
 	it1 = m1.begin();
 	it1 = m1.end();
@@ -58,11 +60,35 @@ int main()
 	print_map(m1, "ft::map");
 
 	m1 = m;
-	it = m.find('b');
+	// ft::map<char, int> m1(m);
+	it = m1.find('c');
 	std::cout << it->first << " => " << it->second << "\n";
-	m.erase(it);
-	print_map(m1, "ft::map");
-	// m.insert();
+
+	// m.clear();
+	m1.erase(it);
+	print_map(m1, "ft::map1");
+
+	ft::swap(m1, m);
+
+	print_map(m, "ft::map");
+	print_map(m1, "ft::map1");
+
+	it = m.lower_bound('a');
+	std::cout << it->first << " => " << it->second << "\n";
+
+	it = m.upper_bound('a');
+	std::cout << it->first << " => " << it->second << "\n";
+
+	ft::pair<iterator, iterator> p = m.equal_range('a');
+	it = p.first;
+	std::cout << it->first << " => " << it->second << "\n";
+	it = p.second;
+	std::cout << it->first << " => " << it->second << "\n";
+
+	std::cout << (m == m1) << "\n";
+
+	// for(it = m1.begin(); it != m1.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << "\n";
 	// it1 = ++m1.begin();
 	// it2 = m1.end();
 	// --it2;

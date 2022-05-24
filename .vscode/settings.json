@@ -75,6 +75,10 @@
 		"*.ipp": "cpp",
 		"memory_resource": "cpp",
 		"binary_tree": "cpp",
+<<<<<<< HEAD
 		"__cxx_version": "cpp"
+=======
+		"__memory": "cpp"
+>>>>>>> working_tests
 	}
 }
