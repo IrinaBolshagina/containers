@@ -107,13 +107,14 @@ namespace ft {
 
 		public:
 		//	Member types
-			typedef Key											key_type;
-			typedef T											mapped_type;
-			typedef ft::pair <const key_type, mapped_type>		value_type;
-			typedef Allocator									allocator_type;
-			typedef Compare										key_compare;
-			typedef typename allocator_type::size_type			size_type;
-			typedef node <value_type, allocator_type>			node;
+			typedef Key													key_type;
+			typedef T													mapped_type;
+			typedef ft::pair <const key_type, mapped_type>				value_type;
+			typedef Allocator											allocator_type;
+			typedef Compare												key_compare;
+			typedef typename allocator_type::size_type					size_type;
+			typedef node <value_type, allocator_type>					node;
+			typedef typename Allocator::template rebind <node>::other	node_allocator;
 		
 		private:
 			node			*head;
@@ -121,6 +122,7 @@ namespace ft {
 			node			*end;
 			key_compare		_comp;
 			allocator_type	_alloc;
+			node_allocator	_node_alloc;
 			size_type		_size;
 
 		public:
@@ -224,7 +226,7 @@ namespace ft {
 			}
 
 			//	create new node with leafs
-			node* new_node(const value_type& val = value_type()) {
+			node* new_node_leafs(const value_type& val = value_type()) {
 				node *n = new node(val);
 				n->left = new node(); 		//	left leaf
 				n->left->is_leaf = true;
@@ -352,7 +354,7 @@ namespace ft {
 
 			node*	insert_val(value_type const &val)
 			{
-				node *n = new_node(val);
+				node *n = new_node_leafs(val);
 				if (_size == 0) {
 					head = n;
 					head->parent = end;
@@ -444,12 +446,9 @@ namespace ft {
 		{ lhs.swap(rhs); }
 	
 	template <class Value, class Compare, class Alloc>
-	bool operator<(
-			const Tree<Value, Compare, Alloc>& lhs,
+	bool operator < (const Tree<Value, Compare, Alloc>& lhs,
 			const Tree<Value, Compare, Alloc>& rhs)
-	{
-		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-	}
+	{ return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
 
 	template<class Value, class Compare, class Alloc>
 	bool operator>(

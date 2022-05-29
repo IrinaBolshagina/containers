@@ -13,55 +13,12 @@ template <class _Up, class... _Args>
 ../map_tests/../system/Alloc.hpp:167:34: warning: rvalue references are a C++11 extension [-Wc++11-extensions]
         construct(_Up* __p, _Args&&... __args)
                                  ^
-In file included from ../map_tests/operator >=.cpp:2:
-In file included from ../map_tests/__service.ipp:3:
-In file included from ../map_tests/../../../map.hpp:5:
-In file included from ../map_tests/../../../map_iterator.hpp:6:
-../map_tests/../../../binary_tree.hpp:451:43: error: 'begin' is a private member of 'ft::Tree<int, int>'
-                return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-                                                        ^
-../map_tests/../../../map.hpp:366:21: note: in instantiation of function template specialization 'ft::operator<<int, int, std::less<int> >' requested here
-                return (lhs._tree < rhs._tree);
-                                  ^
-../map_tests/../../../map.hpp:390:16: note: in instantiation of function template specialization 'ft::operator<<int, int, std::less<int>, std::allocator<ft::pair<const int, int> > >' requested here
-                return !(lhs < rhs);
-                             ^
-../map_tests/operator >=.cpp:19:27: note: in instantiation of function template specialization 'ft::operator>=<int, int, std::less<int>, std::allocator<ft::pair<const int, int> > >' requested here
-        result2.push_back(mt.mp1 >= mt.mp1); result2.push_back(mt.mp3 >= mt.mp3); result2.push_back(mt.mp5 >= mt.mp9);
-                                 ^
-../map_tests/../../../binary_tree.hpp:120:12: note: declared private here
-                        node                    *begin;
-                                                 ^
-../map_tests/../../../binary_tree.hpp:451:39: error: called object type 'ft::Tree<int, int>::node *' (aka 'node<pair<const int, int> > *') is not a function or function pointer
-                return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-                                                    ^~~~~~~~~
-../map_tests/../../../binary_tree.hpp:451:43: error: 'begin' is a private member of 'ft::Tree<std::string, std::string>'
-                return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-                                                        ^
-../map_tests/../../../map.hpp:366:21: note: in instantiation of function template specialization 'ft::operator<<std::string, std::string, std::less<std::string> >' requested here
-                return (lhs._tree < rhs._tree);
-                                  ^
-../map_tests/../../../map.hpp:390:16: note: in instantiation of function template specialization 'ft::operator<<std::string, std::string, std::less<std::string>, std::allocator<ft::pair<const std::string, std::string> > >' requested here
-                return !(lhs < rhs);
-                             ^
-../map_tests/operator >=.cpp:19:101: note: in instantiation of function template specialization 'ft::operator>=<std::string, std::string, std::less<std::string>, std::allocator<ft::pair<const std::string, std::string> > >' requested here
-        result2.push_back(mt.mp1 >= mt.mp1); result2.push_back(mt.mp3 >= mt.mp3); result2.push_back(mt.mp5 >= mt.mp9);
-                                                                                                           ^
-../map_tests/../../../binary_tree.hpp:120:12: note: declared private here
-                        node                    *begin;
-                                                 ^
-../map_tests/../../../binary_tree.hpp:451:39: error: called object type 'ft::Tree<std::string, std::string>::node *' (aka 'node<pair<const std::string, std::string> > *') is not a function or function pointer
-                return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-                                                    ^~~~~~~~~
-4 warnings and 4 errors generated.
-/binary_tree.hpp:120:12: note: declared private here
-                        node                    *begin;
-                                                 ^
-../map_tests/../../../binary_tree.hpp:451:39: error: called object type 'ft::Tree<std::string, std::string>::node *' (aka 'node<pair<const std::string, std::string> > *') is not a function or function pointer
-                return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-                                                    ^~~~~~~~~
-4 warnings and 4 errors generated.
-<pair<...>, [...]>' for 1st argument
-                        BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) : _node(other._node) {}
-                        ^
-4 warnings and 2 errors generated.
+4 warnings generated.
+ed.
+ iterators.cpp:42:26: error: no type named 'reverse_iterator' in 'ft::map<int, int>'
+    typename _map<T, V>::reverse_iterator rit = mp.rbegin();
+    ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+../map_tests/reverse iterators.cpp:65:87: note: in instantiation of function template specialization 'reverse_iterators_test_ft<int, int>' requested here
+    exit(run_map_unit_test<int, int>("reverse iterators", reverse_iterators_test_std, reverse_iterators_test_ft));
+                                                                                      ^
+4 warnings and 1 error generated.

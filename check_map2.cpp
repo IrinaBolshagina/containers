@@ -76,16 +76,16 @@ int main()
 	it = m.lower_bound('a');
 	std::cout << it->first << " => " << it->second << "\n";
 
-	it = m.upper_bound('a');
+	ft::map<char, int>::const_iterator cit = m.upper_bound('a');
 	std::cout << it->first << " => " << it->second << "\n";
 
-	ft::pair<iterator, iterator> p = m.equal_range('a');
+	ft::pair<iterator, iterator> p = m.equal_range('c');
 	it = p.first;
 	std::cout << it->first << " => " << it->second << "\n";
 	it = p.second;
 	std::cout << it->first << " => " << it->second << "\n";
 
-	std::cout << (m == m1) << "\n";
+	std::cout << (m < m1) << "\n";
 
 	// for(it = m1.begin(); it != m1.end(); ++it)
 	// 	std::cout << it->first << " => " << it->second << "\n";

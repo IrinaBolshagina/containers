@@ -11,7 +11,7 @@ namespace ft {
 	class BidirectionalIterator {
 
 		public:
-			typedef Value													value_type;
+			typedef typename ft::iterator_traits<Value*>::value_type		value_type;
 			typedef Allocator												allocator_type;
 			typedef typename ft::iterator_traits<Value*>::difference_type	difference_type;
 			typedef std::bidirectional_iterator_tag 						iterator_category;
@@ -27,8 +27,7 @@ namespace ft {
 
 		//	constructors and staff
 			BidirectionalIterator(node_pointer node = 0) : _node(node) {}
-			BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) : _node(other._node) {}
-				// { *this = other; }
+			BidirectionalIterator(const BidirectionalIterator<value_type, allocator_type> &other) : _node(other.node()) {}
 			virtual ~BidirectionalIterator() {}
 			BidirectionalIterator &operator=(const BidirectionalIterator<value_type, allocator_type> &other) {
 				if(this != &other)
