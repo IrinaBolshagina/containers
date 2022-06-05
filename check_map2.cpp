@@ -41,30 +41,30 @@ int main()
 
 	it1 = m.begin();
 	
-	std::cout << "!" << typeid(it1).name()   << std::endl;
+	// std::cout << "!" << typeid(it1).name()   << std::endl;
 
-	// nod = it1;
-	std::cout << "begin "<< it1->first << " => " << it1->second << "\n";
-	it2 = m2.end();
-	std::cout << "end "<< it2->first << " => " << it2->second << "\n";
+	// // nod = it1;
+	// std::cout << "begin "<< it1->first << " => " << it1->second << "\n";
+	// it2 = m2.end();
+	// std::cout << "end "<< it2->first << " => " << it2->second << "\n";
 	print_map(m, "ft::map");
-	// --it2;
-	// std::cout << it2->first << " => " << it2->second << "\n";
+	// // --it2;
+	// // std::cout << it2->first << " => " << it2->second << "\n";
 
-	it1 = m1.begin();
-	it1 = m1.end();
-	std::cout << "begin "<< it1->first << " => " << it1->second << "\n";
-	it1 = m1.end();
-	std::cout << "end "<< it2->first << " => " << it2->second << "\n";
+	// it1 = m1.begin();
+	// it1 = m1.end();
+	// std::cout << "begin "<< it1->first << " => " << it1->second << "\n";
+	// it1 = m1.end();
+	// std::cout << "end "<< it2->first << " => " << it2->second << "\n";
 
-	print_map(m1, "ft::map");
+	// print_map(m1, "ft::map");
 
 	m1 = m;
-	// ft::map<char, int> m1(m);
+	// // ft::map<char, int> m1(m);
 	it = m1.find('c');
-	std::cout << it->first << " => " << it->second << "\n";
+	// std::cout << it->first << " => " << it->second << "\n";
 
-	// m.clear();
+	// // m.clear();
 	m1.erase(it);
 	print_map(m1, "ft::map1");
 
@@ -79,13 +79,15 @@ int main()
 	ft::map<char, int>::const_iterator cit = m.upper_bound('a');
 	std::cout << it->first << " => " << it->second << "\n";
 
-	ft::pair<iterator, iterator> p = m.equal_range('c');
-	it = p.first;
-	std::cout << it->first << " => " << it->second << "\n";
-	it = p.second;
-	std::cout << it->first << " => " << it->second << "\n";
+	std::cout << (m1 == m) << "\n";
 
-	std::cout << (m < m1) << "\n";
+	// ft::pair<iterator, iterator> p = m.equal_range('c');
+	// it = p.first;
+	// std::cout << it->first << " => " << it->second << "\n";
+	// it = p.second;
+	// std::cout << it->first << " => " << it->second << "\n";
+
+	// std::cout << (m < m1) << "\n";
 
 	// for(it = m1.begin(); it != m1.end(); ++it)
 	// 	std::cout << it->first << " => " << it->second << "\n";

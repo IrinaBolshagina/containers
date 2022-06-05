@@ -84,11 +84,6 @@ namespace ft {
 			bool operator==(const BidirectionalIterator &other) { return this->_node == other._node; }
 			bool operator!=(const BidirectionalIterator &other) { return this->_node != other._node; }
 
-// // remove!
-			void print_end() { std::cout << _node->is_leaf << "\n"; }
-			node_pointer right() const { return _node->right; }
-			node_pointer left() const { return _node->left; }
-// remove!
 
 	};	//	class BidirectionalIterator
 

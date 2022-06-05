@@ -4,6 +4,7 @@
 #include "utility.hpp"
 #include "map_iterator.hpp"
 #include "binary_tree.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft {
 
@@ -30,8 +31,8 @@ namespace ft {
 			typedef Tree <key_type, mapped_type, key_compare, allocator_type>	tree_type;
 			typedef BidirectionalIterator <value_type, allocator_type>			iterator;
 			typedef	BidirectionalIterator <const value_type, allocator_type>	const_iterator;
-			// reverse_iterator;
-			// const_reverse_iterator;
+			typedef reverse_iterator<const_iterator>							const_reverse_iterator;
+			typedef reverse_iterator<iterator>									reverse_iterator;
 
 		private:
 
@@ -72,8 +73,6 @@ namespace ft {
 			map (const map& other) {
 				*this = other;
 			}
-
-
 
 		//	assignment operator
 			map&	operator= (const map& other) {
@@ -117,22 +116,18 @@ namespace ft {
 					return const_iterator(_tree.min_node());
 			}
 
-			iterator	end() { 
-				// if (_tree.empty())
-				// 	return iterator(_tree.head_node());
-				return iterator(_tree.end_node());
-			}
+			iterator	end() { return iterator(_tree.end_node()); }
 
-			const_iterator end() const { 
-				// if (_tree.empty())
-				// 	return iterator(_tree.head_node());
-				return const_iterator(_tree.end_node());
-			}
+			const_iterator end() const { return const_iterator(_tree.end_node()); }
+			
+			reverse_iterator rbegin() { return reverse_iterator(end()); }
 
-			// reverse_iterator rbegin();
-			// reverse_iterator rend();
-			// const_reverse_iterator rbegin() const;
-			// const_reverse_iterator rend() const;
+			reverse_iterator rend() { return reverse_iterator(begin()); }
+
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+
+			const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+
 		
 		// Capacity
 			bool		empty() const { return _tree.empty(); }

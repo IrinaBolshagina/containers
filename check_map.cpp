@@ -151,10 +151,10 @@ int main() {
 	// }
 	// std::cout << "end-- " << it2->first << " => " << it2->second << std::endl;
 
-	// ft_iterator it_find = ft_map.find('d');
+	ft_iterator it_find = ft_map.find('d');
 	// std::cout << "\nfind: " << it_find->first << " => " << it_find->second << std::endl;
 
-	// // it_find = ft_map.find('x');
+	it_find = ft_map.find('x');
 	// // std::cout << "find: " << it_find->first << " => " << it_find->second << std::endl;
 
 	ft_map.erase(it_find);

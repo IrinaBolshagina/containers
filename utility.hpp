@@ -3,45 +3,8 @@
 
 #include <iterator>
 #include <iostream>
-// #include "map.hpp"
-// #include "vector.hpp"
 
 namespace ft {
-
-	//	iterator traits
-
-	// template <class Iterator> class iterator_traits
-	// {
-	// 	public:
-	// 		typedef typename Iterator::difference_type	difference_type;
-	// 		typedef typename Iterator::value_type				value_type;
-	// 		typedef typename Iterator::pointer			pointer;
-	// 		typedef typename Iterator::reference			reference;
-	// 		typedef typename Iterator::iterator_category	iterator_category;
-	// };
-
-	// template <class T> class iterator_traits<T*>
-	// {
-	// 	public:
-	// 		typedef std::ptrdiff_t	difference_type;
-	// 		typedef T				value_type;
-	// 		typedef T*			pointer;
-	// 		typedef T&			reference;
-	// 		typedef	std::random_access_iterator_tag	iterator_category;
-	// };
-
-	// template <class T> class iterator_traits<const T*>
-	// {
-	// 	public:
-	// 		typedef std::ptrdiff_t	difference_type;
-	// 		typedef const T				value_type;
-	// 		typedef const T*			pointer;
-	// 		typedef const T&			reference;
-	// 		typedef	std::random_access_iterator_tag	iterator_category;
-	// };
-
-
-
 
 	template< class Iter >
 	class iterator_traits {
@@ -109,22 +72,6 @@ namespace ft {
 	template <> struct is_integral<long long>			: public ft::integral_constant<bool, true> {};
 	template <> struct is_integral<unsigned long long>	: public ft::integral_constant<bool, true> {};
 	
-	// template<typename T>	struct is_integral { static const bool value = false; };
-	// template<>				struct is_integral<bool> { static const bool value = true; };
-	// template<>				struct is_integral<char> { static const bool value = true; };
-	// template<>				struct is_integral<signed char> { static const bool value = true; };
-	// template<>				struct is_integral<unsigned char> { static const bool value = true; };
-	// template<>				struct is_integral<wchar_t> { static const bool value = true; };
-	// template<>				struct is_integral<char16_t> { static const bool value = true; };
-	// template<>				struct is_integral<short> { static const bool value = true; };
-	// template<>				struct is_integral<unsigned short> { static const bool value = true; };
-	// template<>				struct is_integral<int> { static const bool value = true; };
-	// template<>				struct is_integral<unsigned int> { static const bool value = true; };
-	// template<>				struct is_integral<long> { static const bool value = true; };
-	// template<>				struct is_integral<unsigned long> { static const bool value = true; };
-	// template<>				struct is_integral<long long> { static const bool value = true; };
-	// template<>				struct is_integral<unsigned long long> { static const bool value = true; };
-
 	// pair
 
 	template <class T1, class T2>
@@ -136,20 +83,15 @@ namespace ft {
 		first_type		first;
 		second_type		second;
 
-        //	default constructor
  		pair() : first(first_type()), second(second_type()) {}
 
-        //	initialization constructor
 		pair(const first_type &x, const second_type &y) : first(x), second(y) {}
 
-		//	copy constructor
 		pair(const pair &other) : first(other.first), second(other.second) {}
 
-        //	converting constructor
         template <class U1, class U2>
 		pair(const pair<U1, U2> &p) : first(p.first), second(p.second) {}
 
-    	//	assignment operator
         pair&	operator = (const pair &other) {
  			if (this != &other) {
  				first = other.first;
@@ -223,6 +165,7 @@ namespace ft {
 	    return true;
 	}
 
+	// ft::swap
 	template <class T>
 	void swap(T &x, T &y) {
 		T tmp(x);

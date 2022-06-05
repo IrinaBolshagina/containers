@@ -1,4 +1,4 @@
-In file included from ../map_tests/operator >=.cpp:1:
+In file included from ../map_tests/insert(InputIt).cpp:1:
 In file included from ../map_tests/../system/system_methods.ipp:2:
 In file included from ../map_tests/../system/lib.hpp:30:
 ../map_tests/../system/Alloc.hpp:55:27: warning: variadic templates are a C++11 extension [-Wc++11-extensions]
@@ -14,11 +14,4 @@ template <class _Up, class... _Args>
         construct(_Up* __p, _Args&&... __args)
                                  ^
 4 warnings generated.
-ed.
- iterators.cpp:42:26: error: no type named 'reverse_iterator' in 'ft::map<int, int>'
-    typename _map<T, V>::reverse_iterator rit = mp.rbegin();
-    ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-../map_tests/reverse iterators.cpp:65:87: note: in instantiation of function template specialization 'reverse_iterators_test_ft<int, int>' requested here
-    exit(run_map_unit_test<int, int>("reverse iterators", reverse_iterators_test_std, reverse_iterators_test_ft));
-                                                                                      ^
-4 warnings and 1 error generated.
+.
