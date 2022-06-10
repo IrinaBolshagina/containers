@@ -56,8 +56,6 @@ namespace ft {
 
 		public:
 
-		// map() {}
-
 		//	default constructor
 			explicit map (const key_compare& comp = key_compare(), 
 				const allocator_type& alloc = allocator_type()) : _alloc(alloc), _comp(comp), _tree(tree_type(comp, alloc)) {}
@@ -79,14 +77,7 @@ namespace ft {
 				if (this != &other) {
 					_alloc = other._alloc;
 					_comp = other._comp;
-					// if (!this->_tree.empty())
-					// 	clear();
 					_tree = other._tree;	
-					
-					// iterator first = other.begin();
-					// iterator last = other.end();
-					// for(; first != last; ++first)
-					// 	_tree.insert_val(*first);
 				}
 				return *this;
 			}
@@ -98,7 +89,7 @@ namespace ft {
 			allocator_type	get_allocator() const { return _alloc; }
 
 		//	Iterators
-			iterator	begin() { 
+			iterator	begin() {
 				if (_tree.empty())
 					return iterator(_tree.end_node());
 				if (size() == 1)
@@ -172,8 +163,6 @@ namespace ft {
 			//	With a hint - inserts after the position
 			//	if position points to the element that will precede the inserted element
 			iterator	insert (iterator hint, const value_type& val) {
-				// if ((*position).first + 1 == val.first)
-				// 	return(iterator(_tree.insert_val(val)));
 				node* n = _tree.search(val);
 				if (n) 
 					return (iterator(n));
@@ -189,13 +178,6 @@ namespace ft {
 				for(; first != last; ++first)
 					_tree.insert_val(*first);
 			}
-
-			// template <class InputIterator>
-			// void insert(InputIterator first, InputIterator last)
-			// {
-			// 	for ( ; first != last; ++first)
-			// 		insert(ft::make_pair(first->first, first->second));
-			// }
 
 			void erase(iterator pos) {
 				_tree.delete_node(pos.node());
@@ -214,12 +196,6 @@ namespace ft {
 				while (first != last)
  					erase(first++);
 			}
-
-			// void	erase( iterator first, iterator last )
-			// {
-			// 	while (first != last)
-			// 		this->_tree.delete_node((first++).node());
-			// }
 
 			void	clear() {
 				_tree.clear();
@@ -307,7 +283,6 @@ namespace ft {
 
 	template <class Key, class T, class Compare, class Alloc>
 	bool operator<(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
-	// { return (lhs._tree < rhs._tree);
 	{ return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
 
 	template <class Key, class T, class Compare, class Alloc>

@@ -6,7 +6,7 @@ template <class T>
 void print(T v, std::string name) {
 
 	std::cout << name << ":  ";	
-	for ( int i = 0; i < v.size(); ++i)
+	for ( size_t i = 0; i < v.size(); ++i)
 		std::cout << v[i] << " ";
 	std::cout << std::endl;	
 
@@ -56,26 +56,24 @@ int main()
 
 	std::cout << std::endl << "checking my fucking ft::vector" << std::endl;
 
-	int i = 12;
-	size_t n = 10;
 	ft::vector<int> ft_vector;
 	std::cout << ft_vector.empty() << std::endl;
 	ft::vector<int> ft_vector2;
 	
-	for ( int i = 0; i < 15; i++)
+	for ( size_t i = 0; i < 15; i++)
 		ft_vector.push_back(i + 1);
 	std::cout << "v1:\n";
-	for ( int i = 0; i < ft_vector.size(); i++)
+	for ( size_t i = 0; i < ft_vector.size(); i++)
 		std::cout << ft_vector[i] << " ";
-		std::cout << "\n";
+	std::cout << "\n";
 	std::cout << "front: " <<ft_vector.front() << std::endl;
 	std::cout << "back: " <<ft_vector.back() << std::endl;
 	std::cout << "at(5): " <<ft_vector.at(5) << std::endl;
 	ft_vector2 = ft_vector;
-	for ( int i = 0; i < 16; i++)
+	for ( size_t i = 0; i < 16; i++)
 		ft_vector2.push_back(i);
 	std::cout << "v2:\n";
-	for ( int i = 0; i < ft_vector2.size(); i++)
+	for ( size_t i = 0; i < ft_vector2.size(); i++)
 		std::cout << ft_vector2[i] << " ";
 		std::cout << std::endl;
 	bool dif2 = ft_vector > ft_vector2;
@@ -86,7 +84,7 @@ int main()
 	std::cout << "cap: " << ft_vector.capacity() << std::endl;
 	ft_vector.pop_back();
 	ft_vector.resize(38, 1);
-	for ( int i = 0; i < ft_vector.size(); i++)
+	for ( size_t i = 0; i < ft_vector.size(); i++)
 		std::cout << ft_vector[i] << " ";
 	std::cout << std::endl;
 	ft_vector.reserve(120);
@@ -94,31 +92,31 @@ int main()
 	std::cout << "cap: " << ft_vector.capacity() << std::endl;
 	std::cout << ft_vector.empty() << std::endl;
 
-	swap(ft_vector2, ft_vector);
+	ft_vector2.swap(ft_vector);
 	std::cout << "v1:  ";
-	for ( int i = 0; i < ft_vector.size(); i++)
+	for ( size_t i = 0; i < ft_vector.size(); i++)
 		std::cout << ft_vector[i] << " ";
 		std::cout << "\n";
 
 	std::cout << "v2:  ";
-	for ( int i = 0; i < ft_vector2.size(); i++)
+	for ( size_t i = 0; i < ft_vector2.size(); i++)
 		std::cout << ft_vector2[i] << " ";
 		std::cout << std::endl;
 
 	ft_vector2.swap(ft_vector);
 	std::cout << "v1:  ";
-	for ( int i = 0; i < ft_vector.size(); i++)
+	for ( size_t i = 0; i < ft_vector.size(); i++)
 		std::cout << ft_vector[i] << " ";
 		std::cout << "\n";
 
 	std_vector.swap(std_vector);
 	std::cout << "v1:  ";
-	for ( int i = 0; i < ft_vector.size(); i++)
+	for ( size_t i = 0; i < ft_vector.size(); i++)
 		std::cout << ft_vector[i] << " ";
 		std::cout << "\n";
 
 	std::cout << "v2:  ";
-	for ( int i = 0; i < ft_vector2.size(); i++)
+	for ( size_t i = 0; i < ft_vector2.size(); i++)
 		std::cout << ft_vector2[i] << " ";
 		std::cout << std::endl;
 	
@@ -133,7 +131,7 @@ int main()
 	std::cout << *it << std::endl;
 	// *it = 21; 
 
-	for ( int i = 0; i < ft_vector.size(); i++)
+	for ( size_t i = 0; i < ft_vector.size(); i++)
 		std::cout << ft_vector[i] << " ";
 		std::cout << "\n";
 
@@ -143,7 +141,7 @@ int main()
 	std::cout << *(it5) << std::endl;
 
 	std::cout << "v1:  ";
-	for ( int i = 0; i < ft_vector.size(); i++)
+	for ( size_t i = 0; i < ft_vector.size(); i++)
 		std::cout << ft_vector[i] << " ";
 		std::cout << std::endl;
 
@@ -226,7 +224,7 @@ int main()
 	
 	ft::vector<int>::iterator it3 = ft_vector.begin() + 3;
 	ft::vector<int>::iterator it10 = ft_vector.begin() + 10;
-	ft::vector<int> ft_vector3(it3, it10);
+	// ft::vector<int> ft_vector3(it3, it10);
 	print(ft_vector, "ft_vector ");
 
 	std::vector<int>::iterator sit3 = std_vector.begin() + 3;
@@ -257,5 +255,22 @@ int main()
 	std::cout << "rbegin: " << *s_r_beg << std::endl;
 	std::cout << "--rend: " << *--s_r_end << std::endl;
 
+	ft::vector<int>::iterator iter = ft_vector.begin();
+	ft::vector<int>::const_iterator c_iter = ft_vector.begin();
+	bool a = (iter == c_iter);
+	std::cout << a << '\n';
+	// iter = c_iter;
+	c_iter = iter;
 
+	std::vector<int>::iterator iter1 = std_vector.begin();
+	std::vector<int>::const_iterator c_iter1 = std_vector.begin();
+	bool b = (iter1 == c_iter1);
+	std::cout << b << '\n';
+	// iter1 = c_iter1;
+	c_iter1 = iter1;
+
+	float c = 8.9;
+	float d = 8.6;
+	std::vector<int> newvect(c, 2);
+	print(newvect, "newvect");
 }

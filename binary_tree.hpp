@@ -109,7 +109,7 @@ namespace ft {
 		public:
 		
 			Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : 
-			_comp(comp), _alloc(alloc), _size(0), begin(NULL)  {
+			begin(NULL), _comp(comp), _alloc(alloc), _size(0)  {
 				end = new_node();
 				end->is_leaf = true;
 				head = end->left;
@@ -296,25 +296,24 @@ namespace ft {
 			}
 
 			void	transplant(node* old_node, node* n) {				
-				node *tmp = old_node;
+				node*	tmp = old_node;
 				if (old_node->parent->is_leaf == true) {
 					head = n;
 					head->parent = end;
 					end->left = head;
-					// return;
 				}
 				else if (old_node == old_node->parent->left)
 					old_node->parent->left = n;
 				else
 					old_node->parent->right = n;
 				n->parent = old_node->parent;
-				// delete tmp;
+				del_node(tmp);
 			}
 
 			void	delete_node(node* old_node) {
 				node*	x;
 				node*	y;
-				node*	tmp = old_node;
+				// node*	tmp = old_node;
 
 				if (old_node->left->is_leaf == true) {
 					x = old_node->left;
@@ -338,8 +337,7 @@ namespace ft {
 					y->left->parent = y;
 				}
 				--_size;
-				// if (x) delete x;
-				del_node(tmp);
+				// del_node(tmp);
 			}
 
 			void swap(Tree &other) {
@@ -350,23 +348,6 @@ namespace ft {
 				ft::swap(this->_alloc, other._alloc);
 				ft::swap(this->_comp, other._comp);
 			}
-
-			
-
-			// 			node			*head;
-			// node			*begin;
-			// node			*end;
-			// key_compare		_comp;
-			// allocator_type	_alloc;
-			// size_type		_size;
-
-			// void	swap(Tree& other) {
-			// 	ft::swap(this->head, other->head);
-			// 	ft::swap(this->end, other->end);	
-			// 	ft::swap(this->_size, other->_size);
-			// 	ft::swap(this->_alloc, other->_alloc);
-			// 	ft::swap(this->_comp, other->_comp);
-			// }
 
 	};	//	class Tree	
 

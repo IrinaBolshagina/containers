@@ -1,17 +1,1 @@
-In file included from ../map_tests/insert(InputIt).cpp:1:
-In file included from ../map_tests/../system/system_methods.ipp:2:
-In file included from ../map_tests/../system/lib.hpp:30:
-../map_tests/../system/Alloc.hpp:55:27: warning: variadic templates are a C++11 extension [-Wc++11-extensions]
-template <class _Up, class... _Args>
-                          ^
-../map_tests/../system/Alloc.hpp:58:34: warning: rvalue references are a C++11 extension [-Wc++11-extensions]
-        construct(_Up* __p, _Args&&... __args)
-                                 ^
-../map_tests/../system/Alloc.hpp:164:27: warning: variadic templates are a C++11 extension [-Wc++11-extensions]
-template <class _Up, class... _Args>
-                          ^
-../map_tests/../system/Alloc.hpp:167:34: warning: rvalue references are a C++11 extension [-Wc++11-extensions]
-        construct(_Up* __p, _Args&&... __args)
-                                 ^
-4 warnings generated.
-.
+

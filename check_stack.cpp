@@ -7,6 +7,9 @@ int main()
 	ft::stack<int> ft_stack;
 	std::stack<int> std_stack;
 
+	// ft::stack<int, std::deque<int> > ft_stack;
+	// std::stack<int, std::deque<int> > std_stack;
+
 	std::cout << std::endl << "checking original std::stack" << std::endl;
 
 	std::cout << std_stack.empty() << std::endl;

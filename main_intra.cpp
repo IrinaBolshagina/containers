@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#if 1 //CREATE A REAL STL EXAMPLE
+#if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -78,7 +78,6 @@ int main(int argc, char** argv) {
 	{
 		for (int i = 0; i < COUNT; i++)
 		{
-			std::cout << "!\n";
 			const int idx = rand() % COUNT;
 			vector_buffer.at(idx);
 			std::cerr << "Error: THIS VECTOR SHOULD BE EMPTY!!" <<std::endl;
@@ -95,12 +94,10 @@ int main(int argc, char** argv) {
 	}
 
 	int sum = 0;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10000; i++)
 	{
 		int access = rand();
-		
-		sum += map_int[i];
-		std::cout << "map_int[i] " << map_int[i] << "\n";
+		sum += map_int[access];
 	}
 	std::cout << "should be constant with the same seed: " << sum << std::endl;
 
@@ -110,7 +107,7 @@ int main(int argc, char** argv) {
 	MutantStack<char> iterable_stack;
 	for (char letter = 'a'; letter <= 'z'; letter++)
 		iterable_stack.push(letter);
-	for (MutantStack<char>::iterator it = iterable_stack.begin(); it != iterable_stack.end(); ++it)
+	for (MutantStack<char>::iterator it = iterable_stack.begin(); it != iterable_stack.end(); it++)
 	{
 		std::cout << *it;
 	}
